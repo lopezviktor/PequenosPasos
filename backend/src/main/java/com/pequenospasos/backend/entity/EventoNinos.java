@@ -3,27 +3,27 @@ package com.pequenospasos.backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "padres_hijos")
-public class PadresHijos {
+@Table(name = "evento_ninos")
+public class EventoNinos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "padre_id", nullable = false)
-    private Usuario padre;
+    @JoinColumn(name = "evento_id", nullable = false)
+    private Evento evento;
 
     @ManyToOne
     @JoinColumn(name = "nino_id", nullable = false)
     private Nino nino;
 
     // Constructor vacío
-    public PadresHijos() {}
+    public EventoNinos() {}
 
     // Constructor con parámetros
-    public PadresHijos(Usuario padre, Nino nino) {
-        this.padre = padre;
+    public EventoNinos(Evento evento, Nino nino) {
+        this.evento = evento;
         this.nino = nino;
     }
 
@@ -36,12 +36,12 @@ public class PadresHijos {
         this.id = id;
     }
 
-    public Usuario getPadre() {
-        return padre;
+    public Evento getEvento() {
+        return evento;
     }
 
-    public void setPadre(Usuario padre) {
-        this.padre = padre;
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 
     public Nino getNino() {

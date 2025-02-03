@@ -17,19 +17,19 @@ public class Asistencia {
 
     @ManyToOne
     @JoinColumn(name = "padre_entrada_id", nullable = false)
-    private Padre padreEntrega; // Padre que deja al niño en la entrada
+    private Usuario padreEntrega; // Padre que deja al niño en la entrada
 
     @ManyToOne
     @JoinColumn(name = "educador_entrada_id", nullable = false)
-    private Educador educadorRecibe; // Educador que recibe al niño
+    private Usuario educadorRecibe; // Educador que recibe al niño
 
     @ManyToOne
     @JoinColumn(name = "educador_salida_id")
-    private Educador educadorEntrega; // Educador que entrega al niño en la salida
+    private Usuario educadorEntrega; // Educador que entrega al niño en la salida
 
     @ManyToOne
     @JoinColumn(name = "padre_salida_id")
-    private Padre padreRecoge; // Padre que recoge al niño
+    private Usuario padreRecoge; // Padre que recoge al niño
 
     @Column(nullable = false)
     private LocalDateTime horaEntrada;
@@ -56,7 +56,8 @@ public class Asistencia {
     }
 
     // Constructor vacío (requerido por JPA)
-    public Asistencia() {}
+    public Asistencia() {
+    }
 
     // Getters y Setters
     public Long getId() {
@@ -75,35 +76,35 @@ public class Asistencia {
         this.nino = nino;
     }
 
-    public Padre getPadreEntrega() {
+    public Usuario getPadreEntrega() {
         return padreEntrega;
     }
 
-    public void setPadreEntrega(Padre padreEntrega) {
+    public void setPadreEntrega(Usuario padreEntrega) {
         this.padreEntrega = padreEntrega;
     }
 
-    public Educador getEducadorRecibe() {
+    public Usuario getEducadorRecibe() {
         return educadorRecibe;
     }
 
-    public void setEducadorRecibe(Educador educadorRecibe) {
+    public void setEducadorRecibe(Usuario educadorRecibe) {
         this.educadorRecibe = educadorRecibe;
     }
 
-    public Educador getEducadorEntrega() {
+    public Usuario getEducadorEntrega() {
         return educadorEntrega;
     }
 
-    public void setEducadorEntrega(Educador educadorEntrega) {
+    public void setEducadorEntrega(Usuario educadorEntrega) {
         this.educadorEntrega = educadorEntrega;
     }
 
-    public Padre getPadreRecoge() {
+    public Usuario getPadreRecoge() {
         return padreRecoge;
     }
 
-    public void setPadreRecoge(Padre padreRecoge) {
+    public void setPadreRecoge(Usuario padreRecoge) {
         this.padreRecoge = padreRecoge;
     }
 
