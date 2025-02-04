@@ -42,6 +42,9 @@ public class ComidaService {
 
     // Registrar una nueva comida
     public Comida saveComida(Comida comida) {
+        if (comida.getHoraComida() == null) {
+            comida.setHoraComida(LocalDateTime.now()); // Asigna la hora actual si no se proporciona
+        }
         return comidaRepository.save(comida);
     }
 

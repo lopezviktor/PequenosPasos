@@ -2,8 +2,6 @@ package com.pequenospasos.backend.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "eventos")
@@ -25,14 +23,6 @@ public class Evento {
     @ManyToOne
     @JoinColumn(name = "creador_id", nullable = false)
     private Usuario creador; // Puede ser un educador o administrador
-
-    @ManyToMany
-    @JoinTable(
-            name = "evento_ninos",
-            joinColumns = @JoinColumn(name = "evento_id"),
-            inverseJoinColumns = @JoinColumn(name = "nino_id")
-    )
-    private Set<Nino> participantes = new HashSet<>();
 
     // Constructor vacío
     public Evento() {}
@@ -84,13 +74,5 @@ public class Evento {
 
     public void setCreador(Usuario creador) {
         this.creador = creador;
-    }
-
-    public Set<Nino> getParticipantes() {
-        return participantes;
-    }
-
-    public void setParticipantes(Set<Nino> participantes) {
-        this.participantes = participantes;
     }
 }

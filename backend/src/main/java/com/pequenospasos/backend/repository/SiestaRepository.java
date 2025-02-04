@@ -18,4 +18,7 @@ public interface SiestaRepository extends JpaRepository<Siesta, Long> {
 
     // Buscar siestas en un rango de fechas
     List<Siesta> findByHoraInicioBetween(LocalDateTime inicio, LocalDateTime fin);
+
+    // Ultima siesta del niño
+    Siesta findTopByNinoIdOrderByHoraInicioDesc(Long ninoId);
 }

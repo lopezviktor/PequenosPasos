@@ -52,6 +52,7 @@ public class AsistenciaService {
             Asistencia asistencia = asistenciaOptional.get();
             asistencia.setHoraSalida(asistenciaDetalles.getHoraSalida());
             asistencia.setEducadorEntrega(asistenciaDetalles.getEducadorEntrega());
+            asistencia.setPadreRecoge(asistenciaDetalles.getPadreRecoge());
             return asistenciaRepository.save(asistencia);
         } else {
             throw new RuntimeException("Asistencia no encontrada con id: " + id);

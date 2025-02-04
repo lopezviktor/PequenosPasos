@@ -11,4 +11,10 @@ public interface NinoRepository extends JpaRepository<Nino, Long> {
 
     // Buscar niños por nombre (sin distinguir mayúsculas/minúsculas)
     List<Nino> findByNombreContainingIgnoreCase(String nombre);
+
+    // Buscar niños por apellidos
+    List<Nino> findByApellidosContainingIgnoreCase(String apellidos);
+
+    // Obtener todos los niños de un padre especifico
+    List<Nino> findByPadreId(Long padreId);
 }

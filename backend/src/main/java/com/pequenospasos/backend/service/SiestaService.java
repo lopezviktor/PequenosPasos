@@ -42,6 +42,9 @@ public class SiestaService {
 
     // Guardar una nueva siesta
     public Siesta saveSiesta(Siesta siesta) {
+        if (siesta.getHoraFin() == null) {
+            siesta.setHoraFin(siesta.getHoraInicio()); // Si no se proporciona, se pone igual a la hora de inicio
+        }
         return siestaRepository.save(siesta);
     }
 
@@ -51,7 +54,12 @@ public class SiestaService {
         if (siestaOptional.isPresent()) {
             Siesta siesta = siestaOptional.get();
             siesta.setHoraInicio(siestaDetalles.getHoraInicio());
+
+            if (siestaDetalles.getHoraFin().isBefore(siestaDetalles.getHoraInicio())) {
+                throw new IllegalArgumentException("La hora de finalización no puede ser antes de la hora de inicio.");
+            }
             siesta.setHoraFin(siestaDetalles.getHoraFin());
+
             siesta.setObservaciones(siestaDetalles.getObservaciones());
             siesta.setEducador(siestaDetalles.getEducador());
 

@@ -42,22 +42,21 @@ public class HigieneService {
 
     // Guardar un nuevo registro de higiene
     public Higiene saveHigiene(Higiene higiene) {
+        if (higiene.getFechaHora() == null) {
+            higiene.setFechaHora(LocalDateTime.now());
+        }
         return higieneRepository.save(higiene);
     }
 
     // Actualizar un registro de higiene
     public Higiene updateHigiene(Long id, Higiene higieneDetalles) {
-        Optional<Higiene> higieneOptional = higieneRepository.findById(id);
-        if (higieneOptional.isPresent()) {
-            Higiene higiene = higieneOptional.get();
+        return higieneRepository.findById(id).map(higiene -> {
             higiene.setFechaHora(higieneDetalles.getFechaHora());
             higiene.setEstado(higieneDetalles.getEstado());
             higiene.setObservaciones(higieneDetalles.getObservaciones());
             higiene.setEducador(higieneDetalles.getEducador());
             return higieneRepository.save(higiene);
-        } else {
-            throw new RuntimeException("Registro de higiene no encontrado con id: " + id);
-        }
+        }).orElseThrow(() -> new RuntimeException("Registro de higiene no encontrado con id: " + id));
     }
 
     // Eliminar un registro de higiene por ID

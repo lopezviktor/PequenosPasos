@@ -18,4 +18,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
 
     // Buscar eventos en un rango de fechas
     List<Evento> findByFechaHoraBetween(LocalDateTime inicio, LocalDateTime fin);
+
+    // Filtro para eventos futuros
+    List<Evento> findByFechaHoraAfter(LocalDateTime fecha);
 }

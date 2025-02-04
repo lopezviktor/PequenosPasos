@@ -53,7 +53,9 @@ public class NotificacionService {
 
     // Guardar una nueva notificación
     public Notificacion saveNotificacion(Notificacion notificacion) {
-        notificacion.setFechaHora(LocalDateTime.now());
+        if (notificacion.getFechaHora() == null) {
+            notificacion.setFechaHora(LocalDateTime.now()); // Asigna la fecha y hora actual si no se proporciona
+        }
         return notificacionRepository.save(notificacion);
     }
 

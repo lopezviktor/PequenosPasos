@@ -18,4 +18,7 @@ public interface HigieneRepository extends JpaRepository<Higiene, Long> {
 
     // Buscar registros de higiene en un rango de fechas
     List<Higiene> findByFechaHoraBetween(LocalDateTime inicio, LocalDateTime fin);
+
+    // Ultima higiene
+    Higiene findTopByNinoIdOrderByFechaHoraDesc(Long ninoId);
 }

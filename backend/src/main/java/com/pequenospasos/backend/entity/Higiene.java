@@ -40,7 +40,7 @@ public class Higiene {
     public Higiene(Nino nino, Educador educador, LocalDateTime fechaHora, EstadoHigiene estado, String observaciones) {
         this.nino = nino;
         this.educador = educador;
-        this.fechaHora = fechaHora;
+        this.fechaHora = (fechaHora != null) ? fechaHora : LocalDateTime.now();
         this.estado = estado;
         this.observaciones = observaciones;
     }

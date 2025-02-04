@@ -79,6 +79,9 @@ public class Siesta {
     }
 
     public void setHoraFin(LocalDateTime horaFin) {
+        if (horaFin.isBefore(this.horaInicio)) {
+            throw new IllegalArgumentException("La hora de finalización no puede ser antes de la hora de inicio.");
+        }
         this.horaFin = horaFin;
     }
 

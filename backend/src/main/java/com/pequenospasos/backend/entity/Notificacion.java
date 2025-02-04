@@ -41,7 +41,7 @@ public class Notificacion {
         this.emisor = emisor;
         this.receptor = receptor;
         this.mensaje = mensaje;
-        this.fechaHora = fechaHora;
+        this.fechaHora = LocalDateTime.now();
         this.estado = estado;
     }
 
