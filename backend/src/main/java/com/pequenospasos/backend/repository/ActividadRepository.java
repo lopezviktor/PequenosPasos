@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ActividadRepository extends JpaRepository<Actividad, Long> {
 
-    // Buscar actividades por título
-    List<Actividad> findByTituloContainingIgnoreCase(String titulo);
+    // Buscar actividades por nombre
+    List<Actividad> findByNombreContainingIgnoreCase(String nombre);
 }

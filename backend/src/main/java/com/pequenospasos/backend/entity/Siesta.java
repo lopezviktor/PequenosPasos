@@ -25,6 +25,7 @@ public class Siesta {
     @Column(nullable = false)
     private LocalDateTime horaFin;
 
+
     @Column(columnDefinition = "TEXT")
     private String observaciones;
 
@@ -87,5 +88,12 @@ public class Siesta {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public long getDuracion() {
+        if (horaInicio != null && horaFin != null) {
+            return java.time.Duration.between(horaInicio, horaFin).toMinutes();
+        }
+        return 0; // Si falta algún dato, devuelve 0
     }
 }
