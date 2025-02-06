@@ -41,7 +41,7 @@ public class Mensaje {
         this.emisor = emisor;
         this.receptor = receptor;
         this.contenido = contenido;
-        this.fechaHora = fechaHora;
+        this.fechaHora = LocalDateTime.now();
         this.estado = estado;
     }
 

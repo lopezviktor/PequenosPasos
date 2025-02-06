@@ -21,4 +21,5 @@ public interface HigieneRepository extends JpaRepository<Higiene, Long> {
 
     // Ultima higiene
     Higiene findTopByNinoIdOrderByFechaHoraDesc(Long ninoId);
+
 }

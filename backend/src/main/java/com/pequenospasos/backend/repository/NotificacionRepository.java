@@ -17,4 +17,7 @@ public interface NotificacionRepository extends JpaRepository<Notificacion, Long
 
     // Buscar notificaciones no leídas de un usuario
     List<Notificacion> findByReceptorIdAndEstado(Long receptorId, Notificacion.EstadoNotificacion estado);
+
+    //Obtener las ultimas notificaciones
+    List<Notificacion> findTop5ByReceptorIdOrderByFechaHoraDesc(Long receptorId);
 }

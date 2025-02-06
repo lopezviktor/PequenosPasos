@@ -11,4 +11,7 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Long> {
     List<Mensaje> findByEmisorId(Long emisorId);
     List<Mensaje> findByReceptorId(Long receptorId);
     List<Mensaje> findByEmisorIdAndReceptorId(Long emisorId, Long receptorId);
+    List<Mensaje> findTop5ByReceptorIdOrderByFechaHoraDesc(Long receptorId);
+    // Obtener mensajes no leídos de un usuario
+    List<Mensaje> findByReceptorIdAndEstado(Long receptorId, Mensaje.EstadoMensaje estado);
 }

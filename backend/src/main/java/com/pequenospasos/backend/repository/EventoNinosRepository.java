@@ -14,4 +14,6 @@ public interface EventoNinosRepository extends JpaRepository<EventoNinos, Long> 
 
     // Buscar todos los niños que participan en un evento específico
     List<EventoNinos> findByEventoId(Long eventoId);
+
+    void deleteByEventoIdAndNinoId(Long eventoId, Long ninoId);
 }

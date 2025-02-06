@@ -35,6 +35,11 @@ public class HigieneService {
         return higieneRepository.findByFechaHoraBetween(inicio, fin);
     }
 
+    // Obtener el ultimo registro de higiene de un niño
+    public Higiene getUltimaHigieneByNinoId(Long ninoId) {
+        return higieneRepository.findTopByNinoIdOrderByFechaHoraDesc(ninoId);
+    }
+
     // Buscar un registro de higiene por ID
     public Optional<Higiene> getHigieneById(Long id) {
         return higieneRepository.findById(id);

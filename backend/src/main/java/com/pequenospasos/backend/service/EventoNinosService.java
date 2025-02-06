@@ -38,4 +38,8 @@ public class EventoNinosService {
     public void deleteEventoNino(Long id) {
         eventoNinosRepository.deleteById(id);
     }
+
+    public void deleteEventoNinoByEventoAndNino(Long eventoId, Long ninoId) {
+        eventoNinosRepository.deleteByEventoIdAndNinoId(eventoId, ninoId);
+    }
 }

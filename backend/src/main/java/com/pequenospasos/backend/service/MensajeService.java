@@ -20,6 +20,11 @@ public class MensajeService {
         return mensajeRepository.findAll();
     }
 
+    // Obtener un mensaje por ID
+    public Optional<Mensaje> getMensajeById(Long id) {
+        return mensajeRepository.findById(id);
+    }
+
     // Obtener mensajes enviados por un usuario específico
     public List<Mensaje> getMensajesByEmisorId(Long emisorId) {
         return mensajeRepository.findByEmisorId(emisorId);
@@ -51,6 +56,22 @@ public class MensajeService {
             return mensajeRepository.save(mensaje);
         } else {
             throw new RuntimeException("Mensaje no encontrado con id: " + id);
+        }
+    }
+
+    // Obtener mensajes no leídos de un usuario
+    public List<Mensaje> getMensajesNoLeidos(Long receptorId) {
+        return mensajeRepository.findByReceptorIdAndEstado(receptorId, Mensaje.EstadoMensaje.NO_LEIDO);
+    }
+
+    // Marcar todos los mensajes de un usuario como leídos
+    public void marcarTodosComoLeidos(Long receptorId) {
+        List<Mensaje> mensajesNoLeidos = mensajeRepository.findByReceptorIdAndEstado(receptorId, Mensaje.EstadoMensaje.NO_LEIDO);
+        if (!mensajesNoLeidos.isEmpty()) {
+            for (Mensaje mensaje : mensajesNoLeidos) {
+                mensaje.setEstado(Mensaje.EstadoMensaje.LEIDO);
+            }
+            mensajeRepository.saveAll(mensajesNoLeidos);
         }
     }
 

@@ -20,6 +20,11 @@ public class NotificacionService {
         return notificacionRepository.findAll();
     }
 
+    // Obtener una notificacion por id especifico
+    public Optional<Notificacion> getNotificacionById(Long id){
+        return notificacionRepository.findById(id);
+    }
+
     // Obtener notificaciones de un usuario específico
     public List<Notificacion> getNotificacionesByReceptorId(Long receptorId) {
         return notificacionRepository.findByReceptorId(receptorId);

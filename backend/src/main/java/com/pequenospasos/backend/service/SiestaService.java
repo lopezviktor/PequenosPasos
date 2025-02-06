@@ -35,6 +35,11 @@ public class SiestaService {
         return siestaRepository.findByHoraInicioBetween(inicio, fin);
     }
 
+    // Obtener la última siesta de un niño
+    public Siesta getUltimaSiestaByNinoId(Long ninoId) {
+        return siestaRepository.findTopByNinoIdOrderByHoraInicioDesc(ninoId);
+    }
+
     // Buscar una siesta por ID
     public Optional<Siesta> getSiestaById(Long id) {
         return siestaRepository.findById(id);
