@@ -1,11 +1,14 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Asistencia;
+import com.pequenospasos.backend.entity.Nino;
 import com.pequenospasos.backend.repository.AsistenciaRepository;
+import com.pequenospasos.backend.repository.NinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +17,8 @@ public class AsistenciaService {
 
     @Autowired
     private AsistenciaRepository asistenciaRepository;
+    @Autowired
+    private NinoRepository ninoRepository;
 
     // Obtener todas las asistencias
     public List<Asistencia> getAllAsistencias() {
@@ -22,7 +27,8 @@ public class AsistenciaService {
 
     // Obtener asistencias de un niño específico
     public List<Asistencia> getAsistenciasByNinoId(Long ninoId) {
-        return asistenciaRepository.findByNinoId(ninoId);
+        Optional<Nino> nino = ninoRepository.findById(ninoId);
+        return nino.map(asistenciaRepository::findByNino).orElse(Collections.emptyList());
     }
 
     // Obtener asistencias registradas por un educador

@@ -10,7 +10,7 @@ public class Nino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ninoId;
+    private Long id;
 
     @Column(nullable = false)
     private String nombre;
@@ -36,11 +36,11 @@ public class Nino {
 
     // Getters y Setters
     public Long getNinoId() {
-        return ninoId;
+        return id;
     }
 
     public void setNinoId(Long ninoId) {
-        this.ninoId = ninoId;
+        this.id = ninoId;
     }
 
     public String getNombre() {

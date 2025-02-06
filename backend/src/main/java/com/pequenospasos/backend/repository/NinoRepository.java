@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface NinoRepository extends JpaRepository<Nino, Long> {
@@ -15,4 +16,6 @@ public interface NinoRepository extends JpaRepository<Nino, Long> {
     // Buscar niños por apellidos
     List<Nino> findByApellidosContainingIgnoreCase(String apellidos);
 
+    // Buscar un niño por su ID
+    Optional<Nino> findById(Long id);
 }
