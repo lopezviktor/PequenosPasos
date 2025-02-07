@@ -11,14 +11,15 @@ public class Mensaje {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emisor_id", nullable = false)
     private Usuario emisor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receptor_id", nullable = false)
     private Usuario receptor;
 
+    @Lob // Si los mensajes son muy largos, @Lob asegura que la base de datos los almacene sin problemas
     @Column(nullable = false, columnDefinition = "TEXT")
     private String contenido;
 
@@ -27,7 +28,7 @@ public class Mensaje {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EstadoMensaje estado;
+    private EstadoMensaje estado = EstadoMensaje.NO_LEIDO;
 
     public enum EstadoMensaje {
         NO_LEIDO, LEIDO
@@ -41,7 +42,7 @@ public class Mensaje {
         this.emisor = emisor;
         this.receptor = receptor;
         this.contenido = contenido;
-        this.fechaHora = LocalDateTime.now();
+        this.fechaHora = (fechaHora != null) ? fechaHora : LocalDateTime.now();
         this.estado = estado;
     }
 

@@ -11,14 +11,15 @@ public class Notificacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emisor_id", nullable = false)
     private Usuario emisor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receptor_id", nullable = false)
     private Usuario receptor;
 
+    @Lob
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mensaje;
 
@@ -27,7 +28,7 @@ public class Notificacion {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EstadoNotificacion estado;
+    private EstadoNotificacion estado = EstadoNotificacion.NO_LEIDO;
 
     public enum EstadoNotificacion {
         NO_LEIDO, LEIDO
@@ -41,7 +42,7 @@ public class Notificacion {
         this.emisor = emisor;
         this.receptor = receptor;
         this.mensaje = mensaje;
-        this.fechaHora = LocalDateTime.now();
+        this.fechaHora = (fechaHora != null) ? fechaHora : LocalDateTime.now();
         this.estado = estado;
     }
 

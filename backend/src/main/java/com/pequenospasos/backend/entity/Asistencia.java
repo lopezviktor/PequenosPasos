@@ -17,39 +17,39 @@ public class Asistencia {
 
     @ManyToOne
     @JoinColumn(name = "padre_entrega_id", nullable = false)
-    private Padre padreEntrega;
+    private Usuario padreEntrega;
 
     @ManyToOne
     @JoinColumn(name = "educador_recibe_id", nullable = false)
-    private Educador educadorRecibe;
+    private Usuario educadorRecibe;
 
     @ManyToOne
     @JoinColumn(name = "educador_entrega_id")
-    private Educador educadorEntrega;
+    private Usuario educadorEntrega;
 
     @ManyToOne
     @JoinColumn(name = "padre_recoge_id")
-    private Padre padreRecoge;
+    private Usuario padreRecoge;
 
     @Column(nullable = false)
     private LocalDateTime horaEntrada;
 
-    @Column
+    @Column(nullable = true)
     private LocalDateTime horaSalida;
 
     // Constructor para registrar entrada (sin salida aún)
-    public Asistencia(Nino nino, Padre padreEntrega, Educador educadorRecibe, LocalDateTime horaEntrada) {
+    public Asistencia(Nino nino, Usuario padreEntrega, Usuario educadorRecibe, LocalDateTime horaEntrada) {
         this.nino = nino;
         this.padreEntrega = padreEntrega;
         this.educadorRecibe = educadorRecibe;
         this.horaEntrada = horaEntrada;
-        this.horaSalida = null;
-        this.educadorEntrega = null;
-        this.padreRecoge = null;
     }
 
     // Método para registrar la salida, con educador que entrega y padre que recoge
-    public void registrarSalida(LocalDateTime horaSalida, Educador educadorEntrega, Padre padreRecoge) {
+    public void registrarSalida(LocalDateTime horaSalida, Usuario educadorEntrega, Usuario padreRecoge) {
+        if (this.horaSalida != null) {
+            throw new IllegalStateException("La salida ya ha sido registrada para este niño.");
+        }
         this.horaSalida = horaSalida;
         this.educadorEntrega = educadorEntrega;
         this.padreRecoge = padreRecoge;
@@ -77,38 +77,38 @@ public class Asistencia {
     }
 
     // Getter para el padre que deja al niño en la entrada
-    public Padre getPadreEntrega() {
+    public Usuario getPadreEntrega() {
         return padreEntrega;
     }
 
     // Setter para el padre que deja al niño en la entrada
-    public void setPadreEntrega(Padre padreEntrega) {
+    public void setPadreEntrega(Usuario padreEntrega) {
         this.padreEntrega = padreEntrega;
     }
 
     // Getter para el educador que recibe al niño en la entrada
-    public Educador getEducadorRecibe() {
+    public Usuario getEducadorRecibe() {
         return educadorRecibe;
     }
 
     // Setter para el educador que recibe al niño en la entrada
-    public void setEducadorRecibe(Educador educadorRecibe) {
+    public void setEducadorRecibe(Usuario educadorRecibe) {
         this.educadorRecibe = educadorRecibe;
     }
 
-    public Educador getEducadorEntrega() {
+    public Usuario getEducadorEntrega() {
         return educadorEntrega;
     }
 
-    public void setEducadorEntrega(Educador educadorEntrega) {
+    public void setEducadorEntrega(Usuario educadorEntrega) {
         this.educadorEntrega = educadorEntrega;
     }
 
-    public Padre getPadreRecoge() {
+    public Usuario getPadreRecoge() {
         return padreRecoge;
     }
 
-    public void setPadreRecoge(Padre padreRecoge) {
+    public void setPadreRecoge(Usuario padreRecoge) {
         this.padreRecoge = padreRecoge;
     }
 
