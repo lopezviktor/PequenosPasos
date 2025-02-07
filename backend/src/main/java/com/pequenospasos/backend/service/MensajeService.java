@@ -25,24 +25,34 @@ public class MensajeService {
         return mensajeRepository.findById(id);
     }
 
-    // Obtener mensajes enviados por un usuario específico
+    // Obtener mensajes enviados por un usuario específico (solo PADRES y EDUCADORES)
     public List<Mensaje> getMensajesByEmisorId(Long emisorId) {
-        return mensajeRepository.findByEmisorId(emisorId);
+        return mensajeRepository.findByEmisorId(emisorId).stream()
+                .filter(m -> m.getEmisor().getTipoUsuario().equals("PADRE") || m.getEmisor().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
     }
 
-    // Obtener mensajes recibidos por un usuario específico
+    // Obtener mensajes recibidos por un usuario específico (solo PADRES y EDUCADORES)
     public List<Mensaje> getMensajesByReceptorId(Long receptorId) {
-        return mensajeRepository.findByReceptorId(receptorId);
+        return mensajeRepository.findByReceptorId(receptorId).stream()
+                .filter(m -> m.getReceptor().getTipoUsuario().equals("PADRE") || m.getReceptor().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
     }
 
-    // Obtener mensajes entre dos usuarios específicos (chat entre padre y educador)
+    // Obtener mensajes entre dos usuarios específicos (solo PADRES y EDUCADORES)
     public List<Mensaje> getMensajesEntreUsuarios(Long emisorId, Long receptorId) {
-        return mensajeRepository.findByEmisorIdAndReceptorId(emisorId, receptorId);
+        return mensajeRepository.findByEmisorIdAndReceptorId(emisorId, receptorId).stream()
+                .filter(m -> (m.getEmisor().getTipoUsuario().equals("PADRE") || m.getEmisor().getTipoUsuario().equals("EDUCADOR")) &&
+                        (m.getReceptor().getTipoUsuario().equals("PADRE") || m.getReceptor().getTipoUsuario().equals("EDUCADOR")))
+                .toList();
     }
 
-    // Guardar un nuevo mensaje
+    // Guardar un nuevo mensaje (validando solo PADRES y EDUCADORES)
     public Mensaje saveMensaje(Mensaje mensaje) {
-        mensaje.setFechaHora(LocalDateTime.now()); // Registrar la fecha/hora actual
+        if (!(mensaje.getEmisor().getTipoUsuario().equals("PADRE") || mensaje.getEmisor().getTipoUsuario().equals("EDUCADOR"))) {
+            throw new RuntimeException("Solo PADRES y EDUCADORES pueden enviar mensajes.");
+        }
+        mensaje.setFechaHora(LocalDateTime.now());
         mensaje.setEstado(Mensaje.EstadoMensaje.NO_LEIDO);
         return mensajeRepository.save(mensaje);
     }
@@ -64,13 +74,11 @@ public class MensajeService {
         return mensajeRepository.findByReceptorIdAndEstado(receptorId, Mensaje.EstadoMensaje.NO_LEIDO);
     }
 
-    // Marcar todos los mensajes de un usuario como leídos
+    // Marcar todos los mensajes de un usuario como leídos (optimizado)
     public void marcarTodosComoLeidos(Long receptorId) {
         List<Mensaje> mensajesNoLeidos = mensajeRepository.findByReceptorIdAndEstado(receptorId, Mensaje.EstadoMensaje.NO_LEIDO);
         if (!mensajesNoLeidos.isEmpty()) {
-            for (Mensaje mensaje : mensajesNoLeidos) {
-                mensaje.setEstado(Mensaje.EstadoMensaje.LEIDO);
-            }
+            mensajesNoLeidos.forEach(m -> m.setEstado(Mensaje.EstadoMensaje.LEIDO));
             mensajeRepository.saveAll(mensajesNoLeidos);
         }
     }

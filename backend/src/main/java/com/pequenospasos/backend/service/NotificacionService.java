@@ -20,26 +20,35 @@ public class NotificacionService {
         return notificacionRepository.findAll();
     }
 
-    // Obtener una notificacion por id especifico
-    public Optional<Notificacion> getNotificacionById(Long id){
+    // Obtener una notificación por ID
+    public Optional<Notificacion> getNotificacionById(Long id) {
         return notificacionRepository.findById(id);
     }
 
-    // Obtener notificaciones de un usuario específico
+    // Obtener notificaciones de un usuario específico (solo PADRES y EDUCADORES)
     public List<Notificacion> getNotificacionesByReceptorId(Long receptorId) {
-        return notificacionRepository.findByReceptorId(receptorId);
+        return notificacionRepository.findByReceptorId(receptorId).stream()
+                .filter(n -> n.getReceptor().getTipoUsuario().equals("PADRE") || n.getReceptor().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
     }
 
-    // Obtener notificaciones no leídas de un usuario específico
+    // Obtener notificaciones no leídas de un usuario (solo PADRES y EDUCADORES)
     public List<Notificacion> getNotificacionesNoLeidas(Long receptorId) {
-        return notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO);
+        return notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO).stream()
+                .filter(n -> n.getReceptor().getTipoUsuario().equals("PADRE") || n.getReceptor().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
     }
 
-    // Marcar una notificación como leída
+    // Marcar una notificación como leída (solo PADRES y EDUCADORES)
     public Notificacion marcarComoLeida(Long id) {
         Optional<Notificacion> notificacionOptional = notificacionRepository.findById(id);
         if (notificacionOptional.isPresent()) {
             Notificacion notificacion = notificacionOptional.get();
+
+            if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") || notificacion.getReceptor().getTipoUsuario().equals("EDUCADOR"))) {
+                throw new RuntimeException("Solo PADRES y EDUCADORES pueden marcar notificaciones como leídas.");
+            }
+
             notificacion.setEstado(Notificacion.EstadoNotificacion.LEIDO);
             return notificacionRepository.save(notificacion);
         } else {
@@ -47,19 +56,26 @@ public class NotificacionService {
         }
     }
 
-    // Marcar todas las notificaciones de un usuario como leídas
+    // Marcar todas las notificaciones de un usuario como leídas (optimizado)
     public void marcarTodasComoLeidas(Long receptorId) {
-        List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO);
-        for (Notificacion notificacion : notificaciones) {
-            notificacion.setEstado(Notificacion.EstadoNotificacion.LEIDO);
+        List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO).stream()
+                .filter(n -> n.getReceptor().getTipoUsuario().equals("PADRE") || n.getReceptor().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
+
+        if (!notificaciones.isEmpty()) {
+            notificaciones.forEach(n -> n.setEstado(Notificacion.EstadoNotificacion.LEIDO));
+            notificacionRepository.saveAll(notificaciones);
         }
-        notificacionRepository.saveAll(notificaciones);
     }
 
-    // Guardar una nueva notificación
+    // Guardar una nueva notificación (validando solo PADRES y EDUCADORES)
     public Notificacion saveNotificacion(Notificacion notificacion) {
+        if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") || notificacion.getReceptor().getTipoUsuario().equals("EDUCADOR"))) {
+            throw new RuntimeException("Solo PADRES y EDUCADORES pueden recibir notificaciones.");
+        }
+
         if (notificacion.getFechaHora() == null) {
-            notificacion.setFechaHora(LocalDateTime.now()); // Asigna la fecha y hora actual si no se proporciona
+            notificacion.setFechaHora(LocalDateTime.now());
         }
         return notificacionRepository.save(notificacion);
     }

@@ -25,9 +25,11 @@ public class HigieneService {
         return higieneRepository.findByNinoId(ninoId);
     }
 
-    // Obtener registros de higiene realizados por un educador específico
+    // Obtener registros de higiene realizados por un educador específico (solo EDUCADORES)
     public List<Higiene> getHigieneByEducadorId(Long educadorId) {
-        return higieneRepository.findByEducadorId(educadorId);
+        return higieneRepository.findByEducadorId(educadorId).stream()
+                .filter(h -> h.getEducador().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
     }
 
     // Obtener registros de higiene en un rango de fechas
@@ -35,7 +37,7 @@ public class HigieneService {
         return higieneRepository.findByFechaHoraBetween(inicio, fin);
     }
 
-    // Obtener el ultimo registro de higiene de un niño
+    // Obtener el último registro de higiene de un niño
     public Higiene getUltimaHigieneByNinoId(Long ninoId) {
         return higieneRepository.findTopByNinoIdOrderByFechaHoraDesc(ninoId);
     }
@@ -45,17 +47,24 @@ public class HigieneService {
         return higieneRepository.findById(id);
     }
 
-    // Guardar un nuevo registro de higiene
+    // Guardar un nuevo registro de higiene (validando que solo un EDUCADOR puede hacerlo)
     public Higiene saveHigiene(Higiene higiene) {
+        if (!higiene.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar registros de higiene.");
+        }
         if (higiene.getFechaHora() == null) {
             higiene.setFechaHora(LocalDateTime.now());
         }
         return higieneRepository.save(higiene);
     }
 
-    // Actualizar un registro de higiene
+    // Actualizar un registro de higiene (validando que solo un EDUCADOR puede hacerlo)
     public Higiene updateHigiene(Long id, Higiene higieneDetalles) {
         return higieneRepository.findById(id).map(higiene -> {
+            if (!higieneDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+                throw new RuntimeException("Solo un EDUCADOR puede actualizar registros de higiene.");
+            }
+
             higiene.setFechaHora(higieneDetalles.getFechaHora());
             higiene.setEstado(higieneDetalles.getEstado());
             higiene.setObservaciones(higieneDetalles.getObservaciones());

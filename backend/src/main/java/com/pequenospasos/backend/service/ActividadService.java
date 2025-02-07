@@ -29,16 +29,25 @@ public class ActividadService {
         return actividadRepository.findById(actividadId);
     }
 
-    // Guardar una nueva actividad
+    // Guardar una nueva actividad (validando nombre único)
     public Actividad saveActividad(Actividad actividad) {
+        if (actividadRepository.findByNombreContainingIgnoreCase(actividad.getNombre()).size() > 0) {
+            throw new RuntimeException("Ya existe una actividad con este nombre.");
+        }
         return actividadRepository.save(actividad);
     }
 
-    // Actualizar actividad existente
+    // Actualizar actividad existente (validando nombre único)
     public Actividad updateActividad(Long actividadId, Actividad actividadDetalles) {
         Optional<Actividad> actividadOptional = actividadRepository.findById(actividadId);
         if (actividadOptional.isPresent()) {
             Actividad actividad = actividadOptional.get();
+
+            if (!actividad.getNombre().equalsIgnoreCase(actividadDetalles.getNombre()) &&
+                    actividadRepository.findByNombreContainingIgnoreCase(actividadDetalles.getNombre()).size() > 0) {
+                throw new RuntimeException("Ya existe otra actividad con este nombre.");
+            }
+
             actividad.setNombre(actividadDetalles.getNombre());
             actividad.setDescripcion(actividadDetalles.getDescripcion());
             return actividadRepository.save(actividad);

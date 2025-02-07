@@ -29,6 +29,16 @@ public class NinoService {
         return ninoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
+    // Buscar niño por apellidos
+    public List<Nino> getNinoByApellidos(String apellidos) {
+        return ninoRepository.findByApellidosContainingIgnoreCase(apellidos);
+    }
+
+    // Buscar niños por ID de padre (filtrando solo PADRES)
+    public List<Nino> getNinosByPadreId(Long padreId) {
+        return ninoRepository.findByPadreIdFiltered(padreId);
+    }
+
     // Guardar un nuevo niño
     public Nino saveNino(Nino nino) {
         return ninoRepository.save(nino);

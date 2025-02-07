@@ -25,9 +25,11 @@ public class ComidaService {
         return comidaRepository.findByNinoId(ninoId);
     }
 
-    // Obtener comidas registradas por un educador
+    // Obtener comidas registradas por un educador (solo EDUCADORES)
     public List<Comida> getComidasByEducadorId(Long educadorId) {
-        return comidaRepository.findByEducadorId(educadorId);
+        return comidaRepository.findByEducadorId(educadorId).stream()
+                .filter(c -> c.getEducador().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
     }
 
     // Obtener comidas en un rango de fechas
@@ -40,19 +42,29 @@ public class ComidaService {
         return comidaRepository.findById(id);
     }
 
-    // Registrar una nueva comida
+    // Registrar una nueva comida (validando que solo un EDUCADOR puede hacerlo)
     public Comida saveComida(Comida comida) {
-        if (comida.getHoraComida() == null) {
-            comida.setHoraComida(LocalDateTime.now()); // Asigna la hora actual si no se proporciona
+        if (!comida.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar comidas.");
         }
+
+        if (comida.getHoraComida() == null) {
+            comida.setHoraComida(LocalDateTime.now());
+        }
+
         return comidaRepository.save(comida);
     }
 
-    // Actualizar una comida
+    // Actualizar una comida (validando que solo un EDUCADOR puede hacerlo)
     public Comida updateComida(Long id, Comida comidaDetalles) {
         Optional<Comida> comidaOptional = comidaRepository.findById(id);
         if (comidaOptional.isPresent()) {
             Comida comida = comidaOptional.get();
+
+            if (!comidaDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+                throw new RuntimeException("Solo un EDUCADOR puede actualizar comidas.");
+            }
+
             comida.setHoraComida(comidaDetalles.getHoraComida());
             comida.setDescripcionComida(comidaDetalles.getDescripcionComida());
             comida.setEducador(comidaDetalles.getEducador());

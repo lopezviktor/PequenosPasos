@@ -25,13 +25,17 @@ public class Siesta {
     @Column
     private LocalDateTime finSiesta;
 
+    @Column(nullable = true, columnDefinition = "TEXT")
+    private String observaciones;
+
     public Siesta() {}
 
-    public Siesta(Nino nino, Usuario educador, LocalDateTime inicioSiesta, LocalDateTime finSiesta) {
+    public Siesta(Nino nino, Usuario educador, LocalDateTime inicioSiesta, LocalDateTime finSiesta, String observaciones) {
         this.nino = nino;
         this.educador = educador;
         this.inicioSiesta = inicioSiesta;
         this.finSiesta = finSiesta;
+        this.observaciones = (observaciones != null && !observaciones.trim().isEmpty()) ? observaciones : "Sin observaciones";
     }
 
     public Long getId() {
@@ -72,5 +76,13 @@ public class Siesta {
 
     public void setFinSiesta(LocalDateTime finSiesta) {
         this.finSiesta = finSiesta;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = (observaciones != null && !observaciones.trim().isEmpty()) ? observaciones : "Sin observaciones";
     }
 }

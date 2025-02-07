@@ -25,19 +25,21 @@ public class SiestaService {
         return siestaRepository.findByNinoId(ninoId);
     }
 
-    // Obtener siestas registradas por un educador específico
+    // Obtener siestas registradas por un educador específico (solo EDUCADORES)
     public List<Siesta> getSiestasByEducadorId(Long educadorId) {
-        return siestaRepository.findByEducadorId(educadorId);
+        return siestaRepository.findByEducadorId(educadorId).stream()
+                .filter(s -> s.getEducador().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
     }
 
     // Obtener siestas en un rango de fechas
     public List<Siesta> getSiestasByFecha(LocalDateTime inicio, LocalDateTime fin) {
-        return siestaRepository.findByHoraInicioBetween(inicio, fin);
+        return siestaRepository.findByInicioSiestaBetween(inicio, fin);
     }
 
     // Obtener la última siesta de un niño
     public Siesta getUltimaSiestaByNinoId(Long ninoId) {
-        return siestaRepository.findTopByNinoIdOrderByHoraInicioDesc(ninoId);
+        return siestaRepository.findTopByNinoIdOrderByInicioSiestaDesc(ninoId);
     }
 
     // Buscar una siesta por ID
@@ -45,31 +47,38 @@ public class SiestaService {
         return siestaRepository.findById(id);
     }
 
-    // Guardar una nueva siesta
+    // Guardar una nueva siesta (validando que solo un EDUCADOR puede hacerlo)
     public Siesta saveSiesta(Siesta siesta) {
-        if (siesta.getHoraFin() == null) {
-            siesta.setHoraFin(siesta.getHoraInicio()); // Si no se proporciona, se pone igual a la hora de inicio
+        if (!siesta.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar siestas.");
         }
+
+        if (siesta.getFinSiesta() == null) {
+            siesta.setFinSiesta(siesta.getInicioSiesta()); // Si no se proporciona, se pone igual a la hora de inicio
+        }
+
         return siestaRepository.save(siesta);
     }
 
-    // Actualizar una siesta
+    // Actualizar una siesta (validando que solo un EDUCADOR puede hacerlo)
     public Siesta updateSiesta(Long id, Siesta siestaDetalles) {
         Optional<Siesta> siestaOptional = siestaRepository.findById(id);
         if (siestaOptional.isPresent()) {
             Siesta siesta = siestaOptional.get();
-            siesta.setHoraInicio(siestaDetalles.getHoraInicio());
 
-            if (siestaDetalles.getHoraFin().isBefore(siestaDetalles.getHoraInicio())) {
+            if (!siestaDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+                throw new RuntimeException("Solo un EDUCADOR puede actualizar siestas.");
+            }
+
+            siesta.setInicioSiesta(siestaDetalles.getInicioSiesta());
+
+            if (siestaDetalles.getFinSiesta().isBefore(siestaDetalles.getInicioSiesta())) {
                 throw new IllegalArgumentException("La hora de finalización no puede ser antes de la hora de inicio.");
             }
-            siesta.setHoraFin(siestaDetalles.getHoraFin());
+            siesta.setFinSiesta(siestaDetalles.getFinSiesta());
 
             siesta.setObservaciones(siestaDetalles.getObservaciones());
             siesta.setEducador(siestaDetalles.getEducador());
-
-            // Imprimir duración en consola (para pruebas)
-            System.out.println("Duración de la siesta: " + siesta.getDuracion() + " minutos");
 
             return siestaRepository.save(siesta);
         } else {

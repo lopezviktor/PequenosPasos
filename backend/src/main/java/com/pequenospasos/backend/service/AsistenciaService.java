@@ -31,9 +31,25 @@ public class AsistenciaService {
         return nino.map(asistenciaRepository::findByNino).orElse(Collections.emptyList());
     }
 
-    // Obtener asistencias registradas por un educador
+    // Obtener asistencias registradas por un educador (solo EDUCADORES)
     public List<Asistencia> getAsistenciasByEducadorId(Long educadorId) {
-        return asistenciaRepository.findByEducadorRecibeId(educadorId);
+        return asistenciaRepository.findByEducadorRecibeId(educadorId).stream()
+                .filter(a -> a.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR"))
+                .toList();
+    }
+
+    // Obtener asistencias donde un padre entregó al niño (solo PADRES)
+    public List<Asistencia> getAsistenciasByPadreEntregaId(Long padreId) {
+        return asistenciaRepository.findByPadreEntregaId(padreId).stream()
+                .filter(a -> a.getPadreEntrega().getTipoUsuario().equals("PADRE"))
+                .toList();
+    }
+
+    // Obtener asistencias donde un padre recogió al niño (solo PADRES)
+    public List<Asistencia> getAsistenciasByPadreRecogeId(Long padreId) {
+        return asistenciaRepository.findByPadreRecogeId(padreId).stream()
+                .filter(a -> a.getPadreRecoge().getTipoUsuario().equals("PADRE"))
+                .toList();
     }
 
     // Obtener asistencias en un rango de fechas
@@ -46,19 +62,29 @@ public class AsistenciaService {
         return asistenciaRepository.findById(id);
     }
 
-    // Registrar una nueva asistencia
+    // Registrar una nueva asistencia (validando que solo un EDUCADOR puede hacerlo)
     public Asistencia saveAsistencia(Asistencia asistencia) {
+        if (!asistencia.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar asistencias.");
+        }
         return asistenciaRepository.save(asistencia);
     }
 
-    // Actualizar una asistencia
+    // Actualizar una asistencia (validando que solo un EDUCADOR puede hacerlo)
     public Asistencia updateAsistencia(Long id, Asistencia asistenciaDetalles) {
         Optional<Asistencia> asistenciaOptional = asistenciaRepository.findById(id);
         if (asistenciaOptional.isPresent()) {
             Asistencia asistencia = asistenciaOptional.get();
+
+            if (asistenciaDetalles.getEducadorEntrega() != null &&
+                    !asistenciaDetalles.getEducadorEntrega().getTipoUsuario().equals("EDUCADOR")) {
+                throw new RuntimeException("Solo un EDUCADOR puede actualizar asistencias.");
+            }
+
             asistencia.setHoraSalida(asistenciaDetalles.getHoraSalida());
             asistencia.setEducadorEntrega(asistenciaDetalles.getEducadorEntrega());
             asistencia.setPadreRecoge(asistenciaDetalles.getPadreRecoge());
+
             return asistenciaRepository.save(asistencia);
         } else {
             throw new RuntimeException("Asistencia no encontrada con id: " + id);

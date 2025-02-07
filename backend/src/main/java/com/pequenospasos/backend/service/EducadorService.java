@@ -1,7 +1,8 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Educador;
-import com.pequenospasos.backend.repository.EducadorRepository;
+import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,35 +13,57 @@ import java.util.Optional;
 public class EducadorService {
 
     @Autowired
-    private EducadorRepository educadorRepository;
+    private UsuarioRepository usuarioRepository;
 
     // Obtener todos los educadores
     public List<Educador> getAllEducadores() {
-        return educadorRepository.findAll();
+        return usuarioRepository.findByTipoUsuario("EDUCADOR").stream()
+                .map(u -> (Educador) u)
+                .toList();
     }
 
-    // Obtener educador por ID
+    // Buscar educador por ID
     public Optional<Educador> getEducadorById(Long id) {
-        return educadorRepository.findById(id);
+        return usuarioRepository.findById(id)
+                .filter(u -> u instanceof Educador)
+                .map(u -> (Educador) u);
     }
 
-    // Guardar un nuevo educador
+    // Buscar educador por email
+    public Optional<Educador> getEducadorByEmail(String email) {
+        return usuarioRepository.findByEmailAndTipoUsuario(email, "EDUCADOR")
+                .map(u -> (Educador) u);
+    }
+
+    // Guardar un nuevo educador (con validación de email único)
     public Educador saveEducador(Educador educador) {
-        return educadorRepository.save(educador);
+        if (usuarioRepository.existsByEmail(educador.getEmail())) {
+            throw new RuntimeException("El email ya está registrado.");
+        }
+        educador.setTipoUsuario("EDUCADOR"); // Asegurar que se guarde correctamente
+        return usuarioRepository.save(educador);
     }
 
-    // Actualizar un educador
+    // Actualizar educador existente, sin sobrescribir la contraseña si no se proporciona
     public Educador updateEducador(Long id, Educador educadorDetalles) {
-        return educadorRepository.findById(id).map(educador -> {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+        if (usuarioOptional.isPresent() && usuarioOptional.get() instanceof Educador educador) {
             educador.setNombre(educadorDetalles.getNombre());
             educador.setApellidos(educadorDetalles.getApellidos());
             educador.setEmail(educadorDetalles.getEmail());
-            return educadorRepository.save(educador);
-        }).orElseThrow(() -> new RuntimeException("Educador no encontrado con id: " + id));
+
+            if (educadorDetalles.getPassword() != null && !educadorDetalles.getPassword().isEmpty()) {
+                educador.setPassword(educadorDetalles.getPassword());
+            }
+
+            return usuarioRepository.save(educador);
+        } else {
+            throw new RuntimeException("Educador no encontrado con id: " + id);
+        }
     }
 
-    // Eliminar un educador
+    // Eliminar educador por ID
     public void deleteEducador(Long id) {
-        educadorRepository.deleteById(id);
+        usuarioRepository.deleteById(id);
     }
 }

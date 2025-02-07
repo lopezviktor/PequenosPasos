@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "actividad_ninos")
+@Table(name = "actividad_ninos", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"nino_id", "actividad_id"})
+})
 public class ActividadNinos {
 
     @Id
@@ -25,11 +27,14 @@ public class ActividadNinos {
     // Constructor vacío
     public ActividadNinos() {}
 
-    // Constructor con parámetros
+    // Constructor con parámetros (asegurando que fechaRegistro nunca sea null)
     public ActividadNinos(Nino nino, Actividad actividad, LocalDateTime fechaRegistro) {
+        if (nino == null || actividad == null) {
+            throw new IllegalArgumentException("El niño y la actividad no pueden ser nulos.");
+        }
         this.nino = nino;
         this.actividad = actividad;
-        this.fechaRegistro = fechaRegistro;
+        this.fechaRegistro = (fechaRegistro != null) ? fechaRegistro : LocalDateTime.now();
     }
 
     // Getters y Setters
@@ -62,6 +67,6 @@ public class ActividadNinos {
     }
 
     public void setFechaRegistro(LocalDateTime fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+        this.fechaRegistro = (fechaRegistro != null) ? fechaRegistro : LocalDateTime.now();
     }
 }

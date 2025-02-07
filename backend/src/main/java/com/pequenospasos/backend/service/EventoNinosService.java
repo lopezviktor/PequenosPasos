@@ -29,16 +29,21 @@ public class EventoNinosService {
         return eventoNinosRepository.findByEventoId(eventoId);
     }
 
-    // Guardar una nueva relación entre evento y niño
+    // Guardar una nueva relación entre evento y niño (evitando duplicados)
     public EventoNinos saveEventoNino(EventoNinos eventoNinos) {
+        Optional<EventoNinos> existente = eventoNinosRepository.findByEventoIdAndNinoId(eventoNinos.getEvento().getId(), eventoNinos.getNino().getId());
+        if (existente.isPresent()) {
+            throw new RuntimeException("El niño ya está registrado en este evento.");
+        }
         return eventoNinosRepository.save(eventoNinos);
     }
 
-    // Eliminar una relación evento-niño
+    // Eliminar una relación evento-niño por ID
     public void deleteEventoNino(Long id) {
         eventoNinosRepository.deleteById(id);
     }
 
+    // Eliminar una relación evento-niño por IDs de evento y niño
     public void deleteEventoNinoByEventoAndNino(Long eventoId, Long ninoId) {
         eventoNinosRepository.deleteByEventoIdAndNinoId(eventoId, ninoId);
     }

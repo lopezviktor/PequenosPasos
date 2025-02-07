@@ -24,17 +24,20 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
-    // Buscar usuario por email
-    public Optional<Usuario> getUsuarioByEmail(String email) {
-        return usuarioRepository.findByEmail(email);
+    // Buscar usuario por email y tipoUsuario (para filtrar PADRE, EDUCADOR o ADMIN)
+    public Optional<Usuario> getUsuarioByEmail(String email, String tipoUsuario) {
+        return usuarioRepository.findByEmailAndTipoUsuario(email, tipoUsuario);
     }
 
-    // Guardar un nuevo usuario
+    // Guardar un nuevo usuario con validación de email único
     public Usuario saveUsuario(Usuario usuario) {
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new RuntimeException("El email ya está registrado.");
+        }
         return usuarioRepository.save(usuario);
     }
 
-    // Actualizar usuario existente
+    // Actualizar usuario existente, sin sobrescribir la contraseña si no se proporciona
     public Usuario updateUsuario(Long id, Usuario usuarioDetalles) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if (usuarioOptional.isPresent()) {
@@ -43,7 +46,11 @@ public class UsuarioService {
             usuario.setApellidos(usuarioDetalles.getApellidos());
             usuario.setEmail(usuarioDetalles.getEmail());
             usuario.setTelefono(usuarioDetalles.getTelefono());
-            usuario.setPassword(usuarioDetalles.getPassword()); // Opcional, si permites cambiar contraseña
+
+            if (usuarioDetalles.getPassword() != null && !usuarioDetalles.getPassword().isEmpty()) {
+                usuario.setPassword(usuarioDetalles.getPassword());
+            }
+
             return usuarioRepository.save(usuario);
         } else {
             throw new RuntimeException("Usuario no encontrado con id: " + id);

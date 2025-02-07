@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EventoNinosRepository extends JpaRepository<EventoNinos, Long> {
@@ -16,4 +17,6 @@ public interface EventoNinosRepository extends JpaRepository<EventoNinos, Long> 
     List<EventoNinos> findByEventoId(Long eventoId);
 
     void deleteByEventoIdAndNinoId(Long eventoId, Long ninoId);
+
+    Optional<EventoNinos> findByEventoIdAndNinoId(Long eventoId, Long ninoId);
 }

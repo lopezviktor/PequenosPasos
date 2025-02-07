@@ -4,8 +4,8 @@ import com.pequenospasos.backend.entity.Nino;
 import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.PadresHijos;
 import com.pequenospasos.backend.repository.NinoRepository;
-import com.pequenospasos.backend.repository.PadreRepository;
 import com.pequenospasos.backend.repository.PadresHijosRepository;
+import com.pequenospasos.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,20 +20,25 @@ public class PadresHijosService {
     private PadresHijosRepository padresHijosRepository;
 
     @Autowired
-    private PadreRepository padreRepository;  // Repositorio de Padres
+    private UsuarioRepository usuarioRepository;  // Ahora usamos UsuarioRepository
 
     @Autowired
-    private NinoRepository ninoRepository;    // Repositorio de Niños
+    private NinoRepository ninoRepository;
 
-    // Obtener los niños de un padre
+    // Obtener los niños de un padre (solo PADRES)
     public List<Nino> getNinosByPadreId(Long padreId) {
-        List<PadresHijos> relaciones = padresHijosRepository.findByPadreId(padreId);
-        return relaciones.stream().map(PadresHijos::getNino).collect(Collectors.toList());
+        return padresHijosRepository.findByPadreId(padreId).stream()
+                .filter(ph -> ph.getPadre().getTipoUsuario().equals("PADRE"))
+                .map(PadresHijos::getNino)
+                .collect(Collectors.toList());
     }
 
     // Obtener un Padre por su ID
     public Padre findPadreById(Long padreId) {
-        return padreRepository.findById(padreId).orElse(null);
+        return usuarioRepository.findById(padreId)
+                .filter(u -> u instanceof Padre)
+                .map(u -> (Padre) u)
+                .orElse(null);
     }
 
     // Obtener un Niño por su ID
@@ -41,7 +46,7 @@ public class PadresHijosService {
         return ninoRepository.findById(ninoId).orElse(null);
     }
 
-    // Asignar un niño a un padre
+    // Asignar un niño a un padre (validando que sea PADRE)
     public PadresHijos asignarNinoAPadre(Long padreId, Long ninoId) {
         Padre padre = findPadreById(padreId);
         Nino nino = findNinoById(ninoId);
@@ -50,17 +55,24 @@ public class PadresHijosService {
             throw new RuntimeException("Padre o Niño no encontrado.");
         }
 
+        if (!padre.getTipoUsuario().equals("PADRE")) {
+            throw new RuntimeException("El usuario no es un padre válido.");
+        }
+
         PadresHijos relacion = new PadresHijos(padre, nino);
         return padresHijosRepository.save(relacion);
     }
 
-    // Eliminar una relación padre-hijo
+    // Eliminar una relación padre-hijo (solo PADRES pueden hacerlo)
     public void deleteRelacionByPadreAndNino(Long padreId, Long ninoId) {
-        PadresHijos relacion = padresHijosRepository.findByPadreIdAndNinoId(padreId, ninoId);
+        PadresHijos relacion = padresHijosRepository.findByPadreIdAndNinoId(padreId, ninoId)
+                .filter(ph -> ph.getPadre().getTipoUsuario().equals("PADRE"))
+                .orElse(null);
+
         if (relacion != null) {
             padresHijosRepository.delete(relacion);
         } else {
-            throw new RuntimeException("Relación no encontrada.");
+            throw new RuntimeException("Relación no encontrada o usuario no autorizado.");
         }
     }
 }

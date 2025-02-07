@@ -35,24 +35,34 @@ public class EventoService {
         return eventoRepository.findByFechaHoraBetween(inicio, fin);
     }
 
-    // Buscar eventos creados por un usuario específico (educador o administrador)
+    // Buscar eventos creados por un usuario específico (solo EDUCADORES y ADMINISTRADORES)
     public List<Evento> getEventosByCreador(Long creadorId) {
-        return eventoRepository.findByCreadorId(creadorId);
+        return eventoRepository.findByCreadorId(creadorId).stream()
+                .filter(e -> e.getCreador().getTipoUsuario().equals("EDUCADOR") || e.getCreador().getTipoUsuario().equals("ADMIN"))
+                .toList();
     }
 
-    // Crear un nuevo evento
+    // Crear un nuevo evento (validando que solo un EDUCADOR o ADMIN pueda hacerlo)
     public Evento saveEvento(Evento evento) {
+        if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
+            throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede crear eventos.");
+        }
         if (evento.getFechaHora() == null) {
             evento.setFechaHora(LocalDateTime.now()); // Si no hay fecha, se asigna la actual
         }
         return eventoRepository.save(evento);
     }
 
-    // Actualizar un evento existente
+    // Actualizar un evento existente (validando que solo el creador pueda modificarlo)
     public Evento updateEvento(Long id, Evento eventoDetalles) {
         Optional<Evento> eventoOptional = eventoRepository.findById(id);
         if (eventoOptional.isPresent()) {
             Evento evento = eventoOptional.get();
+
+            if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
+                throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede actualizar eventos.");
+            }
+
             evento.setTitulo(eventoDetalles.getTitulo());
             evento.setDescripcion(eventoDetalles.getDescripcion());
             evento.setFechaHora(eventoDetalles.getFechaHora());
@@ -61,8 +71,17 @@ public class EventoService {
         throw new RuntimeException("Evento no encontrado con id: " + id);
     }
 
-    // Eliminar un evento por ID
+    // Eliminar un evento por ID (validando que solo el creador pueda eliminarlo)
     public void deleteEvento(Long id) {
-        eventoRepository.deleteById(id);
+        Optional<Evento> eventoOptional = eventoRepository.findById(id);
+        if (eventoOptional.isPresent()) {
+            Evento evento = eventoOptional.get();
+            if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
+                throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede eliminar eventos.");
+            }
+            eventoRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Evento no encontrado con id: " + id);
+        }
     }
 }
