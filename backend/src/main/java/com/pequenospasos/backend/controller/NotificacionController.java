@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/notificaciones")
@@ -33,33 +32,41 @@ public class NotificacionController {
         return notificacionService.getNotificacionesNoLeidas(receptorId);
     }
 
-    // Obtener una notificación por ID
+    // Obtener una notificación por ID con validación
     @GetMapping("/{id}")
-    public Optional<Notificacion> getNotificacionById(@PathVariable Long id) {
-        return notificacionService.getNotificacionById(id);
+    public Notificacion getNotificacionById(@PathVariable Long id) {
+        return notificacionService.getNotificacionById(id)
+                .orElseThrow(() -> new RuntimeException("Notificación no encontrada con id: " + id));
     }
 
-    // Crear una nueva notificación
+    // Crear una nueva notificación asegurando que el receptor es un PADRE o EDUCADOR
     @PostMapping
     public Notificacion createNotificacion(@RequestBody Notificacion notificacion) {
+        if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") ||
+                notificacion.getReceptor().getTipoUsuario().equals("EDUCADOR"))) {
+            throw new RuntimeException("Solo PADRES y EDUCADORES pueden recibir notificaciones.");
+        }
         return notificacionService.saveNotificacion(notificacion);
     }
 
-    // Marcar una notificación como leída
+    // Marcar una notificación como leída con validación
     @PutMapping("/{id}/marcar-leida")
     public Notificacion marcarComoLeida(@PathVariable Long id) {
         return notificacionService.marcarComoLeida(id);
     }
 
-    // Marcar todas las notificaciones de un usuario como leídas
+    // Marcar todas las notificaciones de un usuario como leídas con validación
     @PutMapping("/receptor/{receptorId}/marcar-todas-leidas")
     public void marcarTodasComoLeidas(@PathVariable Long receptorId) {
         notificacionService.marcarTodasComoLeidas(receptorId);
     }
 
-    // Eliminar una notificación
+    // Eliminar una notificación con validación de existencia
     @DeleteMapping("/{id}")
     public void deleteNotificacion(@PathVariable Long id) {
+        notificacionService.getNotificacionById(id)
+                .orElseThrow(() -> new RuntimeException("Notificación no encontrada con id: " + id));
+
         notificacionService.deleteNotificacion(id);
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/higiene")
@@ -42,31 +41,43 @@ public class HigieneController {
 
     // Obtener el último registro de higiene de un niño
     @GetMapping("/nino/{ninoId}/ultima")
-    public Optional<Higiene> getUltimaHigieneByNinoId(@PathVariable Long ninoId) {
-        return Optional.ofNullable(higieneService.getUltimaHigieneByNinoId(ninoId));
+    public Higiene getUltimaHigieneByNinoId(@PathVariable Long ninoId) {
+        return higieneService.getUltimaHigieneByNinoId(ninoId);
     }
 
-    // Obtener un registro de higiene por ID
+    // Obtener un registro de higiene por ID con validación
     @GetMapping("/{id}")
-    public Optional<Higiene> getHigieneById(@PathVariable Long id) {
-        return higieneService.getHigieneById(id);
+    public Higiene getHigieneById(@PathVariable Long id) {
+        return higieneService.getHigieneById(id)
+                .orElseThrow(() -> new RuntimeException("Registro de higiene no encontrado con id: " + id));
     }
 
-    // Registrar un nuevo registro de higiene
+    // Registrar un nuevo registro de higiene asegurando que solo EDUCADORES puedan hacerlo
     @PostMapping
     public Higiene createHigiene(@RequestBody Higiene higiene) {
+        if (!higiene.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar registros de higiene.");
+        }
         return higieneService.saveHigiene(higiene);
     }
 
-    // Actualizar un registro de higiene
+    // Actualizar un registro de higiene validando que solo EDUCADORES puedan modificarlo
     @PutMapping("/{id}")
-    public Higiene updateHigiene(@PathVariable Long id, @RequestBody Higiene higiene) {
-        return higieneService.updateHigiene(id, higiene);
+    public Higiene updateHigiene(@PathVariable Long id, @RequestBody Higiene higieneDetalles) {
+        return higieneService.getHigieneById(id).map(higiene -> {
+            if (!higieneDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+                throw new RuntimeException("Solo un EDUCADOR puede modificar registros de higiene.");
+            }
+            return higieneService.updateHigiene(id, higieneDetalles);
+        }).orElseThrow(() -> new RuntimeException("Registro de higiene no encontrado con id: " + id));
     }
 
-    // Eliminar un registro de higiene
+    // Eliminar un registro de higiene con validación de existencia
     @DeleteMapping("/{id}")
     public void deleteHigiene(@PathVariable Long id) {
+        higieneService.getHigieneById(id)
+                .orElseThrow(() -> new RuntimeException("Registro de higiene no encontrado con id: " + id));
+
         higieneService.deleteHigiene(id);
     }
 }

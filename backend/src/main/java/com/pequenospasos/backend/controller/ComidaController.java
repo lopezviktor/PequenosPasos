@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comidas")
@@ -40,27 +39,39 @@ public class ComidaController {
         return comidaService.getComidasByFecha(inicio, fin);
     }
 
-    // Obtener una comida por ID
+    // Obtener una comida por ID con validación
     @GetMapping("/{id}")
-    public Optional<Comida> getComidaById(@PathVariable Long id) {
-        return comidaService.getComidaById(id);
+    public Comida getComidaById(@PathVariable Long id) {
+        return comidaService.getComidaById(id)
+                .orElseThrow(() -> new RuntimeException("Comida no encontrada con id: " + id));
     }
 
-    // Registrar una nueva comida
+    // Registrar una nueva comida asegurando que solo EDUCADORES puedan hacerlo
     @PostMapping
     public Comida createComida(@RequestBody Comida comida) {
+        if (!comida.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar comidas.");
+        }
         return comidaService.saveComida(comida);
     }
 
-    // Actualizar una comida
+    // Actualizar una comida validando que solo EDUCADORES puedan modificarla
     @PutMapping("/{id}")
-    public Comida updateComida(@PathVariable Long id, @RequestBody Comida comida) {
-        return comidaService.updateComida(id, comida);
+    public Comida updateComida(@PathVariable Long id, @RequestBody Comida comidaDetalles) {
+        return comidaService.getComidaById(id).map(comida -> {
+            if (!comidaDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+                throw new RuntimeException("Solo un EDUCADOR puede modificar comidas.");
+            }
+            return comidaService.updateComida(id, comidaDetalles);
+        }).orElseThrow(() -> new RuntimeException("Comida no encontrada con id: " + id));
     }
 
-    // Eliminar comida
+    // Eliminar comida con validación de existencia
     @DeleteMapping("/{id}")
     public void deleteComida(@PathVariable Long id) {
+        comidaService.getComidaById(id)
+                .orElseThrow(() -> new RuntimeException("Comida no encontrada con id: " + id));
+
         comidaService.deleteComida(id);
     }
 }

@@ -17,7 +17,11 @@ public class ActividadNinosController {
     // Obtener todas las relaciones actividad-niño
     @GetMapping
     public List<ActividadNinos> getAllActividadNinos() {
-        return actividadNinosService.getAllActividadNinos();
+        List<ActividadNinos> actividadNinos = actividadNinosService.getAllActividadNinos();
+        if (actividadNinos.isEmpty()) {
+            throw new RuntimeException("No hay registros de actividades asignadas a niños.");
+        }
+        return actividadNinos;
     }
 
     // Obtener todas las actividades en las que participa un niño
@@ -32,15 +36,20 @@ public class ActividadNinosController {
         return actividadNinosService.getNinosByActividadId(actividadId);
     }
 
-    // Registrar una nueva actividad para un niño
+    // Registrar una nueva actividad para un niño evitando duplicados
     @PostMapping
     public ActividadNinos saveActividadNino(@RequestBody ActividadNinos actividadNinos) {
         return actividadNinosService.saveActividadNino(actividadNinos);
     }
 
-    // Eliminar una relación actividad-niño
+    // Eliminar una relación actividad-niño con validación
     @DeleteMapping("/{id}")
     public void deleteActividadNino(@PathVariable Long id) {
+        actividadNinosService.getAllActividadNinos().stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Relación Actividad-Niño no encontrada con id: " + id));
+
         actividadNinosService.deleteActividadNino(id);
     }
 }

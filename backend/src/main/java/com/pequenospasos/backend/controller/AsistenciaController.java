@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/asistencias")
@@ -40,27 +39,38 @@ public class AsistenciaController {
         return asistenciaService.getAsistenciasByFecha(inicio, fin);
     }
 
-    // Obtener una asistencia por ID
+    // Obtener una asistencia por ID con validación
     @GetMapping("/{id}")
-    public Optional<Asistencia> getAsistenciaById(@PathVariable Long id) {
-        return asistenciaService.getAsistenciaById(id);
+    public Asistencia getAsistenciaById(@PathVariable Long id) {
+        return asistenciaService.getAsistenciaById(id)
+                .orElseThrow(() -> new RuntimeException("Asistencia no encontrada con id: " + id));
     }
 
-    // Registrar una nueva asistencia (entrada de un niño)
+    // Registrar una nueva asistencia (entrada de un niño) con validación
     @PostMapping
     public Asistencia createAsistencia(@RequestBody Asistencia asistencia) {
+        if (!asistencia.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar asistencias.");
+        }
         return asistenciaService.saveAsistencia(asistencia);
     }
 
-    // Actualizar asistencia (registrar salida)
+    // Actualizar asistencia (registrar salida) con validación
     @PutMapping("/{id}")
     public Asistencia updateAsistencia(@PathVariable Long id, @RequestBody Asistencia asistenciaDetalles) {
+        if (asistenciaDetalles.getEducadorEntrega() != null &&
+                !asistenciaDetalles.getEducadorEntrega().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar la salida del niño.");
+        }
         return asistenciaService.updateAsistencia(id, asistenciaDetalles);
     }
 
-    // Eliminar asistencia
+    // Eliminar asistencia con validación de existencia
     @DeleteMapping("/{id}")
     public void deleteAsistencia(@PathVariable Long id) {
+        asistenciaService.getAsistenciaById(id)
+                .orElseThrow(() -> new RuntimeException("Asistencia no encontrada con id: " + id));
+
         asistenciaService.deleteAsistencia(id);
     }
 }

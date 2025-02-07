@@ -20,37 +20,46 @@ public class PadreController {
     @Autowired
     private PadresHijosService padresHijosService;
 
-    // Obtener todos los padres
+    // Obtener todos los padres correctamente
     @GetMapping
     public List<Padre> getAllPadres() {
-        return padreService.getAllPadres();
+        return padreService.findAllPadres();
     }
 
-    // Obtener padre por ID
+    // Obtener padre por ID con validación
     @GetMapping("/{id}")
-    public Optional<Padre> getPadreById(@PathVariable Long id) {
-        return padreService.getPadreById(id);
+    public Padre getPadreById(@PathVariable Long id) {
+        return padreService.findPadreById(id)
+                .orElseThrow(() -> new RuntimeException("Padre no encontrado con id: " + id));
     }
 
-    // Obtener los niños de un padre
+    // Obtener niños asociados a un padre
     @GetMapping("/{padreId}/ninos")
     public List<Nino> getNinosByPadreId(@PathVariable Long padreId) {
         return padresHijosService.getNinosByPadreId(padreId);
     }
 
-    // Crear un nuevo padre
+    // Buscar padre por email
+    @GetMapping("/buscar")
+    public Padre getPadreByEmail(@RequestParam String email) {
+        return padreService.findPadreByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Padre no encontrado con email: " + email));
+    }
+
+    // Crear un nuevo padre con validación
     @PostMapping
     public Padre createPadre(@RequestBody Padre padre) {
+        padre.setTipoUsuario("PADRE"); // 🔹 Asegurar que el usuario creado es un PADRE
         return padreService.savePadre(padre);
     }
 
-    // Actualizar un padre
+    // Actualizar un padre existente sin sobrescribir contraseña si no se envía
     @PutMapping("/{id}")
-    public Padre updatePadre(@PathVariable Long id, @RequestBody Padre padre) {
-        return padreService.updatePadre(id, padre);
+    public Padre updatePadre(@PathVariable Long id, @RequestBody Padre padreDetalles) {
+        return padreService.updatePadre(id, padreDetalles);
     }
 
-    // Eliminar un padre
+    // Eliminar un padre con validación de existencia
     @DeleteMapping("/{id}")
     public void deletePadre(@PathVariable Long id) {
         padreService.deletePadre(id);

@@ -13,12 +13,12 @@ public interface ActividadNinosRepository extends JpaRepository<ActividadNinos, 
     // Buscar actividades en las que participó un niño específico
     List<ActividadNinos> findByNinoId(Long ninoId);
 
-    // Buscar niños que participaron en una actividad específica
-    List<ActividadNinos> findByActividadId(Long actividadId);
+    // Buscar niños que participaron en una actividad específica (Corregido)
+    List<ActividadNinos> findByActividad_ActividadId(Long actividadId);
 
-    // Verificar si un niño ya está registrado en una actividad específica
-    Optional<ActividadNinos> findByActividadIdAndNinoId(Long actividadId, Long ninoId);
+    // Verificar si un niño ya está registrado en una actividad específica (Corregido)
+    Optional<ActividadNinos> findByActividad_ActividadIdAndNinoId(Long actividadId, Long ninoId);
 
-    // Eliminar una relación entre actividad y niño
-    void deleteByActividadIdAndNinoId(Long actividadId, Long ninoId);
+    // Eliminar una relación entre actividad y niño (Corregido)
+    void deleteByActividad_ActividadIdAndNinoId(Long actividadId, Long ninoId);
 }

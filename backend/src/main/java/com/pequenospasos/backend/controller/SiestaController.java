@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/siestas")
@@ -40,33 +39,45 @@ public class SiestaController {
         return siestaService.getSiestasByFecha(inicio, fin);
     }
 
-    // Obtener la última siesta de un niño
+    // Obtener la última siesta de un niño con validación
     @GetMapping("/nino/{ninoId}/ultima")
-    public Optional<Siesta> getUltimaSiestaByNinoId(@PathVariable Long ninoId) {
-        return Optional.ofNullable(siestaService.getUltimaSiestaByNinoId(ninoId));
+    public Siesta getUltimaSiestaByNinoId(@PathVariable Long ninoId) {
+        return siestaService.getUltimaSiestaByNinoId(ninoId);
     }
 
-    // Obtener una siesta por ID
+    // Obtener una siesta por ID con validación
     @GetMapping("/{id}")
-    public Optional<Siesta> getSiestaById(@PathVariable Long id) {
-        return siestaService.getSiestaById(id);
+    public Siesta getSiestaById(@PathVariable Long id) {
+        return siestaService.getSiestaById(id)
+                .orElseThrow(() -> new RuntimeException("Siesta no encontrada con id: " + id));
     }
 
-    // Registrar una nueva siesta
+    // Registrar una nueva siesta asegurando que solo EDUCADORES puedan hacerlo
     @PostMapping
     public Siesta createSiesta(@RequestBody Siesta siesta) {
+        if (!siesta.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar siestas.");
+        }
         return siestaService.saveSiesta(siesta);
     }
 
-    // Actualizar una siesta
+    // Actualizar una siesta validando que solo EDUCADORES puedan modificarla
     @PutMapping("/{id}")
-    public Siesta updateSiesta(@PathVariable Long id, @RequestBody Siesta siesta) {
-        return siestaService.updateSiesta(id, siesta);
+    public Siesta updateSiesta(@PathVariable Long id, @RequestBody Siesta siestaDetalles) {
+        return siestaService.getSiestaById(id).map(siesta -> {
+            if (!siestaDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+                throw new RuntimeException("Solo un EDUCADOR puede modificar siestas.");
+            }
+            return siestaService.updateSiesta(id, siestaDetalles);
+        }).orElseThrow(() -> new RuntimeException("Siesta no encontrada con id: " + id));
     }
 
-    // Eliminar una siesta
+    // Eliminar una siesta con validación de existencia
     @DeleteMapping("/{id}")
     public void deleteSiesta(@PathVariable Long id) {
+        siestaService.getSiestaById(id)
+                .orElseThrow(() -> new RuntimeException("Siesta no encontrada con id: " + id));
+
         siestaService.deleteSiesta(id);
     }
 }

@@ -37,7 +37,7 @@ public class ActividadNinosService {
 
     // Obtener todos los niños que participan en una actividad específica
     public List<ActividadNinos> getNinosByActividadId(Long actividadId) {
-        return actividadNinosRepository.findByActividadId(actividadId);
+        return actividadNinosRepository.findByActividad_ActividadId(actividadId);
     }
 
     // Guardar una nueva relación entre actividad y niño evitando duplicados
@@ -46,7 +46,7 @@ public class ActividadNinosService {
             throw new RuntimeException("La actividad o el niño no pueden ser nulos.");
         }
 
-        Optional<ActividadNinos> existente = actividadNinosRepository.findByActividadIdAndNinoId(
+        Optional<ActividadNinos> existente = actividadNinosRepository.findByActividad_ActividadIdAndNinoId(
                 actividadNinos.getActividad().getActividadId(),
                 actividadNinos.getNino().getId()
         );
@@ -65,6 +65,6 @@ public class ActividadNinosService {
 
     // Eliminar una relación actividad-niño por IDs de actividad y niño
     public void deleteActividadNinoByActividadAndNino(Long actividadId, Long ninoId) {
-        actividadNinosRepository.deleteByActividadIdAndNinoId(actividadId, ninoId);
+        actividadNinosRepository.deleteByActividad_ActividadIdAndNinoId(actividadId, ninoId);
     }
 }
