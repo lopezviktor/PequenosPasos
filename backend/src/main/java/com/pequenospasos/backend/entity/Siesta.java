@@ -17,31 +17,23 @@ public class Siesta {
 
     @ManyToOne
     @JoinColumn(name = "educador_id", nullable = false)
-    private Educador educador;
+    private Usuario educador;
 
     @Column(nullable = false)
-    private LocalDateTime horaInicio;
+    private LocalDateTime inicioSiesta;
 
-    @Column(nullable = false)
-    private LocalDateTime horaFin;
+    @Column
+    private LocalDateTime finSiesta;
 
-
-    @Column(columnDefinition = "TEXT")
-    private String observaciones;
-
-    // Constructor vacío
     public Siesta() {}
 
-    // Constructor con parámetros
-    public Siesta(Nino nino, Educador educador, LocalDateTime horaInicio, LocalDateTime horaFin, String observaciones) {
+    public Siesta(Nino nino, Usuario educador, LocalDateTime inicioSiesta, LocalDateTime finSiesta) {
         this.nino = nino;
         this.educador = educador;
-        this.horaInicio = horaInicio;
-        this.horaFin = horaFin;
-        this.observaciones = observaciones;
+        this.inicioSiesta = inicioSiesta;
+        this.finSiesta = finSiesta;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -58,45 +50,27 @@ public class Siesta {
         this.nino = nino;
     }
 
-    public Educador getEducador() {
+    public Usuario getEducador() {
         return educador;
     }
 
-    public void setEducador(Educador educador) {
+    public void setEducador(Usuario educador) {
         this.educador = educador;
     }
 
-    public LocalDateTime getHoraInicio() {
-        return horaInicio;
+    public LocalDateTime getInicioSiesta() {
+        return inicioSiesta;
     }
 
-    public void setHoraInicio(LocalDateTime horaInicio) {
-        this.horaInicio = horaInicio;
+    public void setInicioSiesta(LocalDateTime inicioSiesta) {
+        this.inicioSiesta = inicioSiesta;
     }
 
-    public LocalDateTime getHoraFin() {
-        return horaFin;
+    public LocalDateTime getFinSiesta() {
+        return finSiesta;
     }
 
-    public void setHoraFin(LocalDateTime horaFin) {
-        if (horaFin.isBefore(this.horaInicio)) {
-            throw new IllegalArgumentException("La hora de finalización no puede ser antes de la hora de inicio.");
-        }
-        this.horaFin = horaFin;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public long getDuracion() {
-        if (horaInicio != null && horaFin != null) {
-            return java.time.Duration.between(horaInicio, horaFin).toMinutes();
-        }
-        return 0; // Si falta algún dato, devuelve 0
+    public void setFinSiesta(LocalDateTime finSiesta) {
+        this.finSiesta = finSiesta;
     }
 }

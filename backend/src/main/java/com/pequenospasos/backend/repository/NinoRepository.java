@@ -2,6 +2,8 @@ package com.pequenospasos.backend.repository;
 
 import com.pequenospasos.backend.entity.Nino;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,11 @@ public interface NinoRepository extends JpaRepository<Nino, Long> {
 
     // Buscar un niño por su ID
     Optional<Nino> findById(Long id);
+
+    // Buscar niños por ID de Padre
+    List<Nino> findByPadreId(Long padreId);
+
+    // Buscar niños asegurando que el padre sea realmente un PADRE
+    @Query("SELECT n FROM Nino n WHERE n.padre.id = :padreId AND n.padre.tipoUsuario = 'PADRE'")
+    List<Nino> findByPadreIdFiltered(@Param("padreId") Long padreId);
 }

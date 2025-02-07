@@ -2,6 +2,8 @@ package com.pequenospasos.backend.repository;
 
 import com.pequenospasos.backend.entity.Siesta;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -13,12 +15,13 @@ public interface SiestaRepository extends JpaRepository<Siesta, Long> {
     // Buscar siestas de un niño específico
     List<Siesta> findByNinoId(Long ninoId);
 
-    // Buscar siestas registradas por un educador específico
-    List<Siesta> findByEducadorId(Long educadorId);
+    // Buscar siestas registradas por un educador específico (solo EDUCADORES)
+    @Query("SELECT s FROM Siesta s WHERE s.educador.id = :educadorId AND s.educador.tipoUsuario = 'EDUCADOR'")
+    List<Siesta> findByEducadorId(@Param("educadorId") Long educadorId);
 
     // Buscar siestas en un rango de fechas
-    List<Siesta> findByHoraInicioBetween(LocalDateTime inicio, LocalDateTime fin);
+    List<Siesta> findByInicioSiestaBetween(LocalDateTime inicio, LocalDateTime fin);
 
-    // Ultima siesta del niño
-    Siesta findTopByNinoIdOrderByHoraInicioDesc(Long ninoId);
+    // Última siesta de un niño
+    Siesta findTopByNinoIdOrderByInicioSiestaDesc(Long ninoId);
 }

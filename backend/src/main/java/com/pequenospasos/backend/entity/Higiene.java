@@ -17,7 +17,7 @@ public class Higiene {
 
     @ManyToOne
     @JoinColumn(name = "educador_id", nullable = false)
-    private Educador educador;
+    private Usuario educador;
 
     @Column(nullable = false)
     private LocalDateTime fechaHora;
@@ -33,11 +33,9 @@ public class Higiene {
         NORMAL, ESTREÑIDO, SUELTO
     }
 
-    // Constructor vacío
     public Higiene() {}
 
-    // Constructor con parámetros
-    public Higiene(Nino nino, Educador educador, LocalDateTime fechaHora, EstadoHigiene estado, String observaciones) {
+    public Higiene(Nino nino, Usuario educador, LocalDateTime fechaHora, EstadoHigiene estado, String observaciones) {
         this.nino = nino;
         this.educador = educador;
         this.fechaHora = (fechaHora != null) ? fechaHora : LocalDateTime.now();
@@ -45,7 +43,6 @@ public class Higiene {
         this.observaciones = observaciones;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -62,11 +59,11 @@ public class Higiene {
         this.nino = nino;
     }
 
-    public Educador getEducador() {
+    public Usuario getEducador() {
         return educador;
     }
 
-    public void setEducador(Educador educador) {
+    public void setEducador(Usuario educador) {
         this.educador = educador;
     }
 

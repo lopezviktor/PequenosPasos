@@ -17,22 +17,20 @@ public class Comida {
 
     @ManyToOne
     @JoinColumn(name = "educador_id", nullable = false)
-    private Educador educador;
+    private Usuario educador;
 
     @Column(nullable = false)
     private LocalDateTime horaComida;
 
     @Column(nullable = false)
-    private String descripcionComida; // Ejemplo: "Puré y pescado"
+    private String descripcionComida;
 
     @Column(columnDefinition = "TEXT")
-    private String observaciones; // Notas adicionales del educador
+    private String observaciones;
 
-    // Constructor vacío
     public Comida() {}
 
-    // Constructor con parámetros
-    public Comida(Nino nino, Educador educador, LocalDateTime horaComida, String descripcionComida, String observaciones) {
+    public Comida(Nino nino, Usuario educador, LocalDateTime horaComida, String descripcionComida, String observaciones) {
         this.nino = nino;
         this.educador = educador;
         this.horaComida = horaComida;
@@ -40,7 +38,6 @@ public class Comida {
         this.observaciones = observaciones;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -57,11 +54,11 @@ public class Comida {
         this.nino = nino;
     }
 
-    public Educador getEducador() {
+    public Usuario getEducador() {
         return educador;
     }
 
-    public void setEducador(Educador educador) {
+    public void setEducador(Usuario educador) {
         this.educador = educador;
     }
 
