@@ -27,9 +27,9 @@ public class NinoService {
     }
 
     // Buscar niño por ID
-    @Transactional(readOnly = true)
-    public Optional<Nino> getNinoById(Long id) {
-        return ninoRepository.findById(id);
+    public Nino getNinoById(Long id) {
+        return ninoRepository.findByIdWithPadre(id)
+                .orElseThrow(() -> new RuntimeException("Niño no encontrado"));
     }
 
     // Buscar niño por nombre (ignorando mayúsculas y minúsculas)
@@ -61,19 +61,21 @@ public class NinoService {
     }
 
     // Actualizar datos de un niño
-    public Nino updateNino(Long id, Nino ninoDetalles) {
-        Optional<Nino> ninoOptional = ninoRepository.findById(id);
-        if (ninoOptional.isPresent()) {
-            Nino nino = ninoOptional.get();
-            nino.setNombre(ninoDetalles.getNombre());
-            nino.setApellidos(ninoDetalles.getApellidos());
-            nino.setFechaNacimiento(ninoDetalles.getFechaNacimiento());
-            nino.setAlergias(ninoDetalles.getAlergias());
-            nino.setCondicionesMedicas(ninoDetalles.getCondicionesMedicas());
-            return ninoRepository.save(nino);
-        } else {
-            throw new RuntimeException("Niño no encontrado con id: " + id);
-        }
+    @Transactional
+    public Nino updateNino(Long id, Nino updatedNino) {
+        Nino existingNino = ninoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Niño no encontrado"));
+
+        existingNino.setNombre(updatedNino.getNombre());
+        existingNino.setApellidos(updatedNino.getApellidos());
+        existingNino.setFechaNacimiento(updatedNino.getFechaNacimiento());
+        existingNino.setPrimerDia(updatedNino.getPrimerDia());
+        existingNino.setAlergias(updatedNino.getAlergias());
+        existingNino.setCondicionesMedicas(updatedNino.getCondicionesMedicas());
+        existingNino.setFotoUrl(updatedNino.getFotoUrl());
+        existingNino.setPadre(updatedNino.getPadre()); // Asegura que el padre es persistido correctamente
+
+        return existingNino;
     }
 
     // Eliminar niño por ID

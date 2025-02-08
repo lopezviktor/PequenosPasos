@@ -1,8 +1,11 @@
 package com.pequenospasos.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -41,6 +44,10 @@ public abstract class Usuario {
 
     @Column(name = "tipo_usuario", nullable = false)
     private String tipoUsuario; // Puede ser "PADRE" o "EDUCADOR" o "ADMIN"
+
+    @OneToMany(mappedBy = "padre", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private List<Nino> ninos;
 
     // Constructor vacío
     public Usuario() {}

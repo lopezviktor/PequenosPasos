@@ -1,6 +1,8 @@
 package com.pequenospasos.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -33,7 +35,7 @@ public class Nino {
 
     @ManyToOne(fetch = FetchType.LAZY) // Esto mejora el rendimiento, porque padre solo se carga si lo necesitas
     @JoinColumn(name = "padre_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonBackReference
     private Usuario padre;
 
     // Constructor vacío

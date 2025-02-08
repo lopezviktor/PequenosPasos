@@ -1,8 +1,11 @@
 package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.entity.Nino;
+import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.repository.UsuarioRepository;
 import com.pequenospasos.backend.service.NinoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,8 +14,12 @@ import java.util.List;
 @RequestMapping("/api/ninos")
 public class NinoController {
 
+
     @Autowired
     private NinoService ninoService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     // Obtener todos los niños
     @GetMapping
@@ -23,14 +30,19 @@ public class NinoController {
     // Obtener niño por ID con validación
     @GetMapping("/{id}")
     public Nino getNinoById(@PathVariable Long id) {
-        return ninoService.getNinoById(id)
-                .orElseThrow(() -> new RuntimeException("Niño no encontrado con id: " + id));
+        return ninoService.getNinoById(id);
     }
 
     // Buscar niño por nombre
     @GetMapping("/buscar")
     public List<Nino> getNinoByNombre(@RequestParam String nombre) {
         return ninoService.getNinoByNombre(nombre);
+    }
+
+    @GetMapping("/padre/{padreId}")
+    public ResponseEntity<List<Nino>> getNinosByPadre(@PathVariable Long padreId) {
+        List<Nino> ninos = ninoService.getNinosByPadreId(padreId);
+        return ResponseEntity.ok(ninos);
     }
 
     // Crear un nuevo niño
@@ -41,8 +53,26 @@ public class NinoController {
 
     // Actualizar un niño existente
     @PutMapping("/{id}")
-    public Nino updateNino(@PathVariable Long id, @RequestBody Nino nino) {
-        return ninoService.updateNino(id, nino);
+    public ResponseEntity<Nino> updateNino(@PathVariable Long id, @RequestBody Nino updatedNino) {
+        Nino existingNino = ninoService.getNinoById(id); // Buscar el niño existente
+
+        // 🔹 Si el padre viene solo con el ID, hay que cargarlo desde la BD
+        if (updatedNino.getPadre() != null && updatedNino.getPadre().getId() != null) {
+            Usuario padre = usuarioRepository.findById(updatedNino.getPadre().getId())
+                    .orElseThrow(() -> new RuntimeException("Padre no encontrado"));
+            existingNino.setPadre(padre);
+        }
+
+        // 🔹 Actualizar los demás campos
+        existingNino.setNombre(updatedNino.getNombre());
+        existingNino.setApellidos(updatedNino.getApellidos());
+        existingNino.setFechaNacimiento(updatedNino.getFechaNacimiento());
+        existingNino.setPrimerDia(updatedNino.getPrimerDia());
+        existingNino.setAlergias(updatedNino.getAlergias());
+        existingNino.setCondicionesMedicas(updatedNino.getCondicionesMedicas());
+        existingNino.setFotoUrl(updatedNino.getFotoUrl());
+
+        return ResponseEntity.ok(ninoService.updateNino(id, updatedNino));
     }
 
     // Eliminar un niño con validación de existencia

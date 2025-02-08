@@ -30,4 +30,7 @@ public interface NinoRepository extends JpaRepository<Nino, Long> {
     // Buscar niños asegurando que el padre sea realmente un PADRE
     @Query("SELECT n FROM Nino n WHERE n.padre.id = :padreId AND n.padre.tipoUsuario = 'PADRE'")
     List<Nino> findByPadreIdFiltered(@Param("padreId") Long padreId);
+
+    @Query("SELECT n FROM Nino n JOIN FETCH n.padre WHERE n.id = :id")
+    Optional<Nino> findByIdWithPadre(@Param("id") Long id);
 }
