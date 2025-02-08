@@ -8,7 +8,7 @@ public class Educador extends Usuario {
 
     public Educador() {
         super();
-        setTipoUsuario("EDUCADOR");
+        this.setTipoUsuario("EDUCADOR");
     }
 
     public Educador(String nombre, String apellidos, String email, String password, String telefono) {

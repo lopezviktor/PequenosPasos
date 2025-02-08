@@ -6,9 +6,10 @@ import jakarta.persistence.Entity;
 @Entity
 public class Padre extends Usuario {
 
+
     public Padre() {
         super();
-        setTipoUsuario("PADRE");
+        this.setTipoUsuario("PADRE");
     }
 
     public Padre(String nombre, String apellidos, String email, String password, String telefono) {

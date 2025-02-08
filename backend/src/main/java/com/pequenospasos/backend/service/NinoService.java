@@ -1,9 +1,12 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Nino;
+import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.repository.NinoRepository;
+import com.pequenospasos.backend.repository.PadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,12 +17,17 @@ public class NinoService {
     @Autowired
     private NinoRepository ninoRepository;
 
+    @Autowired
+    private PadreRepository padreRepository;
+
     // Obtener todos los niños
+    @Transactional(readOnly = true)
     public List<Nino> getAllNinos() {
-        return ninoRepository.findAll();
+        return ninoRepository.findAllWithPadre();
     }
 
     // Buscar niño por ID
+    @Transactional(readOnly = true)
     public Optional<Nino> getNinoById(Long id) {
         return ninoRepository.findById(id);
     }
@@ -41,6 +49,14 @@ public class NinoService {
 
     // Guardar un nuevo niño
     public Nino saveNino(Nino nino) {
+        if (nino.getPadre() == null || nino.getPadre().getId() == null) {
+            throw new IllegalArgumentException("El padre debe tener un ID válido");
+        }
+
+        Padre padre = (Padre) padreRepository.findById(nino.getPadre().getId())
+                .orElseThrow(() -> new RuntimeException("Padre no encontrado con ID: " + nino.getPadre().getId()));
+
+        nino.setPadre(padre);
         return ninoRepository.save(nino);
     }
 

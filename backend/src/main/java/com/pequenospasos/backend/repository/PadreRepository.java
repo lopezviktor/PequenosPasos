@@ -13,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface PadreRepository extends UsuarioRepository {
 
-    // Buscar padres por apellido, asegurando que sean PADRES
-    List<Padre> findByApellidosContainingIgnoreCaseAndTipoUsuario(String apellidos, String tipoUsuario);
+    // Buscar padres por apellido (JPA ya filtra automáticamente por la clase Padre)
+    List<Padre> findByApellidosContainingIgnoreCase(String apellidos);
 }

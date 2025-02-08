@@ -1,10 +1,22 @@
 package com.pequenospasos.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,  // Indica que el tipo se define con un campo
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipoUsuario"  // Este es el campo que se usará para determinar el tipo
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Padre.class, name = "PADRE"),
+        @JsonSubTypes.Type(value = Educador.class, name = "EDUCADOR"),
+        @JsonSubTypes.Type(value = Admin.class, name = "ADMIN")
+})
 
 public abstract class Usuario {
 
@@ -27,7 +39,7 @@ public abstract class Usuario {
     @Column(nullable = false, unique = true)
     private String telefono;
 
-    @Column(name = "tipo_usuario", nullable = false, insertable = false, updatable = false)
+    @Column(name = "tipo_usuario", nullable = false)
     private String tipoUsuario; // Puede ser "PADRE" o "EDUCADOR" o "ADMIN"
 
     // Constructor vacío

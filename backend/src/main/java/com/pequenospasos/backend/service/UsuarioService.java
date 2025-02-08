@@ -1,5 +1,8 @@
 package com.pequenospasos.backend.service;
 
+import com.pequenospasos.backend.entity.Admin;
+import com.pequenospasos.backend.entity.Educador;
+import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.Usuario;
 import com.pequenospasos.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,16 @@ public class UsuarioService {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new RuntimeException("El email ya está registrado.");
         }
+
+        // 🔹 Verificar el tipo de usuario antes de guardar
+        if (usuario instanceof Padre) {
+            usuario.setTipoUsuario("PADRE");
+        } else if (usuario instanceof Educador) {
+            usuario.setTipoUsuario("EDUCADOR");
+        } else if (usuario instanceof Admin) {
+            usuario.setTipoUsuario("ADMIN");
+        }
+
         return usuarioRepository.save(usuario);
     }
 
