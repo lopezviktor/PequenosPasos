@@ -64,31 +64,50 @@ public class AsistenciaService {
 
     // Registrar una nueva asistencia (validando que solo un EDUCADOR puede hacerlo)
     public Asistencia saveAsistencia(Asistencia asistencia) {
+        // Obtener asistencias activas solo del día actual
+        LocalDateTime inicioDelDia = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime finDelDia = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+
+        List<Asistencia> asistenciasHoy = asistenciaRepository.findByNino(asistencia.getNino())
+                .stream()
+                .filter(a -> a.getHoraEntrada().isAfter(inicioDelDia) && a.getHoraEntrada().isBefore(finDelDia))
+                .toList();
+
+        // Verificar si ya existe una asistencia sin hora de salida en el día actual
+        boolean tieneAsistenciaActiva = asistenciasHoy.stream().anyMatch(a -> a.getHoraSalida() == null);
+
+        if (tieneAsistenciaActiva) {
+            throw new RuntimeException("Este niño ya tiene una asistencia activa sin salida registrada hoy.");
+        }
+
+        // Validar que solo un EDUCADOR pueda registrar la asistencia
         if (!asistencia.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR")) {
             throw new RuntimeException("Solo un EDUCADOR puede registrar asistencias.");
         }
+
         return asistenciaRepository.save(asistencia);
     }
 
     // Actualizar una asistencia (validando que solo un EDUCADOR puede hacerlo)
     public Asistencia updateAsistencia(Long id, Asistencia asistenciaDetalles) {
-        Optional<Asistencia> asistenciaOptional = asistenciaRepository.findById(id);
-        if (asistenciaOptional.isPresent()) {
-            Asistencia asistencia = asistenciaOptional.get();
+        Asistencia asistencia = asistenciaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asistencia no encontrada con id: " + id));
 
-            if (asistenciaDetalles.getEducadorEntrega() != null &&
-                    !asistenciaDetalles.getEducadorEntrega().getTipoUsuario().equals("EDUCADOR")) {
-                throw new RuntimeException("Solo un EDUCADOR puede actualizar asistencias.");
-            }
-
-            asistencia.setHoraSalida(asistenciaDetalles.getHoraSalida());
-            asistencia.setEducadorEntrega(asistenciaDetalles.getEducadorEntrega());
-            asistencia.setPadreRecoge(asistenciaDetalles.getPadreRecoge());
-
-            return asistenciaRepository.save(asistencia);
-        } else {
-            throw new RuntimeException("Asistencia no encontrada con id: " + id);
+        // No permitir modificar la hora de salida si ya ha sido registrada
+        if (asistencia.getHoraSalida() != null) {
+            throw new RuntimeException("No se puede modificar la hora de salida, ya ha sido registrada.");
         }
+
+        if (asistenciaDetalles.getEducadorEntrega() != null &&
+                !asistenciaDetalles.getEducadorEntrega().getTipoUsuario().equals("EDUCADOR")) {
+            throw new RuntimeException("Solo un EDUCADOR puede registrar la salida del niño.");
+        }
+
+        asistencia.setHoraSalida(asistenciaDetalles.getHoraSalida());
+        asistencia.setEducadorEntrega(asistenciaDetalles.getEducadorEntrega());
+        asistencia.setPadreRecoge(asistenciaDetalles.getPadreRecoge());
+
+        return asistenciaRepository.save(asistencia);
     }
 
     // Eliminar asistencia por ID
