@@ -125,6 +125,9 @@ public class Asistencia {
     }
 
     public void setHoraSalida(LocalDateTime horaSalida) {
+        if (this.horaSalida != null) {
+            throw new IllegalStateException("No se puede modificar la hora de salida, ya ha sido registrada.");
+        }
         this.horaSalida = horaSalida;
     }
 }
