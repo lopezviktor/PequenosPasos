@@ -35,8 +35,10 @@ public class ComidaController {
 
     // Obtener comidas en un rango de fechas
     @GetMapping("/rango-fechas")
-    public List<Comida> getComidasByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
-        return comidaService.getComidasByFecha(inicio, fin);
+    public List<Comida> getComidasByFecha(@RequestParam String inicio, @RequestParam String fin) {
+        LocalDateTime fechaInicio = LocalDateTime.parse(inicio);
+        LocalDateTime fechaFin = LocalDateTime.parse(fin);
+        return comidaService.getComidasByFecha(fechaInicio, fechaFin);
     }
 
     // Obtener una comida por ID con validación
@@ -49,9 +51,14 @@ public class ComidaController {
     // Registrar una nueva comida asegurando que solo EDUCADORES puedan hacerlo
     @PostMapping
     public Comida createComida(@RequestBody Comida comida) {
-        if (!comida.getEducador().getTipoUsuario().equals("EDUCADOR")) {
-            throw new RuntimeException("Solo un EDUCADOR puede registrar comidas.");
+        if (comida.getEducador() == null) {
+            throw new IllegalArgumentException("Debe asignar un educador para registrar la comida.");
         }
+
+        if (!"EDUCADOR".equals(comida.getEducador().getTipoUsuario())) {
+            throw new IllegalArgumentException("Solo un EDUCADOR puede registrar comidas.");
+        }
+
         return comidaService.saveComida(comida);
     }
 

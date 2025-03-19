@@ -44,12 +44,31 @@ public class ComidaService {
 
     // Registrar una nueva comida (validando que solo un EDUCADOR puede hacerlo)
     public Comida saveComida(Comida comida) {
-        if (!comida.getEducador().getTipoUsuario().equals("EDUCADOR")) {
-            throw new RuntimeException("Solo un EDUCADOR puede registrar comidas.");
+        if (comida == null) {
+            throw new IllegalArgumentException("El objeto comida no puede ser nulo.");
+        }
+
+        if (comida.getEducador() == null) {
+            throw new IllegalArgumentException("Debe asignar un educador para registrar la comida.");
+        }
+
+        if (!"EDUCADOR".equals(comida.getEducador().getTipoUsuario())) {
+            throw new IllegalArgumentException("Solo un EDUCADOR puede registrar comidas.");
         }
 
         if (comida.getHoraComida() == null) {
             comida.setHoraComida(LocalDateTime.now());
+        }
+
+        // Verificar si ya existe una comida para el niño en el mismo día y con una diferencia menor a 1 hora
+        LocalDateTime inicioDia = comida.getHoraComida().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime finDia = comida.getHoraComida().withHour(23).withMinute(59).withSecond(59);
+        List<Comida> comidasExistentes = comidaRepository.findByNinoIdAndHoraComidaBetween(comida.getNino().getId(), inicioDia, finDia);
+
+        for (Comida comidaExistente : comidasExistentes) {
+            if (Math.abs(comidaExistente.getHoraComida().getHour() - comida.getHoraComida().getHour()) < 1) {
+                throw new IllegalArgumentException("El niño ya tiene una comida registrada en esta franja horaria.");
+            }
         }
 
         return comidaRepository.save(comida);

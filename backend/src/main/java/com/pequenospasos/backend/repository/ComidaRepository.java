@@ -21,4 +21,7 @@ public interface ComidaRepository extends JpaRepository<Comida, Long> {
 
     // Buscar comidas en un rango de fechas
     List<Comida> findByHoraComidaBetween(LocalDateTime inicio, LocalDateTime fin);
+
+    List<Comida> findByNinoIdAndHoraComidaBetween(Long ninoId, LocalDateTime inicioDia, LocalDateTime finDia);
+
 }
