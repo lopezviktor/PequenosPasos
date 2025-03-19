@@ -12,7 +12,7 @@ public class PadresHijos {
 
     @ManyToOne
     @JoinColumn(name = "padre_id", nullable = false)
-    private Usuario padre;
+    private Padre padre;
 
     @ManyToOne
     @JoinColumn(name = "nino_id", nullable = false)
@@ -22,7 +22,7 @@ public class PadresHijos {
     public PadresHijos() {}
 
     // Constructor con parámetros
-    public PadresHijos(Usuario padre, Nino nino) {
+    public PadresHijos(Padre padre, Nino nino) {
         this.padre = padre;
         this.nino = nino;
     }
@@ -36,11 +36,11 @@ public class PadresHijos {
         this.id = id;
     }
 
-    public Usuario getPadre() {
+    public Padre getPadre() {
         return padre;
     }
 
-    public void setPadre(Usuario padre) {
+    public void setPadre(Padre padre) {
         this.padre = padre;
     }
 

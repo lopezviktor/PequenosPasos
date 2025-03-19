@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.entity.Nino;
+import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.PadresHijos;
 import com.pequenospasos.backend.service.PadresHijosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ public class PadresHijosController {
         if (padreId == null || ninoId == null) {
             throw new RuntimeException("Los IDs de padre y niño no pueden ser nulos.");
         }
-        return padresHijosService.asignarNinoAPadre(padreId, ninoId);
+        Padre padre = padresHijosService.obtenerPadrePorId(padreId);
+        Nino nino = padresHijosService.obtenerNinoPorId(ninoId);
+        return padresHijosService.asignarNinoAPadre(padre, nino);
     }
 
     // Eliminar la relación entre un padre y un niño con validación
@@ -41,6 +44,8 @@ public class PadresHijosController {
             throw new RuntimeException("Los IDs de padre y niño no pueden ser nulos.");
         }
 
-        padresHijosService.deleteRelacionByPadreAndNino(padreId, ninoId);
+        Padre padre = padresHijosService.obtenerPadrePorId(padreId);
+        Nino nino = padresHijosService.obtenerNinoPorId(ninoId);
+        padresHijosService.eliminarRelacionPadreNino(padre.getId(), nino.getId());
     }
 }

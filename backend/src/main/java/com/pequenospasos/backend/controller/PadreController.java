@@ -46,6 +46,12 @@ public class PadreController {
                 .orElseThrow(() -> new RuntimeException("Padre no encontrado con email: " + email));
     }
 
+    // Buscar padres por apellido
+    @GetMapping("/buscarPorApellidos")
+    public List<Padre> getPadresPorApellidos(@RequestParam String apellidos) {
+        return padreService.findPadresPorApellidos(apellidos);
+    }
+
     // Crear un nuevo padre con validación
     @PostMapping
     public Padre createPadre(@RequestBody Padre padre) {

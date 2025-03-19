@@ -56,13 +56,6 @@ public class NinoController {
     public ResponseEntity<Nino> updateNino(@PathVariable Long id, @RequestBody Nino updatedNino) {
         Nino existingNino = ninoService.getNinoById(id); // Buscar el niño existente
 
-        // 🔹 Si el padre viene solo con el ID, hay que cargarlo desde la BD
-        if (updatedNino.getPadre() != null && updatedNino.getPadre().getId() != null) {
-            Usuario padre = usuarioRepository.findById(updatedNino.getPadre().getId())
-                    .orElseThrow(() -> new RuntimeException("Padre no encontrado"));
-            existingNino.setPadre(padre);
-        }
-
         // 🔹 Actualizar los demás campos
         existingNino.setNombre(updatedNino.getNombre());
         existingNino.setApellidos(updatedNino.getApellidos());
@@ -72,7 +65,7 @@ public class NinoController {
         existingNino.setCondicionesMedicas(updatedNino.getCondicionesMedicas());
         existingNino.setFotoUrl(updatedNino.getFotoUrl());
 
-        return ResponseEntity.ok(ninoService.updateNino(id, updatedNino));
+        return ResponseEntity.ok(ninoService.updateNino(id, existingNino));
     }
 
     // Eliminar un niño con validación de existencia

@@ -34,6 +34,12 @@ public class UsuarioController {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con email: " + email));
     }
 
+    // Obtener usuario por tipoUsuario
+    @GetMapping("/tipo")
+    public List<Usuario> getUsuariosPorTipo(@RequestParam String tipoUsuario) {
+        return usuarioService.getUsuariosPorTipo(tipoUsuario);
+    }
+
     // Crear un nuevo usuario
     @PostMapping
     public Usuario createUsuario(@RequestBody Usuario usuario) {

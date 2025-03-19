@@ -33,10 +33,18 @@ public class Nino {
 
     private String fotoUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Esto mejora el rendimiento, porque padre solo se carga si lo necesitas
-    @JoinColumn(name = "padre_id", nullable = false)
-    @JsonBackReference
-    private Usuario padre;
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "clase_id")
+    @JsonBackReference // Evita bucles en JSON
+    private Clase clase;
 
     // Constructor vacío
     public Nino() {}
@@ -120,13 +128,4 @@ public class Nino {
         this.fotoUrl = fotoUrl;
     }
 
-    public Usuario getPadre() {
-
-        return padre;
-    }
-
-    public void setPadre(Usuario padre) {
-
-        this.padre = padre;
-    }
 }

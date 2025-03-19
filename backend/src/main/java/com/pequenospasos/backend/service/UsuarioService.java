@@ -70,6 +70,11 @@ public class UsuarioService {
         }
     }
 
+    // Obtener usuarios por tipo
+    public List<Usuario> getUsuariosPorTipo(String tipoUsuario) {
+        return usuarioRepository.findByTipoUsuario(tipoUsuario);
+    }
+
     // Eliminar usuario por ID
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);

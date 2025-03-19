@@ -3,6 +3,7 @@ package com.pequenospasos.backend.service;
 import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.Usuario;
 import com.pequenospasos.backend.repository.UsuarioRepository;
+import com.pequenospasos.backend.repository.PadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,9 @@ import java.util.Optional;
 
 @Service
 public class PadreService {
+
+    @Autowired
+    private PadreRepository padreRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -33,6 +37,11 @@ public class PadreService {
     public Optional<Padre> findPadreByEmail(String email) {
         return usuarioRepository.findByEmailAndTipoUsuario(email, "PADRE")
                 .map(u -> (Padre) u);
+    }
+
+    // Buscar padre por apellido
+    public List<Padre> findPadresPorApellidos(String apellidos) {
+        return padreRepository.findByApellidosContainingIgnoreCase(apellidos);
     }
 
     // Guardar un nuevo padre (con validación de email único)

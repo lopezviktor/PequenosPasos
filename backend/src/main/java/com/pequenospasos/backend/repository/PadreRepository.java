@@ -14,5 +14,6 @@ import java.util.Optional;
 public interface PadreRepository extends UsuarioRepository {
 
     // Buscar padres por apellido (JPA ya filtra automáticamente por la clase Padre)
-    List<Padre> findByApellidosContainingIgnoreCase(String apellidos);
+    @Query("SELECT p FROM Padre p WHERE LOWER(p.apellidos) LIKE LOWER(CONCAT('%', :apellidos, '%'))")
+    List<Padre> findByApellidosContainingIgnoreCase(@Param("apellidos") String apellidos);
 }

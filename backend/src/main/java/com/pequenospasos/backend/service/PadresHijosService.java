@@ -1,8 +1,8 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Nino;
-import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.PadresHijos;
+import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.repository.NinoRepository;
 import com.pequenospasos.backend.repository.PadresHijosRepository;
 import com.pequenospasos.backend.repository.UsuarioRepository;
@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PadresHijosService {
@@ -20,59 +18,39 @@ public class PadresHijosService {
     private PadresHijosRepository padresHijosRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;  // Ahora usamos UsuarioRepository
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private NinoRepository ninoRepository;
 
-    // Obtener los niños de un padre (solo PADRES)
+    // Obtener los niños asociados a un padre
     public List<Nino> getNinosByPadreId(Long padreId) {
-        return padresHijosRepository.findByPadreId(padreId).stream()
-                .filter(ph -> ph.getPadre().getTipoUsuario().equals("PADRE"))
-                .map(PadresHijos::getNino)
-                .collect(Collectors.toList());
+        return padresHijosRepository.findNinosByPadreId(padreId);
     }
 
-    // Obtener un Padre por su ID
-    public Padre findPadreById(Long padreId) {
-        return usuarioRepository.findById(padreId)
-                .filter(u -> u instanceof Padre)
-                .map(u -> (Padre) u)
-                .orElse(null);
-    }
-
-    // Obtener un Niño por su ID
-    public Nino findNinoById(Long ninoId) {
-        return ninoRepository.findById(ninoId).orElse(null);
-    }
-
-    // Asignar un niño a un padre (validando que sea PADRE)
-    public PadresHijos asignarNinoAPadre(Long padreId, Long ninoId) {
-        Padre padre = findPadreById(padreId);
-        Nino nino = findNinoById(ninoId);
-
-        if (padre == null || nino == null) {
-            throw new RuntimeException("Padre o Niño no encontrado.");
-        }
-
-        if (!padre.getTipoUsuario().equals("PADRE")) {
-            throw new RuntimeException("El usuario no es un padre válido.");
-        }
-
+    // Asociar un niño a un padre
+    public PadresHijos asignarNinoAPadre(Padre padre, Nino nino) {
         PadresHijos relacion = new PadresHijos(padre, nino);
         return padresHijosRepository.save(relacion);
     }
 
-    // Eliminar una relación padre-hijo (solo PADRES pueden hacerlo)
-    public void deleteRelacionByPadreAndNino(Long padreId, Long ninoId) {
-        PadresHijos relacion = padresHijosRepository.findByPadreIdAndNinoId(padreId, ninoId)
-                .filter(ph -> ph.getPadre().getTipoUsuario().equals("PADRE"))
-                .orElse(null);
-
-        if (relacion != null) {
-            padresHijosRepository.delete(relacion);
-        } else {
-            throw new RuntimeException("Relación no encontrada o usuario no autorizado.");
+    // Eliminar la relación entre un padre y un niño
+    public void eliminarRelacionPadreNino(Long padreId, Long ninoId) {
+        if (!padresHijosRepository.findByPadreIdAndNinoId(padreId, ninoId).isPresent()) {
+            throw new RuntimeException("No existe una relación entre el padre con ID " + padreId + " y el niño con ID " + ninoId);
         }
+        padresHijosRepository.deleteByPadreIdAndNinoId(padreId, ninoId);
+    }
+
+    // Obtener Padre por ID
+    public Padre obtenerPadrePorId(Long padreId) {
+        return (Padre) usuarioRepository.findById(padreId)
+                .orElseThrow(() -> new RuntimeException("Padre no encontrado con ID: " + padreId));
+    }
+
+    // Obtener Niño por ID
+    public Nino obtenerNinoPorId(Long ninoId) {
+        return ninoRepository.findById(ninoId)
+                .orElseThrow(() -> new RuntimeException("Niño no encontrado con ID: " + ninoId));
     }
 }

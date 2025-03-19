@@ -38,7 +38,6 @@ public class EducadorController {
     // Crear un nuevo educador asegurando que el tipo de usuario es "EDUCADOR"
     @PostMapping
     public Educador createEducador(@RequestBody Educador educador) {
-        educador.setTipoUsuario("EDUCADOR"); // 🔹 Asegurar que el usuario creado es un EDUCADOR
         return educadorService.saveEducador(educador);
     }
 

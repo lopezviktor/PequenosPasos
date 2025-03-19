@@ -4,6 +4,7 @@ import com.pequenospasos.backend.entity.Nino;
 import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.repository.NinoRepository;
 import com.pequenospasos.backend.repository.PadreRepository;
+import com.pequenospasos.backend.repository.PadresHijosRepository; // Añadir la importación de PadresHijosRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +21,18 @@ public class NinoService {
     @Autowired
     private PadreRepository padreRepository;
 
+    @Autowired
+    private PadresHijosRepository padresHijosRepository; // Añadir la inyección de PadresHijosRepository
+
     // Obtener todos los niños
     @Transactional(readOnly = true)
     public List<Nino> getAllNinos() {
-        return ninoRepository.findAllWithPadre();
+        return ninoRepository.findAll();
     }
 
     // Buscar niño por ID
     public Nino getNinoById(Long id) {
-        return ninoRepository.findByIdWithPadre(id)
+        return ninoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Niño no encontrado"));
     }
 
@@ -44,19 +48,11 @@ public class NinoService {
 
     // Buscar niños por ID de padre (filtrando solo PADRES)
     public List<Nino> getNinosByPadreId(Long padreId) {
-        return ninoRepository.findByPadreIdFiltered(padreId);
+        return padresHijosRepository.findNinosByPadreId(padreId); // Cambiar a padresHijosRepository
     }
 
     // Guardar un nuevo niño
     public Nino saveNino(Nino nino) {
-        if (nino.getPadre() == null || nino.getPadre().getId() == null) {
-            throw new IllegalArgumentException("El padre debe tener un ID válido");
-        }
-
-        Padre padre = (Padre) padreRepository.findById(nino.getPadre().getId())
-                .orElseThrow(() -> new RuntimeException("Padre no encontrado con ID: " + nino.getPadre().getId()));
-
-        nino.setPadre(padre);
         return ninoRepository.save(nino);
     }
 
@@ -73,9 +69,8 @@ public class NinoService {
         existingNino.setAlergias(updatedNino.getAlergias());
         existingNino.setCondicionesMedicas(updatedNino.getCondicionesMedicas());
         existingNino.setFotoUrl(updatedNino.getFotoUrl());
-        existingNino.setPadre(updatedNino.getPadre()); // Asegura que el padre es persistido correctamente
 
-        return existingNino;
+        return ninoRepository.save(existingNino);
     }
 
     // Eliminar niño por ID
