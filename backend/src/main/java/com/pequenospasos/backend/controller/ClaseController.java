@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.dto.AsignarNinoRequest;
+import com.pequenospasos.backend.dto.EliminarNinoRequest;
 import com.pequenospasos.backend.entity.Clase;
 import com.pequenospasos.backend.service.ClaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,21 @@ public class ClaseController {
         return claseService.crearClase(nuevaClase.getNombre(), nuevaClase.getEducador().getId());
     }
 
+    @PutMapping("/{id}")
+    public Clase actualizarClase(@PathVariable Long id, @RequestBody Clase nuevaClase) {
+    Long educadorId = (nuevaClase.getEducador() != null) ? nuevaClase.getEducador().getId() : null;
+    return claseService.actualizarClase(id, nuevaClase.getNombre(), educadorId);
+    }
+
     // Asignar un niño a una clase
     @PostMapping("/asignar-nino")
     public Clase asignarNinoAClase(@RequestBody AsignarNinoRequest request) {
         return claseService.asignarNinoAClase(request.getClaseId(), request.getNinoId());
+    }
+
+    // Eliminar un niño de una clase
+    @DeleteMapping("/eliminar-nino")
+    public Clase eliminarNinoDeClase(@RequestBody EliminarNinoRequest request) {
+        return claseService.eliminarNinoDeClase(request.getClaseId(), request.getNinoId());
     }
 }

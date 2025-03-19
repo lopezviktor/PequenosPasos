@@ -44,6 +44,24 @@ public class ClaseService {
         return claseRepository.save(clase);
     }
 
+    @Transactional
+    public Clase actualizarClase(Long id, String nombre, Long educadorId) {
+        Clase clase = claseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Clase no encontrada"));
+
+        if (nombre != null && !nombre.isEmpty()) {
+            clase.setNombre(nombre);
+        }
+
+        if (educadorId != null) {
+            Educador educador = educadorRepository.findById(educadorId)
+                    .orElseThrow(() -> new RuntimeException("Educador no encontrado"));
+            clase.setEducador(educador);
+        }
+
+        return claseRepository.save(clase);
+    }
+
     // Asignar un niño a una clase
     @Transactional
     public Clase asignarNinoAClase(Long claseId, Long ninoId) {
@@ -61,5 +79,23 @@ public class ClaseService {
 
         // Guardar clase para que se actualice en la BD
         return claseRepository.save(clase);
+    }
+
+    @Transactional
+    public Clase eliminarNinoDeClase(Long claseId, Long ninoId) {
+        Clase clase = claseRepository.findById(claseId)
+                .orElseThrow(() -> new RuntimeException("Clase no encontrada"));
+
+        Nino nino = ninoRepository.findById(ninoId)
+                .orElseThrow(() -> new RuntimeException("Niño no encontrado"));
+
+        if (clase.getNinos().contains(nino)) {
+            clase.getNinos().remove(nino);
+            nino.setClase(null); // Desasignar la clase del niño
+            ninoRepository.save(nino);
+            return claseRepository.save(clase);
+        } else {
+            throw new RuntimeException("El niño no está en esta clase");
+        }
     }
 }
