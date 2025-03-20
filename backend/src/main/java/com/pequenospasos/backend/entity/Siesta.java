@@ -22,7 +22,7 @@ public class Siesta {
     @Column(nullable = false)
     private LocalDateTime inicioSiesta;
 
-    @Column
+    @Column(nullable = true)
     private LocalDateTime finSiesta;
 
     @Column(nullable = true, columnDefinition = "TEXT")

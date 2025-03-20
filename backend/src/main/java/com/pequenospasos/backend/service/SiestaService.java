@@ -38,7 +38,7 @@ public class SiestaService {
     }
 
     // Obtener la última siesta de un niño
-    public Siesta getUltimaSiestaByNinoId(Long ninoId) {
+    public Optional<Siesta> getUltimaSiestaByNinoId(Long ninoId) {
         return siestaRepository.findTopByNinoIdOrderByInicioSiestaDesc(ninoId);
     }
 
@@ -49,12 +49,30 @@ public class SiestaService {
 
     // Guardar una nueva siesta (validando que solo un EDUCADOR puede hacerlo)
     public Siesta saveSiesta(Siesta siesta) {
-        if (!siesta.getEducador().getTipoUsuario().equals("EDUCADOR")) {
-            throw new RuntimeException("Solo un EDUCADOR puede registrar siestas.");
+        // Validar si ya hay una siesta en curso sin hora de fin
+        if (siestaRepository.existsByNinoIdAndFinSiestaIsNull(siesta.getNino().getId())) {
+            throw new RuntimeException("El niño debe registrar la hora de salida de la siesta anterior antes de registrar una nueva.");
         }
 
+        // Obtener la última siesta registrada para el niño
+        Optional<Siesta> ultimaSiestaOptional = siestaRepository.findTopByNinoIdOrderByInicioSiestaDesc(siesta.getNino().getId());
+        if (ultimaSiestaOptional.isPresent()) {
+            Siesta ultimaSiesta = ultimaSiestaOptional.get();
+
+            // Validar que la nueva siesta no inicie antes de que finalice la última siesta registrada
+            if (ultimaSiesta.getFinSiesta() != null && siesta.getInicioSiesta().isBefore(ultimaSiesta.getFinSiesta())) {
+                throw new RuntimeException("No se puede registrar una nueva siesta antes de que finalice la anterior.");
+            }
+        }
+
+        // Si la siesta no tiene fin, se deja en null
         if (siesta.getFinSiesta() == null) {
-            siesta.setFinSiesta(siesta.getInicioSiesta()); // Si no se proporciona, se pone igual a la hora de inicio
+            siesta.setFinSiesta(null);
+        } else {
+            // Validar que la hora de fin no sea antes de la hora de inicio
+            if (siesta.getFinSiesta().isBefore(siesta.getInicioSiesta())) {
+                throw new RuntimeException("La hora de fin de la siesta no puede ser anterior a la hora de inicio.");
+            }
         }
 
         return siestaRepository.save(siesta);
@@ -63,28 +81,42 @@ public class SiestaService {
     // Actualizar una siesta (validando que solo un EDUCADOR puede hacerlo)
     public Siesta updateSiesta(Long id, Siesta siestaDetalles) {
         Optional<Siesta> siestaOptional = siestaRepository.findById(id);
+
         if (siestaOptional.isPresent()) {
             Siesta siesta = siestaOptional.get();
 
-            if (!siestaDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
-                throw new RuntimeException("Solo un EDUCADOR puede actualizar siestas.");
+            if (siesta.getEducador() == null || siestaDetalles.getEducador() == null) {
+                throw new RuntimeException("No se puede modificar la siesta sin un educador asignado.");
             }
 
-            siesta.setInicioSiesta(siestaDetalles.getInicioSiesta());
-
-            if (siestaDetalles.getFinSiesta().isBefore(siestaDetalles.getInicioSiesta())) {
-                throw new IllegalArgumentException("La hora de finalización no puede ser antes de la hora de inicio.");
+            if (!siesta.getEducador().getId().equals(siestaDetalles.getEducador().getId())) {
+                throw new RuntimeException("Solo el educador que creó la siesta puede modificarla.");
             }
-            siesta.setFinSiesta(siestaDetalles.getFinSiesta());
 
-            siesta.setObservaciones(siestaDetalles.getObservaciones());
-            siesta.setEducador(siestaDetalles.getEducador());
+            // Solo actualizar la hora de fin si se proporciona en la solicitud
+            if (siestaDetalles.getFinSiesta() != null) {
+                if (siesta.getInicioSiesta() != null && siestaDetalles.getFinSiesta().isBefore(siesta.getInicioSiesta())) {
+                    throw new RuntimeException("La hora de finalización no puede ser antes de la hora de inicio.");
+                }
+                siesta.setFinSiesta(siestaDetalles.getFinSiesta());
+            }
+
+            // No modificar la hora de inicio si no se envía en la solicitud
+            if (siestaDetalles.getInicioSiesta() != null) {
+                siesta.setInicioSiesta(siestaDetalles.getInicioSiesta());
+            }
+
+            // Actualizar observaciones solo si se proporciona un nuevo valor
+            if (siestaDetalles.getObservaciones() != null) {
+                siesta.setObservaciones(siestaDetalles.getObservaciones());
+            }
 
             return siestaRepository.save(siesta);
         } else {
             throw new RuntimeException("Siesta no encontrada con id: " + id);
         }
     }
+
 
     // Eliminar una siesta por ID
     public void deleteSiesta(Long id) {
