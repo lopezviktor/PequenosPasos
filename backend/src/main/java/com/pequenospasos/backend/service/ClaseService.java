@@ -3,9 +3,13 @@ package com.pequenospasos.backend.service;
 import com.pequenospasos.backend.entity.Clase;
 import com.pequenospasos.backend.entity.Educador;
 import com.pequenospasos.backend.entity.Nino;
+import com.pequenospasos.backend.entity.PadresHijos;
+import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.repository.ClaseRepository;
 import com.pequenospasos.backend.repository.EducadorRepository;
 import com.pequenospasos.backend.repository.NinoRepository;
+import com.pequenospasos.backend.repository.PadresHijosRepository;
+import com.pequenospasos.backend.service.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,12 @@ public class ClaseService {
 
     @Autowired
     private NinoRepository ninoRepository;
+
+    @Autowired
+    private PadresHijosRepository padresHijosRepository;
+
+    @Autowired
+    private NotificacionService notificacionService;
 
     // Obtener todas las clases
     public List<Clase> getAllClases() {
@@ -76,6 +86,16 @@ public class ClaseService {
 
         // Guardar niño para que se actualice en la BD
         ninoRepository.save(nino);
+
+        // Notificar a los padres
+        List<PadresHijos> relaciones = padresHijosRepository.findByNinoId(nino.getId());
+        for (PadresHijos relacion : relaciones) {
+            Padre padre = relacion.getPadre();
+            String mensajeNotificacion = "Tu hijo/a " + nino.getNombre() + " ha sido asignado a la clase "
+                                        + clase.getNombre() + " con el educador " + clase.getEducador().getNombre() + ".";
+
+            notificacionService.crearNotificacion(clase.getEducador(), padre, mensajeNotificacion);
+        }
 
         // Guardar clase para que se actualice en la BD
         return claseRepository.save(clase);

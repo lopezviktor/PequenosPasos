@@ -1,7 +1,10 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Comida;
+import com.pequenospasos.backend.entity.Padre;
+import com.pequenospasos.backend.entity.PadresHijos;
 import com.pequenospasos.backend.repository.ComidaRepository;
+import com.pequenospasos.backend.repository.PadresHijosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,12 @@ public class ComidaService {
 
     @Autowired
     private ComidaRepository comidaRepository;
+
+    @Autowired
+    private NotificacionService notificacionService;
+
+    @Autowired
+    private PadresHijosRepository padresHijosRepository;
 
     // Obtener todas las comidas registradas
     public List<Comida> getAllComidas() {
@@ -41,6 +50,7 @@ public class ComidaService {
     public Optional<Comida> getComidaById(Long id) {
         return comidaRepository.findById(id);
     }
+
 
     // Registrar una nueva comida (validando que solo un EDUCADOR puede hacerlo)
     public Comida saveComida(Comida comida) {
@@ -71,7 +81,25 @@ public class ComidaService {
             }
         }
 
-        return comidaRepository.save(comida);
+        Comida nuevaComida = comidaRepository.save(comida);
+
+        List<PadresHijos> relaciones = padresHijosRepository.findByNino(comida.getNino());
+
+        for (PadresHijos relacion : relaciones) {
+            Padre padre = relacion.getPadre();
+            String mensajeNotificacion = "Tu hijo/a ha comido: " + comida.getDescripcionComida();
+            if (comida.getObservaciones() != null && !comida.getObservaciones().isEmpty()) {
+                mensajeNotificacion += " Observaciones: " + comida.getObservaciones();
+            }
+
+            notificacionService.crearNotificacion(
+                    comida.getEducador(),
+                    padre,
+                    mensajeNotificacion
+            );
+        }
+
+        return nuevaComida;
     }
 
     // Actualizar una comida (validando que solo un EDUCADOR puede hacerlo)

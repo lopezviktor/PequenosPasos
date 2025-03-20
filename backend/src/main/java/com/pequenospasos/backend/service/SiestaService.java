@@ -1,7 +1,12 @@
 package com.pequenospasos.backend.service;
 
+import com.pequenospasos.backend.entity.Notificacion;
+import com.pequenospasos.backend.entity.PadresHijos;
 import com.pequenospasos.backend.entity.Siesta;
+import com.pequenospasos.backend.entity.Usuario;
 import com.pequenospasos.backend.repository.SiestaRepository;
+import com.pequenospasos.backend.repository.PadresHijosRepository;
+import com.pequenospasos.backend.service.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,10 @@ public class SiestaService {
 
     @Autowired
     private SiestaRepository siestaRepository;
+    @Autowired
+    private PadresHijosRepository padresHijosRepository;
+    @Autowired
+    private NotificacionService notificacionService;
 
     // Obtener todas las siestas registradas
     public List<Siesta> getAllSiestas() {
@@ -49,33 +58,57 @@ public class SiestaService {
 
     // Guardar una nueva siesta (validando que solo un EDUCADOR puede hacerlo)
     public Siesta saveSiesta(Siesta siesta) {
-        // Validar si ya hay una siesta en curso sin hora de fin
+        if (siesta == null) {
+            throw new IllegalArgumentException("El objeto siesta no puede ser nulo.");
+        }
+
+        if (siesta.getEducador() == null) {
+            throw new IllegalArgumentException("Debe asignar un educador para registrar la siesta.");
+        }
+
+        if (!"EDUCADOR".equals(siesta.getEducador().getTipoUsuario())) {
+            throw new IllegalArgumentException("Solo un EDUCADOR puede registrar siestas.");
+        }
+
+        if (siesta.getInicioSiesta() == null) {
+            siesta.setInicioSiesta(LocalDateTime.now());
+        }
+
+        // Verificar que no haya una siesta en curso sin hora de fin
         if (siestaRepository.existsByNinoIdAndFinSiestaIsNull(siesta.getNino().getId())) {
-            throw new RuntimeException("El niño debe registrar la hora de salida de la siesta anterior antes de registrar una nueva.");
+            throw new IllegalArgumentException("El niño debe registrar la hora de salida de la siesta anterior antes de registrar una nueva.");
         }
 
-        // Obtener la última siesta registrada para el niño
-        Optional<Siesta> ultimaSiestaOptional = siestaRepository.findTopByNinoIdOrderByInicioSiestaDesc(siesta.getNino().getId());
-        if (ultimaSiestaOptional.isPresent()) {
-            Siesta ultimaSiesta = ultimaSiestaOptional.get();
+        // Validar que la hora de fin no sea anterior a la hora de inicio
+        if (siesta.getFinSiesta() != null && siesta.getFinSiesta().isBefore(siesta.getInicioSiesta())) {
+            throw new IllegalArgumentException("La hora de fin de la siesta no puede ser anterior a la hora de inicio.");
+        }
 
-            // Validar que la nueva siesta no inicie antes de que finalice la última siesta registrada
-            if (ultimaSiesta.getFinSiesta() != null && siesta.getInicioSiesta().isBefore(ultimaSiesta.getFinSiesta())) {
-                throw new RuntimeException("No se puede registrar una nueva siesta antes de que finalice la anterior.");
+        Siesta nuevaSiesta = siestaRepository.save(siesta);
+
+        List<PadresHijos> relaciones = padresHijosRepository.findByNino(siesta.getNino());
+
+        for (PadresHijos relacion : relaciones) {
+            Usuario padre = relacion.getPadre();
+            String mensajeNotificacion = "Tu hijo/a ha iniciado una siesta a las " + siesta.getInicioSiesta();
+
+            if (siesta.getFinSiesta() != null) {
+                long minutosDormidos = java.time.Duration.between(siesta.getInicioSiesta(), siesta.getFinSiesta()).toMinutes();
+                mensajeNotificacion += " y se despertó a las " + siesta.getFinSiesta() + ". Duración: " + minutosDormidos + " minutos.";
             }
-        }
 
-        // Si la siesta no tiene fin, se deja en null
-        if (siesta.getFinSiesta() == null) {
-            siesta.setFinSiesta(null);
-        } else {
-            // Validar que la hora de fin no sea antes de la hora de inicio
-            if (siesta.getFinSiesta().isBefore(siesta.getInicioSiesta())) {
-                throw new RuntimeException("La hora de fin de la siesta no puede ser anterior a la hora de inicio.");
+            if (siesta.getObservaciones() != null && !siesta.getObservaciones().isEmpty()) {
+                mensajeNotificacion += " Observaciones: " + siesta.getObservaciones();
             }
+
+            notificacionService.crearNotificacion(
+                    siesta.getEducador(),
+                    padre,
+                    mensajeNotificacion
+            );
         }
 
-        return siestaRepository.save(siesta);
+        return nuevaSiesta;
     }
 
     // Actualizar una siesta (validando que solo un EDUCADOR puede hacerlo)

@@ -22,6 +22,9 @@ public interface PadresHijosRepository extends JpaRepository<PadresHijos, Long> 
     // Obtener todas las relaciones de un niño con sus padres
     List<PadresHijos> findByNinoId(Long ninoId);
 
+    //Obtener niño, no solo el id como el anterior
+    List<PadresHijos> findByNino(Nino nino);
+
     // Obtener una relación específica entre un padre y un niño (asegurando que sea un PADRE)
     @Query("SELECT ph FROM PadresHijos ph WHERE ph.padre.id = :padreId AND ph.nino.id = :ninoId AND ph.padre.tipoUsuario = 'PADRE'")
     Optional<PadresHijos> findByPadreIdAndNinoId(@Param("padreId") Long padreId, @Param("ninoId") Long ninoId);
