@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class EventoService {
@@ -27,17 +28,23 @@ public class EventoService {
 
     // Buscar eventos por título (ignorando mayúsculas y minúsculas)
     public List<Evento> getEventosByTitulo(String titulo) {
-        return eventoRepository.findByTituloContainingIgnoreCase(titulo);
+        Pageable pageable = Pageable.unpaged();
+        return eventoRepository.findByTituloContainingIgnoreCase(titulo, pageable).getContent();
     }
 
     // Buscar eventos en un rango de fechas
     public List<Evento> getEventosByFecha(LocalDateTime inicio, LocalDateTime fin) {
-        return eventoRepository.findByFechaHoraBetween(inicio, fin);
+        if (inicio.isAfter(fin)) {
+            throw new RuntimeException("La fecha de inicio debe ser anterior a la fecha de fin.");
+        }
+        Pageable pageable = Pageable.unpaged();
+        return eventoRepository.findByFechaHoraBetween(inicio, fin, pageable).getContent();
     }
 
     // Buscar eventos creados por un usuario específico (solo EDUCADORES y ADMINISTRADORES)
     public List<Evento> getEventosByCreador(Long creadorId) {
-        return eventoRepository.findByCreadorId(creadorId).stream()
+        Pageable pageable = Pageable.unpaged();
+        return eventoRepository.findByCreadorId(creadorId, pageable).getContent().stream()
                 .filter(e -> e.getCreador().getTipoUsuario().equals("EDUCADOR") || e.getCreador().getTipoUsuario().equals("ADMIN"))
                 .toList();
     }
@@ -48,7 +55,7 @@ public class EventoService {
             throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede crear eventos.");
         }
         if (evento.getFechaHora() == null) {
-            evento.setFechaHora(LocalDateTime.now()); // Si no hay fecha, se asigna la actual
+            evento.setFechaHora(LocalDateTime.now());
         }
         return eventoRepository.save(evento);
     }
@@ -58,14 +65,18 @@ public class EventoService {
         Optional<Evento> eventoOptional = eventoRepository.findById(id);
         if (eventoOptional.isPresent()) {
             Evento evento = eventoOptional.get();
-
-            if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
-                throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede actualizar eventos.");
+            if (!evento.getCreador().getId().equals(eventoDetalles.getCreador().getId())) {
+                throw new RuntimeException("Solo el creador del evento puede actualizarlo.");
             }
-
-            evento.setTitulo(eventoDetalles.getTitulo());
-            evento.setDescripcion(eventoDetalles.getDescripcion());
-            evento.setFechaHora(eventoDetalles.getFechaHora());
+            if (eventoDetalles.getTitulo() != null) {
+                evento.setTitulo(eventoDetalles.getTitulo());
+            }
+            if (eventoDetalles.getDescripcion() != null) {
+                evento.setDescripcion(eventoDetalles.getDescripcion());
+            }
+            if (eventoDetalles.getFechaHora() != null) {
+                evento.setFechaHora(eventoDetalles.getFechaHora());
+            }
             return eventoRepository.save(evento);
         }
         throw new RuntimeException("Evento no encontrado con id: " + id);
