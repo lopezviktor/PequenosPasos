@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SiestaRepository extends JpaRepository<Siesta, Long> {
@@ -23,5 +24,13 @@ public interface SiestaRepository extends JpaRepository<Siesta, Long> {
     List<Siesta> findByInicioSiestaBetween(LocalDateTime inicio, LocalDateTime fin);
 
     // Última siesta de un niño
-    Siesta findTopByNinoIdOrderByInicioSiestaDesc(Long ninoId);
+    @Query("SELECT s FROM Siesta s WHERE s.nino.id = :ninoId AND s.finSiesta IS NOT NULL ORDER BY s.inicioSiesta DESC")
+    Optional<Siesta> findTopByNinoIdOrderByInicioSiestaDesc(@Param("ninoId") Long ninoId);
+
+    // Verificar si hay una siesta sin hora de fin antes de registrar otra
+    @Query("SELECT COUNT(s) > 0 FROM Siesta s WHERE s.nino.id = :ninoId AND s.finSiesta IS NULL")
+    boolean existsSiestaSinHoraFin(@Param("ninoId") Long ninoId);
+
+    boolean existsByNinoIdAndFinSiestaIsNull(Long ninoId);
+
 }
