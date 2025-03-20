@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.controller;
 
+import com.pequenospasos.backend.dto.NotificacionDTO;
 import com.pequenospasos.backend.entity.Notificacion;
 import com.pequenospasos.backend.service.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class NotificacionController {
 
     // Obtener notificaciones recibidas por un usuario
     @GetMapping("/receptor/{receptorId}")
-    public List<Notificacion> getNotificacionesByReceptorId(@PathVariable Long receptorId) {
+    public List<NotificacionDTO> getNotificacionesByReceptorId(@PathVariable Long receptorId) {
         return notificacionService.getNotificacionesByReceptorId(receptorId);
     }
 
     // Obtener notificaciones no leídas de un usuario
     @GetMapping("/receptor/{receptorId}/no-leidas")
-    public List<Notificacion> getNotificacionesNoLeidas(@PathVariable Long receptorId) {
+    public List<NotificacionDTO> getNotificacionesNoLeidas(@PathVariable Long receptorId) {
         return notificacionService.getNotificacionesNoLeidas(receptorId);
     }
 
@@ -51,14 +52,14 @@ public class NotificacionController {
 
     // Marcar una notificación como leída con validación
     @PutMapping("/{id}/marcar-leida")
-    public Notificacion marcarComoLeida(@PathVariable Long id) {
+    public NotificacionDTO marcarComoLeida(@PathVariable Long id) {
         return notificacionService.marcarComoLeida(id);
     }
 
     // Marcar todas las notificaciones de un usuario como leídas con validación
     @PutMapping("/receptor/{receptorId}/marcar-todas-leidas")
-    public void marcarTodasComoLeidas(@PathVariable Long receptorId) {
-        notificacionService.marcarTodasComoLeidas(receptorId);
+    public List<NotificacionDTO> marcarTodasComoLeidas(@PathVariable Long receptorId) {
+        return notificacionService.marcarTodasComoLeidas(receptorId);
     }
 
     // Eliminar una notificación con validación de existencia

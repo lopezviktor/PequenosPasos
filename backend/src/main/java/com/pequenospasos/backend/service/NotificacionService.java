@@ -1,9 +1,12 @@
 package com.pequenospasos.backend.service;
 
+import com.pequenospasos.backend.dto.NotificacionDTO;
 import com.pequenospasos.backend.entity.Notificacion;
+import com.pequenospasos.backend.entity.Usuario;
 import com.pequenospasos.backend.repository.NotificacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +17,21 @@ public class NotificacionService {
 
     @Autowired
     private NotificacionRepository notificacionRepository;
+
+    public void crearNotificacion(Usuario emisor, Usuario receptor, String mensaje) {
+        if (!(receptor.getTipoUsuario().equals("PADRE") || receptor.getTipoUsuario().equals("EDUCADOR"))) {
+            throw new RuntimeException("Solo PADRES y EDUCADORES pueden recibir notificaciones.");
+        }
+
+        Notificacion notificacion = new Notificacion();
+        notificacion.setEmisor(emisor);
+        notificacion.setReceptor(receptor);
+        notificacion.setMensaje(mensaje);
+        notificacion.setFechaHora(LocalDateTime.now());
+        notificacion.setEstado(Notificacion.EstadoNotificacion.NO_LEIDO);
+
+        notificacionRepository.save(notificacion);
+    }
 
     // Obtener todas las notificaciones
     public List<Notificacion> getAllNotificaciones() {
@@ -26,38 +44,35 @@ public class NotificacionService {
     }
 
     // Obtener notificaciones de un usuario específico (solo PADRES y EDUCADORES)
-    public List<Notificacion> getNotificacionesByReceptorId(Long receptorId) {
-        return notificacionRepository.findByReceptorId(receptorId).stream()
-                .filter(n -> n.getReceptor().getTipoUsuario().equals("PADRE") || n.getReceptor().getTipoUsuario().equals("EDUCADOR"))
-                .toList();
+    @Transactional(readOnly = true)
+    public List<NotificacionDTO> getNotificacionesByReceptorId(Long receptorId) {
+        List<Notificacion> notificaciones = notificacionRepository.findByReceptorId(receptorId);
+        return notificaciones.stream().map(NotificacionDTO::new).toList();
     }
 
     // Obtener notificaciones no leídas de un usuario (solo PADRES y EDUCADORES)
-    public List<Notificacion> getNotificacionesNoLeidas(Long receptorId) {
-        return notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO).stream()
-                .filter(n -> n.getReceptor().getTipoUsuario().equals("PADRE") || n.getReceptor().getTipoUsuario().equals("EDUCADOR"))
-                .toList();
+    public List<NotificacionDTO> getNotificacionesNoLeidas(Long receptorId) {
+        List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO);
+        return notificaciones.stream().map(NotificacionDTO::new).toList();
     }
 
     // Marcar una notificación como leída (solo PADRES y EDUCADORES)
-    public Notificacion marcarComoLeida(Long id) {
-        Optional<Notificacion> notificacionOptional = notificacionRepository.findById(id);
-        if (notificacionOptional.isPresent()) {
-            Notificacion notificacion = notificacionOptional.get();
+    public NotificacionDTO marcarComoLeida(Long id) {
+        Notificacion notificacion = notificacionRepository.findByIdWithReceptor(id)
+                .orElseThrow(() -> new RuntimeException("Notificación no encontrada con id: " + id));
 
-            if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") || notificacion.getReceptor().getTipoUsuario().equals("EDUCADOR"))) {
-                throw new RuntimeException("Solo PADRES y EDUCADORES pueden marcar notificaciones como leídas.");
-            }
-
-            notificacion.setEstado(Notificacion.EstadoNotificacion.LEIDO);
-            return notificacionRepository.save(notificacion);
-        } else {
-            throw new RuntimeException("Notificación no encontrada con id: " + id);
+        if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") || notificacion.getReceptor().getTipoUsuario().equals("EDUCADOR"))) {
+            throw new RuntimeException("Solo PADRES y EDUCADORES pueden marcar notificaciones como leídas.");
         }
+
+        notificacion.setEstado(Notificacion.EstadoNotificacion.LEIDO);
+        notificacionRepository.save(notificacion);
+
+        return new NotificacionDTO(notificacion);
     }
 
-    // Marcar todas las notificaciones de un usuario como leídas (optimizado)
-    public void marcarTodasComoLeidas(Long receptorId) {
+    // Marcar todas las notificaciones de un usuario como leídas (optimizado) y retornar DTOs
+    public List<NotificacionDTO> marcarTodasComoLeidas(Long receptorId) {
         List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO).stream()
                 .filter(n -> n.getReceptor().getTipoUsuario().equals("PADRE") || n.getReceptor().getTipoUsuario().equals("EDUCADOR"))
                 .toList();
@@ -66,6 +81,8 @@ public class NotificacionService {
             notificaciones.forEach(n -> n.setEstado(Notificacion.EstadoNotificacion.LEIDO));
             notificacionRepository.saveAll(notificaciones);
         }
+
+        return notificaciones.stream().map(NotificacionDTO::new).toList();
     }
 
     // Guardar una nueva notificación (validando solo PADRES y EDUCADORES)
