@@ -27,7 +27,11 @@ public class EventoNinosController {
     // Obtener todos los eventos en los que participa un niño
     @GetMapping("/nino/{ninoId}")
     public List<EventoNinos> getEventosByNinoId(@PathVariable Long ninoId) {
-        return eventoNinosService.getEventosByNinoId(ninoId);
+        List<EventoNinos> eventos = eventoNinosService.getEventosByNinoId(ninoId);
+        if (eventos.isEmpty()) {
+            throw new RuntimeException("No se encontraron eventos para el niño con id: " + ninoId);
+        }
+        return eventos;
     }
 
     // Obtener todos los niños que participan en un evento específico
@@ -64,5 +68,30 @@ public class EventoNinosController {
         }
 
         eventoNinosService.deleteEventoNinoByEventoAndNino(eventoId, ninoId);
+    }
+
+    @PutMapping("/confirmar-asistencia")
+    public EventoNinos confirmarAsistencia(@RequestBody ConfirmarAsistenciaRequest request) {
+        return eventoNinosService.confirmarAsistencia(request.getEventoId(), request.getNinoId());
+    }
+    static class ConfirmarAsistenciaRequest {
+        private Long eventoId;
+        private Long ninoId;
+
+        public Long getEventoId() {
+            return eventoId;
+        }
+
+        public void setEventoId(Long eventoId) {
+            this.eventoId = eventoId;
+        }
+
+        public Long getNinoId() {
+            return ninoId;
+        }
+
+        public void setNinoId(Long ninoId) {
+            this.ninoId = ninoId;
+        }
     }
 }
