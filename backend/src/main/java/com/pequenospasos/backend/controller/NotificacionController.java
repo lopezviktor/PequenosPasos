@@ -17,7 +17,7 @@ public class NotificacionController {
 
     // Obtener todas las notificaciones
     @GetMapping
-    public List<Notificacion> getAllNotificaciones() {
+    public List<NotificacionDTO> getAllNotificaciones() {
         return notificacionService.getAllNotificaciones();
     }
 
