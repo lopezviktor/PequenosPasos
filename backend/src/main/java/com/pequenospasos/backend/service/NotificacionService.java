@@ -34,8 +34,9 @@ public class NotificacionService {
     }
 
     // Obtener todas las notificaciones
-    public List<Notificacion> getAllNotificaciones() {
-        return notificacionRepository.findAll();
+    public List<NotificacionDTO> getAllNotificaciones() {
+        List<Notificacion> notificaciones = notificacionRepository.findAll();
+        return notificaciones.stream().map(NotificacionDTO::new).toList();
     }
 
     // Obtener una notificación por ID
