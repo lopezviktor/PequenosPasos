@@ -1,4 +1,6 @@
 package com.pequenospasos.backend.controller;
+import com.pequenospasos.backend.dto.MensajeDTO;
+import java.util.stream.Collectors;
 
 import com.pequenospasos.backend.entity.Mensaje;
 import com.pequenospasos.backend.service.MensajeService;
@@ -16,48 +18,56 @@ public class MensajeController {
 
     // Obtener todos los mensajes
     @GetMapping
-    public List<Mensaje> getAllMensajes() {
-        return mensajeService.getAllMensajes();
+    public List<MensajeDTO> getAllMensajes() {
+        return mensajeService.getAllMensajes().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     // Obtener mensajes recibidos por un usuario
     @GetMapping("/receptor/{receptorId}")
-    public List<Mensaje> getMensajesByReceptorId(@PathVariable Long receptorId) {
-        return mensajeService.getMensajesByReceptorId(receptorId);
+    public List<MensajeDTO> getMensajesByReceptorId(@PathVariable Long receptorId) {
+        return mensajeService.getMensajesByReceptorId(receptorId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     // Obtener mensajes no leídos de un usuario
     @GetMapping("/receptor/{receptorId}/no-leidos")
-    public List<Mensaje> getMensajesNoLeidos(@PathVariable Long receptorId) {
-        return mensajeService.getMensajesNoLeidos(receptorId);
+    public List<MensajeDTO> getMensajesNoLeidos(@PathVariable Long receptorId) {
+        return mensajeService.getMensajesNoLeidos(receptorId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     // Obtener un mensaje por ID con validación
     @GetMapping("/{id}")
-    public Mensaje getMensajeById(@PathVariable Long id) {
-        return mensajeService.getMensajeById(id)
-                .orElseThrow(() -> new RuntimeException("Mensaje no encontrado con id: " + id));
+    public MensajeDTO getMensajeById(@PathVariable Long id) {
+        return toDTO(mensajeService.getMensajeById(id)
+                .orElseThrow(() -> new RuntimeException("Mensaje no encontrado con id: " + id)));
     }
 
     // Obtener mensajes entre dos usuarios específicos (chat entre padre y educador)
     @GetMapping("/chat")
-    public List<Mensaje> getMensajesEntreUsuarios(@RequestParam Long emisorId, @RequestParam Long receptorId) {
-        return mensajeService.getMensajesEntreUsuarios(emisorId, receptorId);
+    public List<MensajeDTO> getMensajesEntreUsuarios(@RequestParam Long emisorId, @RequestParam Long receptorId) {
+        return mensajeService.getMensajesEntreUsuarios(emisorId, receptorId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    // Obtener el chat completo entre dos usuarios
+    @GetMapping("/chat/completo")
+    public List<MensajeDTO> getConversacionCompleta(@RequestParam Long usuario1, @RequestParam Long usuario2) {
+        return mensajeService.getConversacionCompleta(usuario1, usuario2).stream()
+                .map(this::toDTO)
+                .toList();
     }
 
     // Enviar un nuevo mensaje con validación de roles
     @PostMapping
-    public Mensaje createMensaje(@RequestBody Mensaje mensaje) {
-        if (!(mensaje.getEmisor().getTipoUsuario().equals("PADRE") || mensaje.getEmisor().getTipoUsuario().equals("EDUCADOR"))) {
+    public MensajeDTO createMensaje(@RequestBody Mensaje mensaje) {
+        if (mensaje.getEmisor() == null || !mensajeService.esUsuarioValido(mensaje.getEmisor())) {
             throw new RuntimeException("Solo PADRES y EDUCADORES pueden enviar mensajes.");
         }
-        return mensajeService.saveMensaje(mensaje);
+        return toDTO(mensajeService.saveMensaje(mensaje));
     }
 
     // Marcar un mensaje como leído con validación
     @PutMapping("/{id}/marcar-leido")
-    public Mensaje marcarComoLeido(@PathVariable Long id) {
-        return mensajeService.marcarMensajeComoLeido(id);
+    public MensajeDTO marcarComoLeido(@PathVariable Long id) {
+        return toDTO(mensajeService.marcarMensajeComoLeido(id));
     }
 
     // Marcar todos los mensajes de un usuario como leídos con validación
@@ -73,5 +83,18 @@ public class MensajeController {
                 .orElseThrow(() -> new RuntimeException("Mensaje no encontrado con id: " + id));
 
         mensajeService.deleteMensaje(id);
+    }
+
+    private MensajeDTO toDTO(Mensaje mensaje) {
+        MensajeDTO dto = new MensajeDTO();
+        dto.setId(mensaje.getId());
+        dto.setContenido(mensaje.getContenido());
+        dto.setFechaHora(mensaje.getFechaHora());
+        dto.setEstado(mensaje.getEstado().toString());
+        dto.setEmisorId(mensaje.getEmisor().getId());
+        dto.setEmisorNombre(mensaje.getEmisor().getNombre());
+        dto.setReceptorId(mensaje.getReceptor().getId());
+        dto.setReceptorNombre(mensaje.getReceptor().getNombre());
+        return dto;
     }
 }
