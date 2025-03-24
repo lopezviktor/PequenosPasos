@@ -47,13 +47,16 @@ public class NotificacionService {
     // Obtener notificaciones de un usuario específico (solo PADRES y EDUCADORES)
     @Transactional(readOnly = true)
     public List<NotificacionDTO> getNotificacionesByReceptorId(Long receptorId) {
-        List<Notificacion> notificaciones = notificacionRepository.findByReceptorId(receptorId);
+        List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdWithUsuarios(receptorId);
         return notificaciones.stream().map(NotificacionDTO::new).toList();
     }
 
     // Obtener notificaciones no leídas de un usuario (solo PADRES y EDUCADORES)
+    @Transactional(readOnly = true)
     public List<NotificacionDTO> getNotificacionesNoLeidas(Long receptorId) {
-        List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO);
+        List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdWithUsuarios(receptorId).stream()
+                .filter(n -> n.getEstado() == Notificacion.EstadoNotificacion.NO_LEIDO)
+                .toList();
         return notificaciones.stream().map(NotificacionDTO::new).toList();
     }
 

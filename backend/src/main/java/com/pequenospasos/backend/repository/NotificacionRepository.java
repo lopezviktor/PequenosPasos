@@ -34,4 +34,10 @@ public interface NotificacionRepository extends JpaRepository<Notificacion, Long
             "AND (n.receptor.tipoUsuario = 'PADRE' OR n.receptor.tipoUsuario = 'EDUCADOR') " +
             "ORDER BY n.fechaHora DESC")
     List<Notificacion> findTop5ByReceptorIdOrderByFechaHoraDesc(@Param("receptorId") Long receptorId);
+
+    @Query("SELECT n FROM Notificacion n " +
+            "JOIN FETCH n.emisor " +
+            "JOIN FETCH n.receptor " +
+            "WHERE n.receptor.id = :receptorId")
+    List<Notificacion> findByReceptorIdWithUsuarios(@Param("receptorId") Long receptorId);
 }

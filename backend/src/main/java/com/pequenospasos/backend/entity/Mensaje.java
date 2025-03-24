@@ -11,11 +11,11 @@ public class Mensaje {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "emisor_id", nullable = false)
     private Usuario emisor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "receptor_id", nullable = false)
     private Usuario receptor;
 
@@ -36,6 +36,14 @@ public class Mensaje {
 
     // Constructor vacío
     public Mensaje() {}
+
+    public Mensaje(Usuario emisor, Usuario receptor, String contenido) {
+        this.emisor = emisor;
+        this.receptor = receptor;
+        this.contenido = contenido;
+        this.fechaHora = LocalDateTime.now();
+        this.estado = EstadoMensaje.NO_LEIDO;
+    }
 
     // Constructor con parámetros
     public Mensaje(Usuario emisor, Usuario receptor, String contenido, LocalDateTime fechaHora, EstadoMensaje estado) {
@@ -94,4 +102,5 @@ public class Mensaje {
     public void setEstado(EstadoMensaje estado) {
         this.estado = estado;
     }
+
 }
