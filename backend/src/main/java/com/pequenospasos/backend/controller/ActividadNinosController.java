@@ -1,8 +1,10 @@
 package com.pequenospasos.backend.controller;
 
+import com.pequenospasos.backend.dto.ActividadClaseRequest;
 import com.pequenospasos.backend.entity.ActividadNinos;
 import com.pequenospasos.backend.service.ActividadNinosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +42,13 @@ public class ActividadNinosController {
     @PostMapping
     public ActividadNinos saveActividadNino(@RequestBody ActividadNinos actividadNinos) {
         return actividadNinosService.saveActividadNino(actividadNinos);
+    }
+
+    // Registrar una actividad para una clase
+    @PostMapping("/clase")
+    public ResponseEntity<String> registrarActividadPorClase(@RequestBody ActividadClaseRequest request) {
+        actividadNinosService.registrarActividadPorClase(request.getClaseId(), request.getActividad());
+        return ResponseEntity.ok("Actividad registrada correctamente en todos los niños de la clase.");
     }
 
     // Eliminar una relación actividad-niño con validación

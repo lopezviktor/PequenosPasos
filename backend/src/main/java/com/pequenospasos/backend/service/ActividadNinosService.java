@@ -1,14 +1,11 @@
 package com.pequenospasos.backend.service;
 
-import com.pequenospasos.backend.entity.Actividad;
-import com.pequenospasos.backend.entity.ActividadNinos;
-import com.pequenospasos.backend.entity.Nino;
-import com.pequenospasos.backend.repository.ActividadNinosRepository;
-import com.pequenospasos.backend.repository.ActividadRepository;
-import com.pequenospasos.backend.repository.NinoRepository;
+import com.pequenospasos.backend.entity.*;
+import com.pequenospasos.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +21,15 @@ public class ActividadNinosService {
 
     @Autowired
     private ActividadRepository actividadRepository;
+
+    @Autowired
+    private ClaseRepository claseRepository;
+
+    @Autowired
+    private PadresHijosRepository padresHijosRepository;
+
+    @Autowired
+    private NotificacionService notificacionService;
 
     // Obtener todas las relaciones actividad-niño
     public List<ActividadNinos> getAllActividadNinos() {
@@ -56,6 +62,40 @@ public class ActividadNinosService {
         }
 
         return actividadNinosRepository.save(actividadNinos);
+    }
+
+    public void registrarActividadPorClase(Long claseId, Actividad actividad) {
+        Clase clase = claseRepository.findById(claseId)
+                .orElseThrow(() -> new RuntimeException("Clase no encontrada con ID: " + claseId));
+
+        Actividad actividadGuardada;
+
+        if (actividad.getActividadId() != null) {
+            actividadGuardada = actividadRepository.findById(actividad.getActividadId())
+                    .orElseThrow(() -> new RuntimeException("Actividad no encontrada con ID: " + actividad.getActividadId()));
+        } else {
+            actividadGuardada = actividadRepository.save(actividad);
+        }
+
+        for (Nino nino : clase.getNinos()) {
+            Optional<ActividadNinos> existente = actividadNinosRepository
+                    .findByActividad_ActividadIdAndNinoId(actividadGuardada.getActividadId(), nino.getId());
+
+            if (existente.isEmpty()) {
+                ActividadNinos actividadNino = new ActividadNinos(nino, actividadGuardada, LocalDateTime.now());
+                actividadNinosRepository.save(actividadNino);
+
+                List<PadresHijos> asociaciones = padresHijosRepository.findByNino(nino);
+                for (PadresHijos ph : asociaciones) {
+                    Usuario padre = ph.getPadre();
+                    if (padre != null) {
+                        String mensaje = "Tu hijo/a " + nino.getNombre() +
+                                " ha participado en la actividad: " + actividadGuardada.getNombre();
+                        notificacionService.crearNotificacion(clase.getEducador(), padre, mensaje);
+                    }
+                }
+            }
+        }
     }
 
     // Eliminar una relación actividad-niño por ID
