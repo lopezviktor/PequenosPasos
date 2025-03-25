@@ -1,7 +1,9 @@
 package com.pequenospasos.backend.security;
 
+import com.pequenospasos.backend.entity.Usuario;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -10,8 +12,11 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final String jwtSecret = "mi_clave_super_secreta_para_tokens_de_guarderia_123456"; // clave segura
-    private final long jwtExpirationMs = 86400000; // 1 día en milisegundos
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    @Value("${jwt.expiration}")
+    private long jwtExpirationInMs;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
@@ -34,6 +39,19 @@ public class JwtUtils {
             System.out.println("Token inválido: " + e.getMessage());
         }
         return false;
+    }
+    public String generateToken(Usuario usuario) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
+        return Jwts.builder()
+                .setSubject(usuario.getEmail())
+                .claim("id", usuario.getId())
+                .claim("tipoUsuario", usuario.getTipoUsuario().toString())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 }
 

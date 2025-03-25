@@ -6,7 +6,9 @@ import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.Usuario;
 import com.pequenospasos.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Obtener todos los usuarios
     public List<Usuario> getAllUsuarios() {
@@ -47,6 +52,10 @@ public class UsuarioService {
             usuario.setTipoUsuario("ADMIN");
         }
 
+        if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
+
         return usuarioRepository.save(usuario);
     }
 
@@ -61,7 +70,7 @@ public class UsuarioService {
             usuario.setTelefono(usuarioDetalles.getTelefono());
 
             if (usuarioDetalles.getPassword() != null && !usuarioDetalles.getPassword().isEmpty()) {
-                usuario.setPassword(usuarioDetalles.getPassword());
+                usuario.setPassword(passwordEncoder.encode(usuarioDetalles.getPassword()));
             }
 
             return usuarioRepository.save(usuario);
