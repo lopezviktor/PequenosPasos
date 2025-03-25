@@ -30,4 +30,8 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+.vscode
+
+# Archivos de configuración sensibles
+/src/main/resources/application.properties
+application.yml
