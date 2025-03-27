@@ -3,6 +3,7 @@ package com.pequenospasos.backend.controller;
 import com.pequenospasos.backend.entity.Asistencia;
 import com.pequenospasos.backend.service.AsistenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,30 +17,35 @@ public class AsistenciaController {
     private AsistenciaService asistenciaService;
 
     // Obtener todas las asistencias
+    @PreAuthorize("hasRole('EDUCADOR')")
     @GetMapping
     public List<Asistencia> getAllAsistencias() {
         return asistenciaService.getAllAsistencias();
     }
 
     // Obtener asistencias de un niño específico
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'PADRE')")
     @GetMapping("/nino/{ninoId}")
     public List<Asistencia> getAsistenciasByNinoId(@PathVariable Long ninoId) {
         return asistenciaService.getAsistenciasByNinoId(ninoId);
     }
 
     // Obtener asistencias registradas por un educador
+    @PreAuthorize("hasRole('EDUCADOR')")
     @GetMapping("/educador/{educadorId}")
     public List<Asistencia> getAsistenciasByEducadorId(@PathVariable Long educadorId) {
         return asistenciaService.getAsistenciasByEducadorId(educadorId);
     }
 
     // Obtener asistencias dentro de un rango de fechas
+    @PreAuthorize("hasRole('EDUCADOR')")
     @GetMapping("/rango-fechas")
     public List<Asistencia> getAsistenciasByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
         return asistenciaService.getAsistenciasByFecha(inicio, fin);
     }
 
     // Obtener una asistencia por ID con validación
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'PADRE')")
     @GetMapping("/{id}")
     public Asistencia getAsistenciaById(@PathVariable Long id) {
         return asistenciaService.getAsistenciaById(id)
@@ -47,6 +53,7 @@ public class AsistenciaController {
     }
 
     // Registrar una nueva asistencia (entrada de un niño) con validación
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PostMapping
     public Asistencia createAsistencia(@RequestBody Asistencia asistencia) {
         if (!asistencia.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR")) {
@@ -56,6 +63,7 @@ public class AsistenciaController {
     }
 
     // Actualizar asistencia (registrar salida) con validación
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PutMapping("/{id}")
     public Asistencia updateAsistencia(@PathVariable Long id, @RequestBody Asistencia asistenciaDetalles) {
         if (asistenciaDetalles.getEducadorEntrega() != null &&
@@ -66,6 +74,7 @@ public class AsistenciaController {
     }
 
     // Eliminar asistencia con validación de existencia
+    @PreAuthorize("hasRole('EDUCADOR')")
     @DeleteMapping("/{id}")
     public void deleteAsistencia(@PathVariable Long id) {
         asistenciaService.getAsistenciaById(id)

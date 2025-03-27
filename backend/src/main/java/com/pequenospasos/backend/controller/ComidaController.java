@@ -3,6 +3,7 @@ package com.pequenospasos.backend.controller;
 import com.pequenospasos.backend.entity.Comida;
 import com.pequenospasos.backend.service.ComidaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -15,25 +16,29 @@ public class ComidaController {
     @Autowired
     private ComidaService comidaService;
 
-    // Obtener todas las comidas
+    // Obtener todas las comidas (acceso solo para ADMIN)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Comida> getAllComidas() {
         return comidaService.getAllComidas();
     }
 
-    // Obtener comidas de un niño específico
+    // Obtener todas las comidas de un niño por id
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/nino/{ninoId}")
     public List<Comida> getComidasByNinoId(@PathVariable Long ninoId) {
         return comidaService.getComidasByNinoId(ninoId);
     }
 
-    // Obtener comidas registradas por un educador
+    // Obtener comidas registradas por un educador (solo EDUCADOR)
+    @PreAuthorize("hasRole('EDUCADOR')")
     @GetMapping("/educador/{educadorId}")
     public List<Comida> getComidasByEducadorId(@PathVariable Long educadorId) {
         return comidaService.getComidasByEducadorId(educadorId);
     }
 
-    // Obtener comidas en un rango de fechas
+    // Obtener comidas en un rango de fechas (solo EDUCADOR)
+    @PreAuthorize("hasRole('EDUCADOR')")
     @GetMapping("/rango-fechas")
     public List<Comida> getComidasByFecha(@RequestParam String inicio, @RequestParam String fin) {
         LocalDateTime fechaInicio = LocalDateTime.parse(inicio);
@@ -41,14 +46,16 @@ public class ComidaController {
         return comidaService.getComidasByFecha(fechaInicio, fechaFin);
     }
 
-    // Obtener una comida por ID con validación
+    // Obtener una comida por ID (PADRE o EDUCADOR)
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/{id}")
     public Comida getComidaById(@PathVariable Long id) {
         return comidaService.getComidaById(id)
                 .orElseThrow(() -> new RuntimeException("Comida no encontrada con id: " + id));
     }
 
-    // Registrar una nueva comida asegurando que solo EDUCADORES puedan hacerlo
+    // Registrar una nueva comida (solo EDUCADOR)
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PostMapping
     public Comida createComida(@RequestBody Comida comida) {
         if (comida.getEducador() == null) {
@@ -62,7 +69,8 @@ public class ComidaController {
         return comidaService.saveComida(comida);
     }
 
-    // Actualizar una comida validando que solo EDUCADORES puedan modificarla
+    // Actualizar una comida (solo EDUCADOR)
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PutMapping("/{id}")
     public Comida updateComida(@PathVariable Long id, @RequestBody Comida comidaDetalles) {
         return comidaService.getComidaById(id).map(comida -> {
@@ -73,7 +81,8 @@ public class ComidaController {
         }).orElseThrow(() -> new RuntimeException("Comida no encontrada con id: " + id));
     }
 
-    // Eliminar comida con validación de existencia
+    // Eliminar comida (solo EDUCADOR)
+    @PreAuthorize("hasRole('EDUCADOR')")
     @DeleteMapping("/{id}")
     public void deleteComida(@PathVariable Long id) {
         comidaService.getComidaById(id)
