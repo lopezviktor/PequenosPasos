@@ -1,0 +1,32 @@
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #e0e5ec;
+    box-shadow: inset 6px 6px 12px #bec8d2, inset -6px -6px 12px #ffffff;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+  
+    .p-inputtext {
+      border: none;
+      box-shadow: inset 3px 3px 6px #d1d9e6, inset -3px -3px 6px #ffffff;
+      border-radius: 12px;
+      padding: 0.5rem 1rem;
+      width: 250px;
+    }
+  
+    .right {
+      display: flex;
+      align-items: center;
+    }
+  
+    .cursor-pointer {
+      cursor: pointer;
+    }
+    
+    .p-avatar {
+        width: 40px;
+        height: 40px;
+      }
+  }

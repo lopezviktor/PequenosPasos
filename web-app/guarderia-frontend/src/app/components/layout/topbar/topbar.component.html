@@ -1,0 +1,18 @@
+<div class="topbar">
+    <div class="left">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Buscar..." />
+      </span>
+    </div>
+  
+    <div class="right">
+      <p-menu #menu [model]="items" popup></p-menu>
+      <p-avatar 
+        image="https://randomuser.me/api/portraits/men/1.jpg"
+        shape="circle"
+        styleClass="mr-2 cursor-pointer"
+        (click)="menu.toggle($event)">
+    </p-avatar>
+    </div>
+  </div>
