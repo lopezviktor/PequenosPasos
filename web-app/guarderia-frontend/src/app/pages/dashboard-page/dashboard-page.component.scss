@@ -1,20 +1,19 @@
 .dashboard-layout {
   display: flex;
   height: 100vh;
+  background: #f5f7fa;
 }
 
 .dashboard-main {
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 1.5rem 2rem;
 }
 
 .main-content-with-calendar {
   display: flex;
-  flex: 1;
-  gap: 2rem;
-  padding: 2rem;
-  height: 100%;
+  gap: 2rem; /* Espaciado entre las tarjetas principales y el calendario */
 }
 
 .main-center {
@@ -23,7 +22,30 @@
 }
 
 .calendar-side {
-  width: 320px;
-  max-height: 100%;
-  overflow: visible; 
+  width: 350px; /* Ancho fijo para el calendario */
+}
+
+/* Estilo neumórfico */
+.neumorphic-card {
+  background: #e0e5ec; /* Fondo claro con sombra */
+  border-radius: 15px; /* Bordes redondeados */
+  box-shadow: 
+    inset -5px -5px 10px #ffffff, /* Sombra interna clara */
+    inset 5px 5px 10px rgba(0,0,0,0.15); /* Sombra interna oscura */
+  padding: 1.5rem;
+  height: 100%;
+  min-height: 450px;
+}
+
+.event-summary h4 {
+  margin-bottom: 1rem;
+}
+
+.event-summary ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.event-summary li {
+  margin-bottom: .5rem;
 }
