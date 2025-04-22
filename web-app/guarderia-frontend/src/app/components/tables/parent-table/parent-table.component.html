@@ -22,7 +22,7 @@
       <td>{{ parent.email }}</td>
       <td>{{ parent.telefono }}</td>
       <td>
-        <button icon="pi pi-pencil" pButton pTooltip="Editar" class="p-button-rounded p-button-text"></button>
+        <button icon="pi pi-pencil" pButton pTooltip="Editar" class="p-button-rounded p-button-text" (click)="editar.emit(parent)"></button>
         <button icon="pi pi-trash" pButton pTooltip="Eliminar" class="p-button-rounded p-button-text p-button-danger"></button>
       </td>
     </tr>

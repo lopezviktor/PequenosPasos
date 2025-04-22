@@ -25,6 +25,11 @@ export class SidebarComponent {
       icon: 'pi pi-users',
       routerLink: ['/ninos']
     },
+        {
+      label: 'Padres',
+      icon: 'pi pi-users',
+      routerLink: ['/padres']
+    },
     {
       label: 'Asistencia',
       icon: 'pi pi-calendar-check',

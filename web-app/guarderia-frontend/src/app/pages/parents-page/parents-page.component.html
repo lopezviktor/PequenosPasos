@@ -1,1 +1,25 @@
-<app-parent-table [parents]="parents" [globalFilter]="globalFilter" />
+<div class="page-header">
+    <h2>👪 Padres</h2>
+    <button 
+      pButton 
+      label="Añadir padre" 
+      icon="pi pi-plus" 
+      class="p-button-outlined" 
+      (click)="mostrarDialogoPadre = true">
+    </button>
+  </div>
+  
+  <app-parent-table 
+    *ngIf="parents"
+    [parents]="parents" 
+    [globalFilter]="globalFilter" 
+    (editar)="editarPadre($event)" />
+  
+  <p-dialog 
+    *ngIf="mostrarDialogoPadre"
+    header="Añadir padre" 
+    [(visible)]="mostrarDialogoPadre" 
+    [modal]="true" 
+    [style]="{ width: '500px' }">
+    <app-parent-form (submitParent)="guardarPadre($event)" />
+  </p-dialog>
