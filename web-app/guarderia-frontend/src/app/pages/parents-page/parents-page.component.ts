@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Parent } from '@models/parent.model';
+import { ParentService } from '@services/parent/parent.service';
 import { ParentTableComponent } from '@components/tables/parent-table/parent-table.component';
 import { ParentFormComponent } from '@components/forms/parent-form/parent-form.component';
 import { DialogModule } from 'primeng/dialog';
-import { Parent } from '@models/parent.model';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 
@@ -19,34 +20,35 @@ import { CommonModule } from '@angular/common';
   templateUrl: './parents-page.component.html',
   styleUrl: './parents-page.component.scss'
 })
-export class ParentsPageComponent {
+export class ParentsPageComponent implements OnInit {
   globalFilter: string = '';
-
-  parents: Parent[] = [
-    {
-      id: 1,
-      nombre: 'Víctor',
-      apellidos: 'López',
-      email: 'victorlopez@pruebas.com',
-      telefono: '123456789',
-    },
-    {
-      id: 2,
-      nombre: 'Laura',
-      apellidos: 'Martínez',
-      email: 'laura@correo.com',
-      telefono: '987654321',
-    }
-  ];
-  
+  parents: Parent[] = [];
   mostrarDialogoPadre = false;
 
-  guardarPadre(padre: Parent) {
-    console.log('Guardar:', padre);
-    this.mostrarDialogoPadre = false;
+  constructor(private parentService: ParentService) {}
+
+  ngOnInit(): void {
+    this.cargarPadres();
   }
 
-  editarPadre(parent: Parent) {
+  cargarPadres(): void {
+    this.parentService.getParents().subscribe({
+      next: (data) => (this.parents = data),
+      error: (err) => console.error('Error al cargar padres:', err)
+    });
+  }
+
+  guardarPadre(parent: Parent): void {
+    this.parentService.createParent(parent).subscribe({
+      next: (nuevoPadre) => {
+        this.parents.push(nuevoPadre);
+        this.mostrarDialogoPadre = false;
+      },
+      error: (err) => console.error('Error al guardar padre:', err)
+    });
+  }
+
+  editarPadre(parent: Parent): void {
     console.log('Editar padre:', parent);
   }
 }

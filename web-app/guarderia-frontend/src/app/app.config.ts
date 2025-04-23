@@ -7,11 +7,15 @@ import Aura from '@primeng/themes/Aura';
 
 import { routes } from './app.routes';
 
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     provideAnimations(),
+    provideHttpClient(withInterceptors([AuthInterceptor])),
     providePrimeNG({
       theme: {
         preset: Aura
