@@ -3,6 +3,7 @@ import { MainLayoutComponent } from '@components/layout/main-layout/main-layout.
 import { DashboardPageComponent } from '@pages/dashboard-page/dashboard-page.component';
 import { ParentsPageComponent } from '@pages/parents-page/parents-page.component';
 import { EducatorsPageComponent } from '@pages/educators-page/educators-page.component';
+import { ChildrenPageComponent } from '@pages/children-page/children-page.component';
 import { authGuard } from '@guards/auth.guard';
 
 export const routes: Routes = [
@@ -15,6 +16,7 @@ export const routes: Routes = [
         { path: 'dashboard', loadComponent: () => import('./pages/dashboard-page/dashboard-page.component').then(m => m.DashboardPageComponent) },
         { path: 'padres', loadComponent: () => import('./pages/parents-page/parents-page.component').then(m => m.ParentsPageComponent) },
         { path: 'educadores', loadComponent: () => import('./pages/educators-page/educators-page.component').then(m => m.EducatorsPageComponent) },
+        { path: 'ninos', loadComponent: () => import('./pages/children-page/children-page.component').then(m => m.ChildrenPageComponent) },
       ]
     },
     {

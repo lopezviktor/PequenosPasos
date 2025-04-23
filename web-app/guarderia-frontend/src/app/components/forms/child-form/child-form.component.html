@@ -1,0 +1,50 @@
+
+<form [formGroup]="childForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" pInputText formControlName="nombre" />
+        <small *ngIf="childForm.get('nombre')?.invalid && childForm.get('nombre')?.touched" class="p-error">
+          El nombre es obligatorio
+        </small>
+    </div>
+    <div class="p-field p-col-12 p-md-6">
+        <label for="apellidos">Apellidos</label>
+        <input id="apellidos" type="text" pInputText formControlName="apellidos" />
+        <small *ngIf="childForm.get('apellidos')?.invalid && childForm.get('apellidos')?.touched" class="p-error">
+        Los apellidos son obligatorios
+        </small>
+    </div>
+    <div class="p-field p-col-12 p-md-6">
+        <label for="fechaNacimiento">Fecha de nacimiento</label>
+        <input id="fechaNacimiento" type="date" pInputText formControlName="fechaNacimiento" />
+        <small *ngIf="childForm.get('fechaNacimiento')?.invalid && childForm.get('fechaNacimiento')?.touched" class="p-error">
+        La fecha de nacimiento es obligatoria
+        </small>
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+        <label for="primerDia">Primer día</label>
+        <input id="primerDia" type="date" pInputText formControlName="primerDia" />
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+        <label for="alergias">Alergias</label>
+        <textarea id="alergias" pInputTextarea rows="2" formControlName="alergias"></textarea>
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+        <label for="condicionesMedicas">Condiciones médicas</label>
+        <textarea id="condicionesMedicas" pInputTextarea rows="2" formControlName="condicionesMedicas"></textarea>
+    </div>
+
+    <div class="p-field p-col-12">
+        <label for="fotoUrl">Foto (URL)</label>
+        <input id="fotoUrl" type="text" pInputText formControlName="fotoUrl" />
+    </div>
+    </div>
+
+    <div class="p-d-flex p-jc-end">
+    <button pButton type="submit" label="Guardar" [disabled]="childForm.invalid" class="p-button-success"></button>
+    </div>
+</form>
