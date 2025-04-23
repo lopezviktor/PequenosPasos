@@ -35,13 +35,8 @@ export class LoginPageComponent {
     if (this.loginForm.invalid) return;
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/']);
-      },
-      error: (error) => {
-        console.error('Login failed', error);
-      }
+      next: () => this.router.navigate(['/dashboard']),
+      error: error => console.error('Login failed', error)
     });
   }
 }

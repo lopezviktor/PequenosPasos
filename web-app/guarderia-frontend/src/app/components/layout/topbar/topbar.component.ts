@@ -5,6 +5,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -20,8 +21,15 @@ import { MenuModule } from 'primeng/menu';
 })
 export class TopbarComponent {
 
+  constructor(private router: Router) {}
+
   items: MenuItem[] = [
-    {label: 'Profile', icon: 'pi pi-user', command: () => console.log('Profile') },
-    {lebal: 'Cerrar sesión', icon: 'pi pi-sign-out', command: () => console.log('Logout') },
+    { label: 'Profile', icon: 'pi pi-user', command: () => console.log('Profile') },
+    { label: 'Cerrar sesión', icon: 'pi pi-sign-out', command: () => this.logout() },
   ];
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
+  }
 }
