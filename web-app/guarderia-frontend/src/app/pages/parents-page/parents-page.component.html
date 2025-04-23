@@ -1,25 +1,33 @@
 <div class="page-header">
-    <h2>👪 Padres</h2>
-    <button 
-      pButton 
-      label="Añadir padre" 
-      icon="pi pi-plus" 
-      class="p-button-outlined" 
-      (click)="mostrarDialogoPadre = true">
-    </button>
-  </div>
+  <h2>👪 Padres</h2>
+  <button 
+    pButton 
+    label="Añadir padre" 
+    icon="pi pi-plus" 
+    class="p-button-outlined" 
+    (click)="abrirDialogoParaNuevoPadre()">
+  </button>
+</div>
+
+<app-parent-table 
+  *ngIf="parents"
+  [parents]="parents" 
+  [globalFilter]="globalFilter" 
+  (editar)="editarPadre($event)"
+  (eliminado)="eliminarPadre($event)">
+</app-parent-table>
+
+<p-dialog 
+  header="{{ selectedParent ? 'Editar padre' : 'Añadir padre' }}" 
+  [(visible)]="mostrarDialogoPadre" 
+  [modal]="true" 
+  [style]="{ width: '500px' }"
+  (onHide)="cancelarDialogoPadre()">
   
-  <app-parent-table 
-    *ngIf="parents"
-    [parents]="parents" 
-    [globalFilter]="globalFilter" 
-    (editar)="editarPadre($event)" />
-  
-  <p-dialog 
-    *ngIf="mostrarDialogoPadre"
-    header="Añadir padre" 
-    [(visible)]="mostrarDialogoPadre" 
-    [modal]="true" 
-    [style]="{ width: '500px' }">
-    <app-parent-form (submitParent)="guardarPadre($event)" />
-  </p-dialog>
+  <app-parent-form 
+    [parent]="selectedParent"
+    (submitParent)="guardarPadre($event)"
+    (cancel)="cancelarDialogoPadre()"
+    >
+  </app-parent-form>
+</p-dialog>

@@ -1,28 +1,49 @@
 <form [formGroup]="parentForm" (ngSubmit)="onSubmit()" class="parent-form">
-    <div class="field">
-      <label for="nombre">Nombre</label>
-      <input id="nombre" type="text" pInputText formControlName="nombre" />
-    </div>
+  <div class="field">
+    <label for="nombre">Nombre</label>
+    <input id="nombre" type="text" pInputText formControlName="nombre" />
+    <small *ngIf="parentForm.get('nombre')?.invalid && parentForm.get('nombre')?.touched" class="p-error">
+      El nombre es obligatorio
+    </small>
+  </div>
+
+  <div class="field">
+    <label for="apellidos">Apellidos</label>
+    <input id="apellidos" type="text" pInputText formControlName="apellidos" />
+    <small *ngIf="parentForm.get('apellidos')?.invalid && parentForm.get('apellidos')?.touched" class="p-error">
+      Los apellidos son obligatorios
+    </small>
+  </div>
+
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" type="email" pInputText formControlName="email" />
+    <small *ngIf="parentForm.get('email')?.invalid && parentForm.get('email')?.touched" class="p-error">
+      El email no es válido
+    </small>
+  </div>
+
+  <div class="field">
+    <label for="telefono">Teléfono</label>
+    <input id="telefono" type="text" pInputText formControlName="telefono" />
+    <small *ngIf="parentForm.get('telefono')?.invalid && parentForm.get('telefono')?.touched" class="p-error">
+      El teléfono es obligatorio
+    </small>
+  </div>
+
+  <div class="field" *ngIf="!parent">
+    <label for="password">Contraseña</label>
+    <input id="password" type="password" pInputText formControlName="password" />
+    <small *ngIf="parentForm.get('password')?.invalid && parentForm.get('password')?.touched" class="p-error">
+      La contraseña es obligatoria
+    </small>
+  </div>
+
+  <div class="p-field">
+    <label for="tipoUsuario">Tipo de usuario</label>
+    <input id="tipoUsuario" type="text" pInputText [value]="'PADRE'" readonly />
+    <small class="p-text-secondary">Este campo es informativo</small>
+  </div>
   
-    <div class="field">
-      <label for="apellidos">Apellidos</label>
-      <input id="apellidos" type="text" pInputText formControlName="apellidos" />
-    </div>
-  
-    <div class="field">
-      <label for="email">Email</label>
-      <input id="email" type="email" pInputText formControlName="email" />
-    </div>
-  
-    <div class="field">
-      <label for="telefono">Teléfono</label>
-      <input id="telefono" type="text" pInputText formControlName="telefono" />
-    </div>
-  
-    <div class="field">
-      <label for="password">Contraseña</label>
-      <input id="password" type="password" pInputText formControlName="password" />
-    </div>
-  
-    <button pButton type="submit" label="Guardar padre"></button>
-  </form>
+  <button pButton type="submit" [label]="parent ? 'Actualizar padre' : 'Guardar padre'"></button>
+</form>

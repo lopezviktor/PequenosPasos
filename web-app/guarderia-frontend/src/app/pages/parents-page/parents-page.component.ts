@@ -24,6 +24,8 @@ export class ParentsPageComponent implements OnInit {
   globalFilter: string = '';
   parents: Parent[] = [];
   mostrarDialogoPadre = false;
+  selectedParent?: Parent;
+  parentEditando = false;
 
   constructor(private parentService: ParentService) {}
 
@@ -39,16 +41,48 @@ export class ParentsPageComponent implements OnInit {
   }
 
   guardarPadre(parent: Parent): void {
-    this.parentService.createParent(parent).subscribe({
-      next: (nuevoPadre) => {
-        this.parents.push(nuevoPadre);
-        this.mostrarDialogoPadre = false;
-      },
-      error: (err) => console.error('Error al guardar padre:', err)
-    });
+    console.log('Datos enviados al backend:', parent);
+    if (this.parentEditando) {
+      this.parentService.updateParent(parent).subscribe({
+        next: () => {
+          this.cargarPadres();
+          this.cancelarDialogoPadre();
+        },
+        error: (err: any) => console.error('Error al actualizar padre:', err)
+      });
+    } else {
+      this.parentService.createParent(parent).subscribe({
+        next: (nuevoPadre) => {
+          this.parents.push(nuevoPadre);
+          this.cancelarDialogoPadre();
+        },
+        error: (err: any) => console.error('Error al guardar padre:', err)
+      });
+    }
   }
 
   editarPadre(parent: Parent): void {
-    console.log('Editar padre:', parent);
+    this.selectedParent = parent;
+    this.mostrarDialogoPadre = true;
+    this.parentEditando = true;
   }
+  
+  eliminarPadre(id: number): void {
+    this.parentService.deleteParent(id).subscribe({
+      next: () => this.cargarPadres(),
+      error: (err) => console.error('Error al eliminar padre:', err)
+    });
+  }
+  
+  abrirDialogoParaNuevoPadre(): void {
+    this.selectedParent = undefined; 
+    this.mostrarDialogoPadre = true; 
+  }
+
+  cancelarDialogoPadre(): void {
+    this.mostrarDialogoPadre = false;
+    this.selectedParent = undefined;
+    this.parentEditando = false;
+  }
+  
 }

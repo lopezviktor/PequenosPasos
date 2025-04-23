@@ -19,4 +19,13 @@ export class ParentService {
   createParent(parent: Parent): Observable<Parent> {
     return this.http.post<Parent>(this.baseUrl, parent);
   }
+  
+  updateParent(parent: Parent): Observable<Parent> {
+    return this.http.put<Parent>(`${this.baseUrl}/${parent.id}`, parent);
+  }
+  
+  deleteParent(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
 }
