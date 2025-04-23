@@ -21,6 +21,11 @@ export class SidebarComponent {
       routerLink: ['/dashboard']
     },
     {
+      label: 'Educadores',
+      icon: 'pi pi-user-edit',
+      routerLink: ['/educadores']
+    },
+    {
       label: 'Niños',
       icon: 'pi pi-users',
       routerLink: ['/ninos']
@@ -64,11 +69,6 @@ export class SidebarComponent {
       label: 'Clases',
       icon: 'pi pi-users',
       routerLink: ['/clases']
-    },
-    {
-      label: 'Educadores',
-      icon: 'pi pi-user-edit',
-      routerLink: ['/educadores']
     }
   ]
 }

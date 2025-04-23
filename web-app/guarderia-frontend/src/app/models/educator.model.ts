@@ -1,4 +1,4 @@
-export interface Parent {
+export interface Educator {
     id: number;
     nombre: string;
     apellidos: string;
@@ -6,4 +6,4 @@ export interface Parent {
     telefono: string;
     password: string;
     tipoUsuario?: string;
-  }
+}
