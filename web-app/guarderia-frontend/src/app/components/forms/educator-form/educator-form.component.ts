@@ -18,7 +18,7 @@ import { Educator } from '@models/educator.model';
   styleUrl: './educator-form.component.scss'
 })
 export class EducatorFormComponent implements OnChanges {
-  @Output() submitEducator = new EventEmitter<any>();
+  @Output() submitEducator = new EventEmitter<Educator>();
   @Input() educator?: Educator;
 
   educatorForm: FormGroup;

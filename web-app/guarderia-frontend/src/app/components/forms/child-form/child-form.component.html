@@ -42,6 +42,24 @@
         <label for="fotoUrl">Foto (URL)</label>
         <input id="fotoUrl" type="text" pInputText formControlName="fotoUrl" />
     </div>
+
+    <div class="p-field p-col-12 p-md-6">
+        <label for="clase">Clase</label>
+        <p-dropdown
+            id="clase"
+            [options]="clasesDisponibles"
+            optionLabel="nombre"
+            optionValue="id"
+            placeholder="Selecciona una clase"
+            formControlName="clase"
+            [showClear]="true"
+            [filter]="true"
+            appendTo="body">
+        </p-dropdown>
+        <small *ngIf="childForm.get('claseId')?.invalid && childForm.get('claseId')?.touched" class="p-error">
+            La clase es obligatoria
+        </small>
+    </div>
     </div>
 
     <div class="p-d-flex p-jc-end">

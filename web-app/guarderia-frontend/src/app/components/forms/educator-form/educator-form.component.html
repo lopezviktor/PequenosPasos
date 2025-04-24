@@ -1,6 +1,6 @@
 
 <form [formGroup]="educatorForm" (ngSubmit)="onSubmit()" class="educator-form">
-  <div class="field">
+  <div class="p-field">
     <label for="nombre">Nombre</label>
     <input id="nombre" type="text" pInputText formControlName="nombre" />
     <small *ngIf="educatorForm.get('nombre')?.invalid && educatorForm.get('nombre')?.touched" class="p-error">
@@ -8,7 +8,7 @@
     </small>
   </div>
 
-  <div class="field">
+  <div class="p-field">
     <label for="apellidos">Apellidos</label>
     <input id="apellidos" type="text" pInputText formControlName="apellidos" />
     <small *ngIf="educatorForm.get('apellidos')?.invalid && educatorForm.get('apellidos')?.touched" class="p-error">
@@ -16,7 +16,7 @@
     </small>
   </div>
 
-  <div class="field">
+  <div class="p-field">
     <label for="email">Email</label>
     <input id="email" type="email" pInputText formControlName="email" />
     <small *ngIf="educatorForm.get('email')?.invalid && educatorForm.get('email')?.touched" class="p-error">
@@ -24,7 +24,7 @@
     </small>
   </div>
 
-  <div class="field">
+  <div class="p-field">
     <label for="telefono">Teléfono</label>
     <input id="telefono" type="text" pInputText formControlName="telefono" />
     <small *ngIf="educatorForm.get('telefono')?.invalid && educatorForm.get('telefono')?.touched" class="p-error">
@@ -32,7 +32,7 @@
     </small>
   </div>
 
-  <div class="field" *ngIf="!educator">
+  <div class="p-field" *ngIf="!educator">
     <label for="password">Contraseña</label>
     <input id="password" type="password" pInputText formControlName="password" />
     <small *ngIf="educatorForm.get('password')?.invalid && educatorForm.get('password')?.touched" class="p-error">

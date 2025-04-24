@@ -14,6 +14,7 @@
       <th>Apellidos</th>
       <th>Fecha de nacimiento</th>
       <th>Primer día</th>
+      <th>Clase</th>
       <th>Alergias</th>
       <th>Condiciones médicas</th>
       <th>Acciones</th>
@@ -29,6 +30,7 @@
       <td>{{ child.apellidos }}</td>
       <td>{{ child.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
       <td>{{ child.primerDia | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ child.clase?.nombre || 'Sin clase' }}</td>
       <td>{{ child.alergias || 'Ninguna' }}</td>
       <td>{{ child.condicionesMedicas || 'Ninguna' }}</td>
       <td>
