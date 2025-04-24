@@ -1,0 +1,37 @@
+<div class="classes-container">
+  <div class="page-header">
+    <h2>🧑‍🏫 Clases</h2>
+    <button 
+      pButton 
+      label="Añadir clase" 
+      icon="pi pi-plus" 
+      class="p-button-outlined"
+      (click)="abrirDialogoParaNuevaClase()">
+    </button>
+  </div>
+
+  <div class="card-grid">
+    <app-class-card 
+      *ngFor="let clase of clases"
+      [clase]="clase"
+      (editar)="abrirDialogoParaEditarClase(clase)">
+    </app-class-card>
+  </div>
+
+  <p-dialog 
+  [(visible)]="mostrarDialogoClase"
+  [modal]="true"
+  [style]="{width: '30rem'}"
+  [closable]="true"
+  (onHide)="cancelarDialogoClase()"
+  [header]="claseEditando ? 'Editar clase' : 'Añadir clase'">
+
+  <app-class-form
+    [clase]="claseEditando"
+    [educadores]="educadores"
+    (submitClase)="guardarClase($event)"
+    (cancelar)="cancelarDialogoClase()">
+  </app-class-form>
+
+</p-dialog>
+</div>

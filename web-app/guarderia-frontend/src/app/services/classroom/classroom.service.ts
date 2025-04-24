@@ -20,4 +20,17 @@ export class ClassroomService {
   getClaseById(id: number): Observable<Clase> {
     return this.http.get<Clase>(`${this.apiUrl}/${id}`);
   }
+
+  createClase(clase: Clase): Observable<Clase> {
+    return this.http.post<Clase>(this.apiUrl, clase);
+  }
+  
+  updateClase(id: number, clase: Clase): Observable<Clase> {
+    return this.http.put<Clase>(`${this.apiUrl}/${id}`, clase);
+  }
+  
+  deleteClase(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  
 }

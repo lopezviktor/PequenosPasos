@@ -1,0 +1,24 @@
+:host ::ng-deep .class-card-neumorphic {
+    background: #e0e0e0; // gris claro
+    border-radius: 20px;
+    box-shadow: 
+      10px 10px 20px #bebebe,
+      -10px -10px 20px #ffffff;
+    padding: 1rem;
+    transition: all 0.3s ease;
+  
+    &:hover {
+      box-shadow: 
+        5px 5px 10px #bebebe,
+        -5px -5px 10px #ffffff;
+    }
+  
+    strong {
+      color: #333;
+    }
+  
+    div {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+  }
