@@ -3,6 +3,7 @@ package com.pequenospasos.backend.controller;
 import com.pequenospasos.backend.entity.EventoNinos;
 import com.pequenospasos.backend.service.EventoNinosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class EventoNinosController {
     private EventoNinosService eventoNinosService;
 
     // Obtener todas las relaciones evento-niño con validación de existencia
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN')")
     @GetMapping
     public List<EventoNinos> getAllEventoNinos() {
         List<EventoNinos> eventoNinos = eventoNinosService.getAllEventoNinos();
@@ -25,6 +27,7 @@ public class EventoNinosController {
     }
 
     // Obtener todos los eventos en los que participa un niño
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/nino/{ninoId}")
     public List<EventoNinos> getEventosByNinoId(@PathVariable Long ninoId) {
         List<EventoNinos> eventos = eventoNinosService.getEventosByNinoId(ninoId);
@@ -35,18 +38,21 @@ public class EventoNinosController {
     }
 
     // Obtener todos los niños que participan en un evento específico
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN')")
     @GetMapping("/evento/{eventoId}")
     public List<EventoNinos> getNinosByEventoId(@PathVariable Long eventoId) {
         return eventoNinosService.getNinosByEventoId(eventoId);
     }
 
     // Registrar un niño en un evento evitando duplicados
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN', 'PADRE')")
     @PostMapping
     public EventoNinos saveEventoNino(@RequestBody EventoNinos eventoNinos) {
         return eventoNinosService.saveEventoNino(eventoNinos);
     }
 
     // Eliminar una relación evento-niño por ID con validación
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN', 'PADRE')")
     @DeleteMapping("/{id}")
     public void deleteEventoNino(@PathVariable Long id) {
         eventoNinosService.getAllEventoNinos().stream()
@@ -58,6 +64,7 @@ public class EventoNinosController {
     }
 
     // Eliminar una relación evento-niño por evento y niño con validación
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN', 'PADRE')")
     @DeleteMapping
     public void deleteEventoNinoByEventoAndNino(@RequestParam Long eventoId, @RequestParam Long ninoId) {
         List<EventoNinos> relaciones = eventoNinosService.getEventosByNinoId(ninoId);
@@ -70,6 +77,8 @@ public class EventoNinosController {
         eventoNinosService.deleteEventoNinoByEventoAndNino(eventoId, ninoId);
     }
 
+    //Confirmar asistencia al evento
+    @PreAuthorize("hasAnyRole('EDUCADOR')")
     @PutMapping("/confirmar-asistencia")
     public EventoNinos confirmarAsistencia(@RequestBody ConfirmarAsistenciaRequest request) {
         return eventoNinosService.confirmarAsistencia(request.getEventoId(), request.getNinoId());

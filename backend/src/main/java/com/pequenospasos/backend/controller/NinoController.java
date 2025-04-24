@@ -64,7 +64,7 @@ public class NinoController {
         existingNino.setAlergias(updatedNino.getAlergias());
         existingNino.setCondicionesMedicas(updatedNino.getCondicionesMedicas());
         existingNino.setFotoUrl(updatedNino.getFotoUrl());
-
+        existingNino.setClase(updatedNino.getClase());
         return ResponseEntity.ok(ninoService.updateNino(id, existingNino));
     }
 

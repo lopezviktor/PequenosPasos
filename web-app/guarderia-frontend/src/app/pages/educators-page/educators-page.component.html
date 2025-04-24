@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h2>👩‍🏫 Educadores</h2>
+  <button 
+    pButton 
+    label="Añadir educador" 
+    icon="pi pi-plus" 
+    class="p-button-outlined" 
+    (click)="abrirDialogoParaNuevoEducador()">
+  </button>
+</div>
+
+<app-educator-table 
+  *ngIf="educators"
+  [educators]="educators" 
+  [globalFilter]="globalFilter" 
+  (editar)="editarEducador($event)"
+  (eliminado)="eliminarEducador($event)">
+</app-educator-table>
+
+<p-dialog 
+  header="{{ selectedEducator ? 'Editar educador' : 'Añadir educador' }}" 
+  [(visible)]="mostrarDialogoEducador" 
+  [modal]="true" 
+  [style]="{ width: '500px' }"
+  (onHide)="cancelarDialogoEducador()">
+  
+  <app-educator-form 
+    [educator]="selectedEducator"
+    (submitEducator)="guardarEducador($event)"
+    (cancel)="cancelarDialogoEducador()"
+    >
+  </app-educator-form>
+</p-dialog>

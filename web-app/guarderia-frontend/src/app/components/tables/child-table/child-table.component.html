@@ -1,0 +1,41 @@
+
+<p-table 
+  [value]="children"
+  [paginator]="true"
+  [rows]="10"
+  [globalFilterFields]="['nombre', 'apellidos']"
+  [filters]="{ global: { value: globalFilter, matchMode: 'contains' } }"
+  responsiveLayout="scroll"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Foto</th>
+      <th>Nombre</th>
+      <th>Apellidos</th>
+      <th>Fecha de nacimiento</th>
+      <th>Primer día</th>
+      <th>Alergias</th>
+      <th>Condiciones médicas</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-child>
+    <tr>
+      <td>
+        <img [src]="child.fotoUrl" width="50" height="50" style="border-radius: 5px;" *ngIf="child.fotoUrl; else noImg"/>
+        <ng-template #noImg><span style="color: gray;">Sin imagen</span></ng-template>
+      </td>
+      <td>{{ child.nombre }}</td>
+      <td>{{ child.apellidos }}</td>
+      <td>{{ child.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ child.primerDia | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ child.alergias || 'Ninguna' }}</td>
+      <td>{{ child.condicionesMedicas || 'Ninguna' }}</td>
+      <td>
+        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text" (click)="editarNino(child)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" (click)="confirmarEliminar(child)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-confirmDialog></p-confirmDialog>

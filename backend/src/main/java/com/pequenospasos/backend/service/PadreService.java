@@ -5,6 +5,7 @@ import com.pequenospasos.backend.entity.Usuario;
 import com.pequenospasos.backend.repository.UsuarioRepository;
 import com.pequenospasos.backend.repository.PadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,9 @@ public class PadreService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Obtener todos los padres
     public List<Padre> findAllPadres() {
@@ -49,7 +53,13 @@ public class PadreService {
         if (usuarioRepository.existsByEmail(padre.getEmail())) {
             throw new RuntimeException("El email ya está registrado.");
         }
-        padre.setTipoUsuario("PADRE"); // Asegurar que se guarde correctamente
+
+        // Cifrar la contraseña antes de guardar
+        if (padre.getPassword() != null && !padre.getPassword().isEmpty()) {
+            padre.setPassword(passwordEncoder.encode(padre.getPassword()));
+        }
+
+        padre.setTipoUsuario("PADRE");
         return usuarioRepository.save(padre);
     }
 

@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h2>👧🏼 Niños</h2>
+  <button 
+    pButton 
+    label="Añadir niño" 
+    icon="pi pi-plus" 
+    class="p-button-outlined" 
+    (click)="abrirDialogoParaNuevoNino()">
+  </button>
+</div>
+
+<app-child-table 
+  *ngIf="children"
+  [children]="children" 
+  [globalFilter]="globalFilter" 
+  (editar)="editarNino($event)"
+  (eliminado)="eliminarNino($event)">
+</app-child-table>
+
+<p-dialog 
+  header="{{ selectedChild ? 'Editar niño' : 'Añadir niño' }}" 
+  [(visible)]="mostrarDialogoNino" 
+  [modal]="true" 
+  [style]="{ width: '500px' }"
+  (onHide)="cancelarDialogoNino()">
+  
+  <app-child-form 
+    [child]="selectedChild"
+    (submitChild)="guardarNino($event)"
+    (cancel)="cancelarDialogoNino()">
+  </app-child-form>
+</p-dialog>

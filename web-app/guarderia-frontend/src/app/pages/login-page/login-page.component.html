@@ -1,0 +1,17 @@
+<div class="login-container">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h2>Iniciar sesión</h2>
+  
+      <div class="p-field">
+        <label for="email">Email</label>
+        <input id="email" type="text" pInputText formControlName="email" />
+      </div>
+  
+      <div class="p-field">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" pInputText formControlName="password" />
+      </div>
+  
+      <button pButton type="submit" label="Entrar" [disabled]="loginForm.invalid"></button>
+    </form>
+  </div>

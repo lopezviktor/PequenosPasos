@@ -1,0 +1,22 @@
+.fab-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 3rem;
+    z-index: 1000;
+  
+    .p-menu {
+        transform: translateY(-100%);
+    }
+    
+    button {
+      background: #e0e5ec;
+      color: #333;
+      border: none;
+      box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
+      transition: all 0.2s ease;
+  
+      &:hover {
+        box-shadow: inset 6px 6px 12px #bebebe, inset -6px -6px 12px #ffffff;
+      }
+    }
+  }

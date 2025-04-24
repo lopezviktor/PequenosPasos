@@ -3,6 +3,7 @@ package com.pequenospasos.backend.controller;
 import com.pequenospasos.backend.entity.Actividad;
 import com.pequenospasos.backend.service.ActividadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +16,14 @@ public class ActividadController {
     private ActividadService actividadService;
 
     // Obtener todas las actividades
+    @PreAuthorize("hasRole('EDUCADOR')")
     @GetMapping
     public List<Actividad> getAllActividades() {
         return actividadService.getAllActividades();
     }
 
     // Buscar actividades por nombre
+    @PreAuthorize("hasRole('EDUCADOR')")
     @GetMapping("/buscar")
     public List<Actividad> getActividadesByNombre(@RequestParam String nombre) {
         return actividadService.getActividadesByNombre(nombre);
@@ -34,6 +37,7 @@ public class ActividadController {
     }
 
     // Crear nueva actividad validando nombre único
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'PADRE')")
     @PostMapping
     public Actividad createActividad(@RequestBody Actividad actividad) {
         if (!actividadService.getActividadesByNombre(actividad.getNombre()).isEmpty()) {
@@ -43,6 +47,7 @@ public class ActividadController {
     }
 
     // Actualizar actividad con validación de existencia y nombre único
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PutMapping("/{id}")
     public Actividad updateActividad(@PathVariable Long id, @RequestBody Actividad actividadDetalles) {
         return actividadService.getActividadById(id).map(actividad -> {
@@ -55,6 +60,7 @@ public class ActividadController {
     }
 
     // Eliminar actividad con validación de existencia
+    @PreAuthorize("hasRole('EDUCADOR')")
     @DeleteMapping("/{id}")
     public void deleteActividad(@PathVariable Long id) {
         actividadService.getActividadById(id)
