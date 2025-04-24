@@ -69,7 +69,7 @@ public class NinoService {
         existingNino.setAlergias(updatedNino.getAlergias());
         existingNino.setCondicionesMedicas(updatedNino.getCondicionesMedicas());
         existingNino.setFotoUrl(updatedNino.getFotoUrl());
-
+        existingNino.setClase(updatedNino.getClase());
         return ninoRepository.save(existingNino);
     }
 

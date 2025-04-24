@@ -13,7 +13,8 @@ import java.util.List;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,  // Indica que el tipo se define con un campo
         include = JsonTypeInfo.As.PROPERTY,
-        property = "tipoUsuario"  // Este es el campo que se usará para determinar el tipo
+        property = "tipoUsuario",  // Este es el campo que se usará para determinar el tipo
+        visible = true
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Padre.class, name = "PADRE"),

@@ -43,7 +43,7 @@ public class Nino {
 
     @ManyToOne
     @JoinColumn(name = "clase_id")
-    @JsonBackReference // Evita bucles en JSON
+    @JsonIgnoreProperties("ninos")
     private Clase clase;
 
     // Constructor vacío
