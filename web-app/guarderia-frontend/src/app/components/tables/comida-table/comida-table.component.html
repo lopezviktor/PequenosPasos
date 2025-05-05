@@ -1,0 +1,25 @@
+<p-table [value]="comidas">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Niño</th>
+      <th>Educador</th>
+      <th>Hora</th>
+      <th>Descripción</th>
+      <th>Observaciones</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-comida>
+    <tr>
+      <td>{{ comida.nino?.nombre }} {{ comida.nino?.apellidos }}</td>
+      <td>{{ comida.educador?.nombre }} {{ comida.educador?.apellidos }}</td>
+      <td>{{ comida.horaComida | date:'short' }}</td>
+      <td>{{ comida.descripcionComida }}</td>
+      <td>{{ comida.observaciones || '—' }}</td>
+      <td>
+        <button pButton icon="pi pi-pencil" class="p-button-sm p-button-text" (click)="editarComida(comida)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" (click)="eliminarComida(comida.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

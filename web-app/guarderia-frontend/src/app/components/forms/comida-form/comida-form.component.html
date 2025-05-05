@@ -1,0 +1,48 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <p-select
+    [options]="ninos"
+    optionLabel="nombre"
+    formControlName="nino"
+    placeholder="Selecciona un niño">
+  </p-select>
+
+  <p-select 
+    [options]="educadores"
+    optionLabel="nombre"
+    formControlName="educador"
+    placeholder="Selecciona un educador">
+  </p-select>
+  
+  <div class="field">
+    <label for="horaComida">Hora de la comida</label>
+    <input 
+      id="horaComida" 
+      type="datetime-local" 
+      formControlName="horaComida"
+      [value]="comidaEditando?.horaComida" 
+    />
+    <small *ngIf="form.get('horaComida')?.invalid && form.get('horaComida')?.touched" class="p-error">
+      La hora de la comida es obligatoria
+    </small>
+  </div>
+
+  <!-- Descripción de la comida -->
+  <textarea 
+    pInputTextarea 
+    formControlName="descripcionComida" 
+    rows="3" 
+    placeholder="Descripción de la comida">
+  </textarea>
+
+  <!-- Observaciones -->
+  <textarea 
+    pInputTextarea 
+    formControlName="observaciones" 
+    rows="2" 
+    placeholder="Observaciones (opcional)">
+  </textarea>
+
+  <button pButton label="{{ comidaEditando ? 'Actualizar comida' : 'Guardar comida' }}" type="submit" [disabled]="form.invalid"></button>
+
+</form>

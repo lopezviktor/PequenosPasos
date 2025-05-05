@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from '@components/layout/main-layout/main-layout.component';
-import { DashboardPageComponent } from '@pages/dashboard-page/dashboard-page.component';
-import { ParentsPageComponent } from '@pages/parents-page/parents-page.component';
-import { EducatorsPageComponent } from '@pages/educators-page/educators-page.component';
-import { ChildrenPageComponent } from '@pages/children-page/children-page.component';
 import { authGuard } from '@guards/auth.guard';
 
 export const routes: Routes = [
@@ -18,6 +14,7 @@ export const routes: Routes = [
         { path: 'educadores', loadComponent: () => import('./pages/educators-page/educators-page.component').then(m => m.EducatorsPageComponent) },
         { path: 'ninos', loadComponent: () => import('./pages/children-page/children-page.component').then(m => m.ChildrenPageComponent) },
         { path: 'clases', loadComponent: () => import('./pages/classes-page/classes-page.component').then(m => m.ClassesPageComponent) },
+        { path: 'comidas', loadComponent: () => import('./pages/comidas-page/comidas-page.component').then(m => m.ComidasPageComponent) },
       ]
     },
     {
