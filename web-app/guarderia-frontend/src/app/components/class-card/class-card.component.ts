@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Clase } from '@models/clase.model';
 import { CardModule } from 'primeng/card';
 
@@ -10,4 +10,15 @@ import { CardModule } from 'primeng/card';
 })
 export class ClassCardComponent {
   @Input() clase!: Clase;
+  @Output() editar = new EventEmitter<Clase>();
+  @Output() eliminar = new EventEmitter<Clase>();
+
+  onEditar() {
+    this.editar.emit(this.clase);
+  }
+
+  onEliminar() {
+    this.eliminar.emit(this.clase);
+  }
+  
 }

@@ -21,16 +21,16 @@ export class ClassroomService {
     return this.http.get<Clase>(`${this.apiUrl}/${id}`);
   }
 
-  createClase(clase: Clase): Observable<Clase> {
+  crearClase(clase: Clase): Observable<Clase> {
     return this.http.post<Clase>(this.apiUrl, clase);
   }
   
-  updateClase(id: number, clase: Clase): Observable<Clase> {
-    return this.http.put<Clase>(`${this.apiUrl}/${id}`, clase);
+  actualizarClase(clase: Clase): Observable<Clase> {
+    return this.http.put<Clase>(`${this.apiUrl}/${clase.id}`, clase);
   }
   
   deleteClase(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/clases/${id}`);
   }
   
 }

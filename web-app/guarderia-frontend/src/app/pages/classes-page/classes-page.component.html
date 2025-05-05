@@ -14,7 +14,8 @@
     <app-class-card 
       *ngFor="let clase of clases"
       [clase]="clase"
-      (editar)="abrirDialogoParaEditarClase(clase)">
+      (editar)="abrirDialogoParaEditarClase(clase)"
+      (eliminar)="confirmarEliminarClase(clase)">
     </app-class-card>
   </div>
 
@@ -32,6 +33,7 @@
     (submitClase)="guardarClase($event)"
     (cancelar)="cancelarDialogoClase()">
   </app-class-form>
-
 </p-dialog>
+
+<p-confirmDialog></p-confirmDialog>
 </div>
