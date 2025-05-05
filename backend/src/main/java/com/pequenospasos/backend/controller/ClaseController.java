@@ -5,6 +5,7 @@ import com.pequenospasos.backend.dto.EliminarNinoRequest;
 import com.pequenospasos.backend.entity.Clase;
 import com.pequenospasos.backend.service.ClaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,5 +61,12 @@ public class ClaseController {
     @DeleteMapping("/eliminar-nino")
     public Clase eliminarNinoDeClase(@RequestBody EliminarNinoRequest request) {
         return claseService.eliminarNinoDeClase(request.getClaseId(), request.getNinoId());
+    }
+
+    @PreAuthorize("hasRole('EDUCADOR')")
+    @DeleteMapping("/clases/{id}")
+    public ResponseEntity<Void> eliminarClase(@PathVariable Long id) {
+        claseService.eliminarClase(id);
+        return ResponseEntity.noContent().build();
     }
 }
