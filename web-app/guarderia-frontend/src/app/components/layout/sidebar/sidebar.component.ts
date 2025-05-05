@@ -30,7 +30,12 @@ export class SidebarComponent {
       icon: 'pi pi-users',
       routerLink: ['/ninos']
     },
-        {
+    {
+      label: 'Clases',
+      icon: 'pi pi-users',
+      routerLink: ['/clases']
+    },
+    {
       label: 'Padres',
       icon: 'pi pi-users',
       routerLink: ['/padres']
@@ -64,11 +69,6 @@ export class SidebarComponent {
       label: 'Mensajes',
       icon: 'pi pi-comments',
       routerLink: ['/mensajes']
-    },
-    {
-      label: 'Clases',
-      icon: 'pi pi-users',
-      routerLink: ['/clases']
     }
   ]
 }

@@ -118,4 +118,21 @@ public class ClaseService {
             throw new RuntimeException("El niño no está en esta clase");
         }
     }
+
+    @Transactional
+    public void eliminarClase(Long id) {
+        Clase clase = claseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Clase no encontrada"));
+
+        // Desasociar los niños de esta clase
+        for (Nino nino : clase.getNinos()) {
+            nino.setClase(null);
+        }
+
+        // Guardar los niños actualizados
+        ninoRepository.saveAll(clase.getNinos());
+
+        // Ahora sí, eliminar la clase
+        claseRepository.delete(clase);
+    }
 }

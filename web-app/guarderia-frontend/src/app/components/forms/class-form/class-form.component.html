@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="nombre">Nombre de la clase</label>
+      <input id="nombre" type="text" pInputText formControlName="nombre" />
+    </div>
+
+    <div class="p-field">
+      <label for="educador">Educador/a</label>
+      <p-dropdown 
+        id="educador"
+        [options]="educadores"
+        optionLabel="nombre"
+        placeholder="Selecciona un educador/a"
+        formControlName="educador"
+        [filter]="true"
+        appendTo="body"
+        >
+        <ng-template let-educador pTemplate="item">
+          {{ educador.nombre }} {{ educador.apellidos }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <button type="submit" pButton label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </div>
+</form>

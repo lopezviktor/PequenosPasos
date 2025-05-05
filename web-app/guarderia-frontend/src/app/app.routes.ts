@@ -17,6 +17,7 @@ export const routes: Routes = [
         { path: 'padres', loadComponent: () => import('./pages/parents-page/parents-page.component').then(m => m.ParentsPageComponent) },
         { path: 'educadores', loadComponent: () => import('./pages/educators-page/educators-page.component').then(m => m.EducatorsPageComponent) },
         { path: 'ninos', loadComponent: () => import('./pages/children-page/children-page.component').then(m => m.ChildrenPageComponent) },
+        { path: 'clases', loadComponent: () => import('./pages/classes-page/classes-page.component').then(m => m.ClassesPageComponent) },
       ]
     },
     {

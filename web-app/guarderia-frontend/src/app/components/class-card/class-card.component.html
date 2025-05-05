@@ -1,0 +1,23 @@
+<p-card header="{{ clase.nombre }}" styleClass="ui-card-shadow">
+    <div>
+      <strong>Educador:</strong> {{ clase.educador?.nombre }} {{ clase.educador?.apellidos }}
+    </div>
+    <div>
+      <strong>Número de niños:</strong> {{ clase.ninos?.length || 0 }}
+    </div>
+    <button 
+      pButton 
+      icon="pi pi-pencil" 
+      class="p-button-text p-button-sm" 
+      label="Editar"
+      (click)="onEditar()">
+    </button>
+    <button 
+      pButton 
+      icon="pi pi-trash" 
+      class="p-button-text p-button-sm p-button-danger" 
+      label="Eliminar"
+      (click)="onEliminar()">
+    </button>
+
+  </p-card>
