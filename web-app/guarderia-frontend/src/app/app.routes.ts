@@ -15,6 +15,7 @@ export const routes: Routes = [
         { path: 'ninos', loadComponent: () => import('./pages/children-page/children-page.component').then(m => m.ChildrenPageComponent) },
         { path: 'clases', loadComponent: () => import('./pages/classes-page/classes-page.component').then(m => m.ClassesPageComponent) },
         { path: 'comidas', loadComponent: () => import('./pages/comidas-page/comidas-page.component').then(m => m.ComidasPageComponent) },
+        { path : 'asistencias', loadComponent: () => import('./pages/asistencia-page/asistencia-page.component').then(m => m.AsistenciaPageComponent) },
       ]
     },
     {

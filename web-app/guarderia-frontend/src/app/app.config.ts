@@ -11,6 +11,8 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
+import { DialogService } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
 
 
 export const appConfig: ApplicationConfig = {
@@ -24,6 +26,8 @@ export const appConfig: ApplicationConfig = {
         preset: Aura
       }
     }),
-    ConfirmationService
+    ConfirmationService,
+    DialogService,
+    MessageService
   ]
 };
