@@ -1,0 +1,46 @@
+<form [formGroup]="form" class="formulario-asistencia" (ngSubmit)="onSubmit()">
+  <p-dropdown
+    formControlName="nino"
+    [options]="ninos"
+    optionLabel="nombre"
+    placeholder="Selecciona un niño">
+    <ng-template let-nino pTemplate="item">
+      {{ nino.nombre }} {{ nino.apellidos }}
+    </ng-template>
+  </p-dropdown>
+
+  <p-dropdown
+    formControlName="educador"
+    [options]="educadores"
+    optionLabel="nombre"
+    placeholder="Selecciona un educador">
+    <ng-template let-educador pTemplate="item">
+      {{ educador.nombre }} {{ educador.apellidos }}
+    </ng-template>
+  </p-dropdown>
+
+  <p-calendar
+    formControlName="fechaHora"
+    [showTime]="true"
+    hourFormat="24"
+    placeholder="Fecha y hora de la higiene">
+  </p-calendar>
+
+  <p-dropdown
+    formControlName="estado"
+    [options]="estados"
+    placeholder="Estado de la higiene"
+    optionLabel="label">
+  </p-dropdown>
+
+  <textarea
+    formControlName="observaciones"
+    rows="3"
+    placeholder="Observaciones"
+    style="grid-column: span 2;"></textarea>
+
+  <div class="botonera">
+    <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+  </div>
+</form>

@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h2>Gestión de siestas</h2>
+  <button
+    pButton
+    icon="pi pi-plus"
+    label="Añadir siesta"
+    class="p-button-outlined p-button-success"
+    (click)="crearSiesta()"
+  ></button>
+</div>
+
+<app-siesta-table
+  [siestas]="siestas"
+  (editar)="editarSiesta($event)"
+  (eliminado)="guardarSiesta()"
+></app-siesta-table>
+
+<p-dialog
+  [(visible)]="mostrarDialogo"
+  [modal]="true"
+  [style]="{ width: '40rem' }"
+  header="{{ siestaSeleccionada ? 'Editar siesta' : 'Nueva siesta' }}"
+  (onHide)="cerrarDialogo()"
+>
+  <app-siesta-form
+    [siestaEditando]="siestaSeleccionada"
+    (formularioCerrado)="cerrarDialogo()"
+    (siestaGuardada)="guardarSiesta()"
+  ></app-siesta-form>
+</p-dialog>

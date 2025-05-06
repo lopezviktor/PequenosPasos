@@ -3,12 +3,15 @@ import { CommonModule } from '@angular/common';
 import { Comida } from '@models/comida.model';
 import { ComidaService } from '@services/comida/comida.service';
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-comida-table',
   imports: [
     CommonModule,
-    TableModule],
+    TableModule,
+    ButtonModule
+  ],
   templateUrl: './comida-table.component.html',
   styleUrl: './comida-table.component.scss'
 })

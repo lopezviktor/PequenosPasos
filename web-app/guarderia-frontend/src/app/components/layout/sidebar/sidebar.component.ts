@@ -51,9 +51,9 @@ export class SidebarComponent {
       routerLink: ['/comidas']
     },
     {
-      label: 'Higiene',
+      label: 'Higienes',
       icon: 'pi pi-shield',
-      routerLink: ['/higiene']
+      routerLink: ['/higienes']
     },
     {
       label: 'Siestas',

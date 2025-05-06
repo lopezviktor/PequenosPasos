@@ -1,0 +1,38 @@
+
+<p-table [value]="siestas" dataKey="id" class="p-datatable-sm">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Niño</th>
+      <th>Educador</th>
+      <th>Inicio</th>
+      <th>Fin</th>
+      <th>Observaciones</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-siesta>
+    <tr>
+      <td>{{ siesta.nino.nombre }} {{ siesta.nino.apellidos }}</td>
+      <td>{{ siesta.educador.nombre }} {{ siesta.educador.apellidos }}</td>
+      <td>{{ siesta.inicioSiesta | date: 'short' }}</td>
+      <td>{{ siesta.finSiesta ? (siesta.finSiesta | date: 'short') : '-' }}</td>
+      <td>{{ siesta.observaciones || '-' }}</td>
+      <td>
+        <button
+          pButton
+          icon="pi pi-pencil"
+          class="p-button-sm p-button-outlined p-button-success"
+          (click)="editarSiesta(siesta)">
+        </button>
+        <button
+          pButton
+          icon="pi pi-trash"
+          class="p-button-sm p-button-outlined p-button-danger"
+          (click)="confirmarEliminacion(siesta)">
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-confirmDialog></p-confirmDialog>

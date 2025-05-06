@@ -1,0 +1,59 @@
+<div class="formulario">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="nino">Niño</label>
+        <p-dropdown
+          [options]="ninos"
+          formControlName="nino"
+          placeholder="Selecciona un niño"
+          dataKey="id"
+        >
+          <ng-template let-nino pTemplate="item">
+            {{ nino | nombreCompleto }}
+          </ng-template>
+          <ng-template let-nino pTemplate="selectedItem">
+            {{ nino | nombreCompleto }}
+          </ng-template>
+      </p-dropdown>
+      </div>
+
+      <div class="form-field">
+        <label for="educador">Educador</label>
+        <p-dropdown
+          [options]="educadores"
+          formControlName="educador"
+          placeholder="Selecciona un educador"
+          dataKey="id"
+        >
+          <ng-template let-educador pTemplate="item">
+            {{ educador | nombreCompleto }}
+          </ng-template>
+          <ng-template let-educador pTemplate="selectedItem">
+            {{ educador | nombreCompleto }}
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="form-field">
+        <label for="inicioSiesta">Hora inicio</label>
+        <p-calendar formControlName="inicioSiesta" [showTime]="true" hourFormat="24" placeholder="Selecciona la hora de inicio"></p-calendar>
+      </div>
+
+      <div class="form-field">
+        <label for="finSiesta">Hora fin</label>
+        <p-calendar formControlName="finSiesta" [showTime]="true" hourFormat="24" placeholder="Selecciona la hora de fin"></p-calendar>
+      </div>
+
+      <div class="form-field full-width">
+        <label for="observaciones">Observaciones</label>
+        <textarea pInputTextarea rows="3" formControlName="observaciones"></textarea>
+      </div>
+    </div>
+
+    <div class="botones-formulario">
+      <button pButton type="submit" label="Guardar" icon="pi pi-save" [disabled]="form.invalid"></button>
+      <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="cancelar()"></button>
+    </div>
+  </form>
+</div>

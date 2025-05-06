@@ -16,6 +16,8 @@ export const routes: Routes = [
         { path: 'clases', loadComponent: () => import('./pages/classes-page/classes-page.component').then(m => m.ClassesPageComponent) },
         { path: 'comidas', loadComponent: () => import('./pages/comidas-page/comidas-page.component').then(m => m.ComidasPageComponent) },
         { path : 'asistencias', loadComponent: () => import('./pages/asistencia-page/asistencia-page.component').then(m => m.AsistenciaPageComponent) },
+        { path: 'higienes', loadComponent: () => import('./pages/higienes-page/higienes-page.component').then(m => m.HigienesPageComponent) },
+        { path: 'siestas', loadComponent: () => import('./pages/siestas-page/siestas-page.component').then(m => m.SiestasPageComponent) },
       ]
     },
     {

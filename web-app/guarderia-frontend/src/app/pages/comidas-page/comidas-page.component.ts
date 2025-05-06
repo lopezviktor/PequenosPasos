@@ -6,11 +6,19 @@ import { ComidaFormComponent } from '@components/forms/comida-form/comida-form.c
 import { ComidaTableComponent } from '@components/tables/comida-table/comida-table.component';
 import { Dialog } from 'primeng/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-comidas-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ComidaFormComponent, Dialog, ComidaTableComponent],
+  imports: [
+    ReactiveFormsModule, 
+    CommonModule, 
+    ComidaFormComponent, 
+    Dialog, 
+    ComidaTableComponent,
+    ButtonModule
+  ],
   templateUrl: './comidas-page.component.html',
   styleUrls: ['./comidas-page.component.scss']
 })
