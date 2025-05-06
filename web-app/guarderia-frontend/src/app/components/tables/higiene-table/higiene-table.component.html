@@ -1,0 +1,26 @@
+<p-table [value]="higienes" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Niño</th>
+      <th>Educador</th>
+      <th>Fecha y hora</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-higiene>
+    <tr>
+      <td>{{ higiene.nino?.nombre }} {{ higiene.nino?.apellidos }}</td>
+      <td>{{ higiene.educador?.nombre }} {{ higiene.educador?.apellidos }}</td>
+      <td>{{ higiene.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ higiene.estado }}</td>
+      <td>
+        <button pButton icon="pi pi-pencil" 
+          class="p-button-sm" (click)="editarHigiene(higiene)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm"
+          (click)="eliminarHigiene(higiene.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-confirmDialog></p-confirmDialog>

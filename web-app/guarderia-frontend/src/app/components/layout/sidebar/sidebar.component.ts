@@ -43,7 +43,7 @@ export class SidebarComponent {
     {
       label: 'Asistencia',
       icon: 'pi pi-calendar-check',
-      routerLink: ['/asistencia']
+      routerLink: ['/asistencias']
     },
     {
       label: 'Comidas',
@@ -51,9 +51,9 @@ export class SidebarComponent {
       routerLink: ['/comidas']
     },
     {
-      label: 'Higiene',
+      label: 'Higienes',
       icon: 'pi pi-shield',
-      routerLink: ['/higiene']
+      routerLink: ['/higienes']
     },
     {
       label: 'Siestas',

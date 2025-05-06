@@ -1,0 +1,17 @@
+<p-dialog header="{{ comidaSeleccionada ? 'Editar comida' : 'Añadir comida' }}" [(visible)]="mostrarDialogo" [modal]="true" [style]="{ width: '500px' }">
+  <app-comida-form
+    [comidaEditando]="comidaSeleccionada"
+    (submitComida)="guardarComida($event)"
+    (cancelar)="cerrarDialogo()"
+  ></app-comida-form>
+</p-dialog>
+
+<div class="p-d-flex p-jc-between p-ai-center">
+  <button pButton label="Añadir comida" icon="pi pi-plus" class="p-button-outlined p-button-success" (click)="abrirDialogoParaNuevaComida()"></button>
+</div>
+
+<app-comida-table 
+  [comidas]="comidas"
+  (editar)="editarComida($event)"
+  (eliminar)="eliminarComida($event)"
+></app-comida-table>

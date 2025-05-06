@@ -1,0 +1,34 @@
+.formulario-asistencia {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.botonera {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+p-dropdown,
+p-calendar,
+input,
+textarea {
+  width: 100%;
+}
+
+p-calendar {
+  display: block;
+}
+
+::ng-deep .p-calendar {
+  width: 100% !important;
+}
+
+::ng-deep .p-datepicker {
+  font-size: 0.95rem;
+  padding: 1rem;
+}

@@ -1,0 +1,21 @@
+<div class="page-header">
+  <h2>Gestión de Asistencias</h2>
+  <button pButton type="button" label="Nueva Asistencia" icon="pi pi-plus" class="p-button-outlined p-button-success" (click)="nuevaAsistencia()"></button>
+</div>
+
+<p-dialog 
+  header="{{ asistenciaSeleccionada ? 'Editar asistencia' : 'Añadir asistencia' }}"
+  [(visible)]="mostrarDialogo" 
+  [modal]="true" 
+  [style]="{ width: '60vw', height: '80vh' }"
+  (onHide)="limpiarFormulario()"
+>
+<app-asistencia-form
+  *ngIf="mostrarDialogo"
+  [asistenciaEditando]="asistenciaSeleccionada"
+  (formularioCerrado)="limpiarFormulario()"
+  (asistenciaGuardada)="recargarTabla()">
+</app-asistencia-form>
+</p-dialog>
+
+<app-asistencia-table (editar)="editarAsistencia($event)"></app-asistencia-table>

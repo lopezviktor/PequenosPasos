@@ -16,6 +16,10 @@ export class ParentService {
     return this.http.get<Parent[]>(this.baseUrl);
   }
 
+  getPadresByNino(ninoId: number): Observable<Parent[]> {
+    return this.http.get<Parent[]>(`${environment.apiUrl}/padres-hijos/nino/${ninoId}/padres`);
+  }
+  
   createParent(parent: Parent): Observable<Parent> {
     return this.http.post<Parent>(this.baseUrl, parent);
   }
