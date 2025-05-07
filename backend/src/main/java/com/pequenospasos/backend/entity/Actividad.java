@@ -2,6 +2,8 @@ package com.pequenospasos.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "actividades")
 public class Actividad {
@@ -15,6 +17,9 @@ public class Actividad {
 
     @Column(nullable = false)
     private String descripcion;
+
+    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ActividadNinos> actividadNinos;
 
     // Constructor vacío
     public Actividad() {}

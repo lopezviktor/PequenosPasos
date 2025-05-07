@@ -51,6 +51,12 @@ public class NinoService {
         return padresHijosRepository.findNinosByPadreId(padreId); // Cambiar a padresHijosRepository
     }
 
+    // Obtener niños por ID de clase
+    @Transactional(readOnly = true)
+    public List<Nino> getNinosByClaseId(Long claseId) {
+        return ninoRepository.findNinosByClaseId(claseId);
+    }
+
     // Guardar un nuevo niño
     public Nino saveNino(Nino nino) {
         return ninoRepository.save(nino);

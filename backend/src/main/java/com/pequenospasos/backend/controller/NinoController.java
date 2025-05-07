@@ -73,4 +73,11 @@ public class NinoController {
     public void deleteNino(@PathVariable Long id) {
         ninoService.deleteNino(id);
     }
+
+    // Obtener niños por ID de clase
+    @GetMapping("/clase/{claseId}")
+    public ResponseEntity<List<Nino>> getNinosByClaseId(@PathVariable Long claseId) {
+        List<Nino> ninos = ninoService.getNinosByClaseId(claseId);
+        return ResponseEntity.ok(ninos);
+    }
 }

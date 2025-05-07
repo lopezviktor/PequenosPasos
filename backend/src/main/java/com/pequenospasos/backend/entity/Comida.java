@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comidas")
-public class Comida {
+public class  Comida {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

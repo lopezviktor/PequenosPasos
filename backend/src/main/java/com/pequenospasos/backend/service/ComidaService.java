@@ -115,6 +115,8 @@ public class ComidaService {
             comida.setHoraComida(comidaDetalles.getHoraComida());
             comida.setDescripcionComida(comidaDetalles.getDescripcionComida());
             comida.setEducador(comidaDetalles.getEducador());
+            comida.setObservaciones(comidaDetalles.getObservaciones());
+
             return comidaRepository.save(comida);
         } else {
             throw new RuntimeException("Comida no encontrada con id: " + id);

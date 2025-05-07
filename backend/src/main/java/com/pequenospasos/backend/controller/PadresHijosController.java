@@ -26,6 +26,11 @@ public class PadresHijosController {
         return ninos;
     }
 
+    @GetMapping("/nino/{ninoId}/padres")
+    public List<Padre> getPadresByNinoId(@PathVariable Long ninoId) {
+        return padresHijosService.getPadresByNinoId(ninoId);
+    }
+
     // Asignar un niño a un padre con validación
     @PostMapping("/asignar")
     public PadresHijos asignarNinoAPadre(@RequestParam Long padreId, @RequestParam Long ninoId) {
