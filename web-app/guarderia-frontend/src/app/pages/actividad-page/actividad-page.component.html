@@ -1,0 +1,28 @@
+<div class="actividad-page">
+  <div class="header">
+    <h2>Gestión de Actividades</h2>
+    <button pButton label="Nueva Actividad" icon="pi pi-plus" (click)="crearActividad()"></button>
+  </div>
+
+  <div class="card-container">
+    <app-actividad-card 
+      *ngFor="let actividad of actividades"
+      [actividad]="actividad"
+      (editar)="editarActividad($event)"
+      (eliminar)="eliminarActividad($event)">
+    </app-actividad-card>
+  </div>
+
+  <p-dialog 
+    header="Formulario de Actividad" 
+    [(visible)]="mostrarFormulario" 
+    [modal]="true" 
+    [closable]="false" 
+    [style]="{ width: '50vw' }">
+    <app-actividad-form 
+      [actividadEditando]="actividadSeleccionada" 
+      (actividadGuardada)="onGuardar()" 
+      (formularioCerrado)="onCancelar()">
+    </app-actividad-form>
+  </p-dialog>
+</div>

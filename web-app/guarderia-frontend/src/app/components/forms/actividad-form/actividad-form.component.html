@@ -1,0 +1,108 @@
+<div class="formulario">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="nombre">Nombre de la actividad</label>
+        <input pInputText formControlName="nombre" placeholder="Nombre de la actividad" />
+      </div>
+
+      <div class="form-field">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          pInputTextarea
+          formControlName="descripcion"
+          rows="3"
+          placeholder="Descripción de la actividad"
+        ></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="fecha">Fecha</label>
+        <p-calendar
+          formControlName="fecha"
+          [showTime]="true"
+          hourFormat="24"
+          placeholder="Fecha y hora"
+        ></p-calendar>
+      </div>
+
+      <div class="form-field">
+        <label for="educador">Educador</label>
+        <p-dropdown
+          [options]="educadores"
+          formControlName="educador"
+          placeholder="Selecciona un educador"
+          optionLabel="nombre"
+          dataKey="id"
+        >
+          <ng-template let-educador pTemplate="item">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+          <ng-template let-educador pTemplate="selectedItem">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <!-- Selector de modo -->
+      <div class="form-field">
+        <label for="modo">Modo de registro</label>
+        <p-dropdown 
+          [options]="[{ label: 'Clase', value: 'clase' }, { label: 'Individual', value: 'individual' }]" 
+          formControlName="modoRegistro" 
+          placeholder="Selecciona el modo"
+          (onChange)="cambiarModo($event.value)">
+        </p-dropdown>
+      </div>
+
+      <!-- Dropdown de clase si el modo es "clase" -->
+      <div class="form-field" *ngIf="form.get('modoRegistro')?.value === 'clase'">
+        <label for="clase">Clase</label>
+        <p-dropdown
+          [options]="clases"
+          formControlName="clase"
+          placeholder="Selecciona una clase"
+          optionLabel="nombre"
+          dataKey="id"
+          (onChange)="onClaseSeleccionada($event.value)">
+          <ng-template let-clase pTemplate="item">
+            {{ clase.nombre }}
+          </ng-template>
+          <ng-template let-clase pTemplate="selectedItem">
+            {{ clase.nombre }}
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <!-- Multiselect de niños si el modo es "individual" -->
+      <div class="form-field full-width" *ngIf="form.get('modoRegistro')?.value === 'individual'">
+        <label for="ninos">Niños</label>
+        <p-multiSelect
+          [options]="ninos"
+          formControlName="ninos"
+          placeholder="Selecciona los niños"
+          optionLabel="nombre"
+          display="chip">
+        </p-multiSelect>
+      </div>
+    </div>
+
+    <div class="botones-formulario">
+      <button
+        pButton
+        type="submit"
+        label="Guardar"
+        icon="pi pi-save"
+        [disabled]="!form.valid"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </form>
+</div>
