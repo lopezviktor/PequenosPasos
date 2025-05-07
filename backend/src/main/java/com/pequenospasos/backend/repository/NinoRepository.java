@@ -29,4 +29,8 @@ public interface NinoRepository extends JpaRepository<Nino, Long> {
 
     @Query("SELECT n FROM Nino n JOIN PadresHijos ph ON n.id = ph.nino.id WHERE n.id = :id")
     Optional<Nino> findByIdWithPadre(@Param("id") Long id);
+
+    // Buscar niños por ID de clase
+    @Query("SELECT n FROM Nino n WHERE n.clase.id = :claseId")
+    List<Nino> findNinosByClaseId(@Param("claseId") Long claseId);
 }

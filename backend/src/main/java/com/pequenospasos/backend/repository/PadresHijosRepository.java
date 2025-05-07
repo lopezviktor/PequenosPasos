@@ -34,4 +34,5 @@ public interface PadresHijosRepository extends JpaRepository<PadresHijos, Long> 
     @Transactional
     @Query("DELETE FROM PadresHijos ph WHERE ph.padre.id = :padreId AND ph.nino.id = :ninoId")
     void deleteByPadreIdAndNinoId(@Param("padreId") Long padreId, @Param("ninoId") Long ninoId);
+
 }

@@ -1,7 +1,9 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Actividad;
+import com.pequenospasos.backend.repository.ActividadNinosRepository;
 import com.pequenospasos.backend.repository.ActividadRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class ActividadService {
 
     @Autowired
     private ActividadRepository actividadRepository;
+
+    @Autowired
+    private ActividadNinosRepository actividadNinosRepository;
 
     // Obtener todas las actividades
     public List<Actividad> getAllActividades() {
@@ -57,7 +62,17 @@ public class ActividadService {
     }
 
     // Eliminar actividad por ID
-    public void deleteActividad(Long actividadId) {
-        actividadRepository.deleteById(actividadId);
+    @Transactional
+    public void deleteActividad(Long id) {
+        // Eliminar todas las relaciones en la tabla actividad_ninos antes de eliminar la actividad
+        actividadRepository.deleteAllByActividadId(id);
+
+        // Eliminar la actividad después de eliminar las relaciones
+        actividadRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteAllNinosFromActividad(Long actividadId) {
+        actividadRepository.deleteAllByActividadId(actividadId);
     }
 }

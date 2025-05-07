@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PadresHijosService {
@@ -26,6 +27,13 @@ public class PadresHijosService {
     // Obtener los niños asociados a un padre
     public List<Nino> getNinosByPadreId(Long padreId) {
         return padresHijosRepository.findNinosByPadreId(padreId);
+    }
+
+    public List<Padre> getPadresByNinoId(Long ninoId) {
+        return padresHijosRepository.findByNinoId(ninoId)
+                .stream()
+                .map(PadresHijos::getPadre)
+                .collect(Collectors.toList());
     }
 
     // Asociar un niño a un padre

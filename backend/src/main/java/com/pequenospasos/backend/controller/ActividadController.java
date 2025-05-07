@@ -66,6 +66,10 @@ public class ActividadController {
         actividadService.getActividadById(id)
                 .orElseThrow(() -> new RuntimeException("Actividad no encontrada con id: " + id));
 
+        // Eliminar relaciones de actividad_ninos antes de eliminar la actividad
+        actividadService.deleteAllNinosFromActividad(id);
+
+        // Ahora sí, eliminar la actividad
         actividadService.deleteActividad(id);
     }
 }
