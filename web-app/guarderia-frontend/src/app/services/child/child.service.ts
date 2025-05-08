@@ -31,4 +31,8 @@ export class ChildService {
   deleteChild(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getChildrenByClass(claseId: number): Observable<Child[]> {
+    return this.http.get<Child[]>(`${this.apiUrl}/clase/${claseId}`);
+  }
 }

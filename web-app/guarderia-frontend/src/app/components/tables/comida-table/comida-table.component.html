@@ -1,4 +1,4 @@
-<p-table [value]="comidas">
+<p-table [value]="comidas" dataKey="id" class="p-datatable-sm">
   <ng-template pTemplate="header">
     <tr>
       <th>Niño</th>
@@ -13,23 +13,25 @@
     <tr>
       <td>{{ comida.nino?.nombre }} {{ comida.nino?.apellidos }}</td>
       <td>{{ comida.educador?.nombre }} {{ comida.educador?.apellidos }}</td>
-      <td>{{ comida.horaComida | date:'short' }}</td>
+      <td>{{ comida.horaComida | date: 'short' }}</td>
       <td>{{ comida.descripcionComida }}</td>
       <td>{{ comida.observaciones || '—' }}</td>
       <td>
-        <button 
-          pButton 
-          icon="pi pi-pencil" 
-          class="p-button-sm p-button-outlined p-button-success" 
-          (click)="editarComida(comida)">
-        </button>
-        <button 
-          pButton 
-          icon="pi pi-trash" 
-          class="p-button-sm p-button-outlined p-button-danger" 
-          (click)="eliminarComida(comida.id)">
-        </button>
+        <button
+          pButton
+          icon="pi pi-pencil"
+          class="p-button-sm p-button-outlined p-button-success"
+          (click)="editarComida(comida)"
+        ></button>
+        <button
+          pButton
+          icon="pi pi-trash"
+          class="p-button-sm p-button-outlined p-button-danger"
+          (click)="confirmarEliminacion(comida)"
+        ></button>
       </td>
     </tr>
   </ng-template>
 </p-table>
+
+<p-confirmDialog></p-confirmDialog>

@@ -34,8 +34,8 @@
       <td>{{ child.alergias || 'Ninguna' }}</td>
       <td>{{ child.condicionesMedicas || 'Ninguna' }}</td>
       <td>
-        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text" (click)="editarNino(child)"></button>
-        <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" (click)="confirmarEliminar(child)"></button>
+        <button pButton icon="pi pi-pencil" class="p-button-sm p-button-outlined p-button-success" (click)="editarNino(child)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-sm p-button-outlined p-button-danger" (click)="confirmarEliminar(child)"></button>
       </td>
     </tr>
   </ng-template>

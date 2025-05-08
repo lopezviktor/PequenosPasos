@@ -1,0 +1,31 @@
+<div class="actividad-card p-card">
+  <div class="card-header">
+    <h3>{{ actividad.nombre }}</h3>
+  </div>
+  <div class="card-content">
+    <p>{{ actividad.descripcion }}</p>
+  </div>
+  <div class="card-actions">
+    <button 
+      pButton 
+      label="Detalles" 
+      icon="pi pi-eye" 
+      class="p-button-sm p-button-outlined p-button-info"
+      (click)="verDetalles()">
+    </button>
+    <button 
+      pButton 
+      label="Editar" 
+      icon="pi pi-pencil" 
+      class="p-button-sm p-button-outlined p-button-success" 
+      (click)="onEdit()">
+    </button>
+    <button 
+      pButton 
+      label="Eliminar" 
+      icon="pi pi-trash" 
+      class="p-button-sm p-button-outlined p-button-danger" 
+      (click)="onDelete()">
+  </button>
+  </div>
+</div>

@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Comida } from '@models/comida.model';
 import { Observable } from 'rxjs';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComidaService {
 
-  private apiUrl = 'http://localhost:8080/api/comidas';
+  private apiUrl = `${environment.apiUrl}/comidas`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,17 +34,17 @@ export class ComidaService {
   }
 
   // Crear una nueva comida
-  createComida(comida: Comida): Observable<Comida> {
+  create(comida: Comida): Observable<Comida> {
     return this.http.post<Comida>(this.apiUrl, comida);
   }
 
   // Actualizar una comida existente (recibe todos los datos)
-  updateComida(id: number, comida: Comida): Observable<Comida> {
+  update(id: number, comida: Comida): Observable<Comida> {
     return this.http.put<Comida>(`${this.apiUrl}/${id}`, comida);
   }
 
   // Eliminar una comida por ID
-  deleteComida(id: number): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

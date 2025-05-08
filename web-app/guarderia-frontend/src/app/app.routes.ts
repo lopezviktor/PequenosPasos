@@ -18,6 +18,8 @@ export const routes: Routes = [
         { path : 'asistencias', loadComponent: () => import('./pages/asistencia-page/asistencia-page.component').then(m => m.AsistenciaPageComponent) },
         { path: 'higienes', loadComponent: () => import('./pages/higienes-page/higienes-page.component').then(m => m.HigienesPageComponent) },
         { path: 'siestas', loadComponent: () => import('./pages/siestas-page/siestas-page.component').then(m => m.SiestasPageComponent) },
+        { path: 'actividades', loadComponent: () => import('./pages/actividad-page/actividad-page.component').then(m => m.ActividadPageComponent) },
+        { path: 'actividades/:id', loadComponent: () => import('./components/actividad-detail/actividad-detail.component').then(m => m.ActividadDetailComponent) },
       ]
     },
     {

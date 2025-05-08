@@ -36,9 +36,14 @@ public class ActividadService {
 
     // Guardar una nueva actividad (validando nombre único)
     public Actividad saveActividad(Actividad actividad) {
+        if (actividad.getNombre() == null || actividad.getNombre().isEmpty()) {
+            throw new RuntimeException("El nombre de la actividad no puede estar vacío.");
+        }
+
         if (actividadRepository.findByNombreContainingIgnoreCase(actividad.getNombre()).size() > 0) {
             throw new RuntimeException("Ya existe una actividad con este nombre.");
         }
+
         return actividadRepository.save(actividad);
     }
 
