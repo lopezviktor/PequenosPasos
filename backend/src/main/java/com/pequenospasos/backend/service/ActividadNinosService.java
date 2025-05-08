@@ -61,12 +61,19 @@ public class ActividadNinosService {
             throw new RuntimeException("El niño ya está registrado en esta actividad.");
         }
 
+        // Log de la actividad antes de guardar
+        System.out.println("Guardando actividad-niño: " + actividadNinos.toString());
+
         return actividadNinosRepository.save(actividadNinos);
     }
 
     public void registrarActividadPorClase(Long claseId, Actividad actividad) {
         Clase clase = claseRepository.findById(claseId)
                 .orElseThrow(() -> new RuntimeException("Clase no encontrada con ID: " + claseId));
+
+        if (actividad == null) {
+            throw new RuntimeException("La actividad proporcionada es nula.");
+        }
 
         Actividad actividadGuardada;
 

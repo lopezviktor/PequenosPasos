@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/actividad-ninos")
@@ -52,9 +54,11 @@ public class ActividadNinosController {
     // Registrar una actividad para una clase
     @PreAuthorize("hasRole('EDUCADOR')")
     @PostMapping("/clase")
-    public ResponseEntity<String> registrarActividadPorClase(@RequestBody ActividadClaseRequest request) {
+    public ResponseEntity<Map<String, String>> registrarActividadPorClase(@RequestBody ActividadClaseRequest request) {
         actividadNinosService.registrarActividadPorClase(request.getClaseId(), request.getActividad());
-        return ResponseEntity.ok("Actividad registrada correctamente en todos los niños de la clase.");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Actividad registrada correctamente en todos los niños de la clase.");
+        return ResponseEntity.ok(response);
     }
 
     // Eliminar una relación actividad-niño con validación
