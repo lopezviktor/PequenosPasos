@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ActividadConDetalles } from '@models/actividad.model';
 import { DatePipe } from '@angular/common';
 
@@ -19,6 +20,8 @@ export class ActividadCardComponent {
   @Output() editar = new EventEmitter<ActividadConDetalles>();
   @Output() eliminar = new EventEmitter<number>();
 
+  constructor(private router: Router) {}
+
   onEdit(): void {
     console.log('Editando actividad:', this.actividad);
     this.editar.emit(this.actividad);
@@ -34,4 +37,9 @@ export class ActividadCardComponent {
         console.error('ID no válido para eliminar actividad:', this.actividad);
     }
   }
+
+  verDetalles(): void {
+    this.router.navigate(['/actividades', this.actividad.id]);
+  }
+  
 }

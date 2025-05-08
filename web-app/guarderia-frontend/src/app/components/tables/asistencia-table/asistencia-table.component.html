@@ -21,8 +21,17 @@
         <td>{{ asistencia.padreRecoge | nombreCompleto }}</td>
         <td>{{ asistencia.educadorEntrega | nombreCompleto }}</td>
         <td>
-          <button pButton type="button" label="Editar" (click)="onEdit(asistencia)"></button>
-          <button pButton type="button" label="Eliminar" class="p-button-danger" (click)="onDelete(asistencia.id)"></button>
+          <button 
+          pButton 
+            icon="pi pi-pencil"
+            class="p-button-sm p-button-outlined p-button-success"
+            (click)="onEdit(asistencia)">
+        </button>
+          <button 
+          pButton 
+          icon="pi pi-trash"
+          class="p-button-sm p-button-outlined p-button-danger"
+          (click)="onDelete(asistencia.id)"></button>
         </td>
       </tr>
     </ng-template>

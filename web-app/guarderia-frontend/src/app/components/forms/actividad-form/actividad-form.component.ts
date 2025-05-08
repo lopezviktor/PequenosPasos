@@ -44,10 +44,8 @@ export class ActividadFormComponent implements OnInit {
 
   form!: FormGroup;
   educadores: Educator[] = [];
-  ninos: Child[] = [];
   clases: Clase[] = [];
   isEditing = false;
-  modoRegistro: 'clase' | 'individual' = 'individual'; // Nuevo modo de registro
 
   constructor(
     private fb: FormBuilder,
@@ -64,12 +62,9 @@ export class ActividadFormComponent implements OnInit {
       descripcion: ['', Validators.required],
       fecha: [null, Validators.required],
       educador: [null, Validators.required],
-      clase: [null],
-      ninos: [[]],
-      modoRegistro: ['individual'] 
+      clase: [null, Validators.required]
     });
 
-    this.loadNinos();
     this.loadEducadores();
     this.loadClases();
 
@@ -80,35 +75,9 @@ export class ActividadFormComponent implements OnInit {
         descripcion: this.actividadEditando.descripcion,
         fecha: this.actividadEditando?.fecha ? new Date(this.actividadEditando.fecha) : null,
         educador: this.actividadEditando.educador,
-        clase: this.actividadEditando.clase,
-        ninos: this.actividadEditando.ninos || []
+        clase: this.actividadEditando.clase
       });
     }
-  }
-
-  cambiarModo(modo: 'clase' | 'individual'): void {
-    this.modoRegistro = modo;
-    this.form.patchValue({ clase: null, ninos: [] }); // Limpiar selección previa
-
-    if (modo === 'clase') {
-      this.loadClases(); // Cargar las clases disponibles
-      this.ninos = [];   // Limpiar la lista de niños
-    } else {
-      this.loadNinos();  // Cargar todos los niños
-      this.clases = [];  // Limpiar la lista de clases
-    }
-  }
-
-  onClaseSeleccionada(clase: any): void {
-    const claseId = clase?.id || clase;
-    this.loadNinosPorClase(claseId);
-  }
-
-  loadNinos(): void {
-    this.childService.getAllChildren().subscribe({
-      next: (ninos) => this.ninos = ninos,
-      error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los niños' })
-    });
   }
 
   loadEducadores(): void {
@@ -125,77 +94,50 @@ export class ActividadFormComponent implements OnInit {
     });
   }
 
-  loadNinosPorClase(claseId: number): void {
-    this.childService.getChildrenByClass(claseId).subscribe({
-      next: (ninos) => this.ninos = ninos,
-      error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los niños de la clase' })
-    });
-  }
-
   onSubmit(): void {
     if (this.form.invalid) return;
-  
+
     const actividadData = this.form.value;
-    console.log("Datos enviados:", actividadData);
-  
-    if (this.isEditing && this.actividadEditando) {
-      this.actividadService.update(this.actividadEditando.actividadId!, actividadData).subscribe({
-        next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Actualizada', detail: 'Actividad actualizada correctamente' });
-          this.actividadGuardada.emit();
-          this.cancelar();
-        },
-        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al actualizar la actividad' })
-      });
-    } else {
-      if (this.modoRegistro === 'clase' && actividadData.clase) {
-        // Extraer solo el ID de la clase
-        const claseId = actividadData.clase.id;
-        const actividadSimplificada = {
-          nombre: actividadData.nombre,
-          descripcion: actividadData.descripcion,
-          fecha: actividadData.fecha,
-          educador: actividadData.educador
-        };
-        // Crear el objeto con la estructura que el backend espera
-        const requestData = {
-          claseId: claseId,
-          actividad: actividadSimplificada
-        };
-        console.log("Datos enviados para la clase:", requestData);
 
-        this.actividadService.registrarActividadPorClase(claseId, actividadSimplificada).subscribe({
-          next: (response) => {
-            console.log("Respuesta del backend:", response);
-            this.messageService.add({ severity: 'success', summary: 'Registrada', detail: 'Actividad registrada para la clase' });
-            this.actividadGuardada.emit();
-            this.cancelar();
-          },
-          error: (err) => {
-            console.error("Error al registrar actividad para la clase:", err);
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al registrar la actividad para la clase' });
-          }
-        });
+    const actividadSimplificada = {
+      nombre: actividadData.nombre,
+      descripcion: actividadData.descripcion,
+      fecha: actividadData.fecha,
+      educador: actividadData.educador,
+      clase: actividadData.clase?.id || null
+    };
 
-      } else if (this.modoRegistro === 'individual' && actividadData.ninos?.length) {
-        // Registrar actividad para niños seleccionados
-        const ninoIds = actividadData.ninos.map((nino: Child) => nino.id);
-        console.log("Niños seleccionados:", ninoIds);
-        this.actividadService.registrarActividadIndividual(actividadData.id, ninoIds).subscribe({
-          next: () => {
-            this.messageService.add({ severity: 'success', summary: 'Creada', detail: 'Actividad creada para los niños seleccionados' });
-            this.actividadGuardada.emit();
-            this.cancelar();
-          },
-          error: (err) => {
-            console.error("Error al registrar actividad individual:", err);
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al crear la actividad para los niños' });
-          }
-        });
-      } else {
-        this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'Por favor, selecciona una clase o al menos un niño' });
+    this.actividadService.create(actividadSimplificada).subscribe({
+      next: (response) => {
+        const actividadId: number = response.actividadId!;
+        const claseId = actividadData.clase?.id;
+
+        if (claseId) {
+          const payload = {
+            claseId: claseId,
+            actividad: {
+              actividadId: actividadId
+            }
+          };
+          console.log("Datos para registrar actividad en clase:", payload);
+          this.actividadService.registrarActividadPorClase(claseId!, actividadId!).subscribe({
+            next: () => {
+              this.messageService.add({ severity: 'success', summary: 'Registrada', detail: 'Actividad registrada para la clase' });
+              this.actividadGuardada.emit();
+              this.cancelar();
+            },
+            error: (err) => {
+              console.error("Error al registrar actividad para la clase:", err);
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al registrar la actividad para la clase' });
+            }
+          });
+        }
+      },
+      error: (err) => {
+        console.error("Error al crear la actividad:", err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al crear la actividad' });
       }
-    }
+    });
   }
 
   cancelar(): void {

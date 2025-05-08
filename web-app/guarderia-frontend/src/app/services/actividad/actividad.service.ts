@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'; 
+import { map, switchMap } from 'rxjs/operators'; 
 import { Actividad, ActividadConDetalles } from '@models/actividad.model';
 import { environment } from '@environments/environment';
 
@@ -29,25 +29,41 @@ export class ActividadService {
       );
   }
 
-  // Obtener detalles completos de una actividad para edición
-  getActividadConDetalles(id: number): Observable<ActividadConDetalles> {
-      return this.http.get<ActividadConDetalles>(`${this.apiUrl}/${id}/detalles`).pipe(
-          map((actividad) => {
-              console.log('Detalles de la actividad recibidos:', actividad);
-              return {
-                  ...actividad,
-                  educadorNombre: `${actividad?.educador?.nombre} ${actividad?.educador?.apellidos}`,
-                  claseNombre: actividad?.clase?.nombre,
-                  ninos: actividad?.ninos?.map((nino) => ({
-                      id: nino.id,
-                      nombre: nino.nombre,
-                      apellidos: nino.apellidos,
-                      fechaNacimiento: nino.fechaNacimiento,
-                      primerDia: nino.primerDia
-                  })) ?? []
-              };
-          })
-      );
+
+  // Obtener datos básicos de la actividad
+  getActividad(id: number): Observable<Actividad> {
+    const actividadUrl = `${this.apiUrl}/${id}`;
+    return this.http.get<Actividad>(actividadUrl);
+  }
+
+  // Obtener todos los detalles de la actividad: clase, educador y lista de niños
+  getActividadDetalles(id: number): Observable<any> {
+    const actividadNinosUrl = `${this.apiActividadNinosUrl}/actividad/${id}`;
+    return this.http.get<any[]>(actividadNinosUrl).pipe(
+      map((actividadNinos) => {
+        if (actividadNinos.length === 0) {
+          return {
+            claseNombre: 'Sin clase',
+            educadorNombre: 'Desconocido',
+            ninos: []
+          };
+        }
+
+        const educador = actividadNinos[0].nino.clase.educador;
+        const clase = actividadNinos[0].nino.clase.nombre;
+        const ninos = actividadNinos.map((actividadNino) => ({
+          id: actividadNino.nino.id,
+          nombre: actividadNino.nino.nombre,
+          apellidos: actividadNino.nino.apellidos,
+        }));
+
+        return {
+          claseNombre: clase,
+          educadorNombre: `${educador.nombre} ${educador.apellidos}`,
+          ninos: ninos
+        };
+      })
+    );
   }
 
   // Obtener actividad por ID
@@ -87,14 +103,22 @@ export class ActividadService {
   }
 
   // Registrar actividad para una clase completa
-  registrarActividadPorClase(claseId: number, actividad: Actividad): Observable<void> {
-    const payload = { claseId, actividadSimplificada: actividad };
-    return this.http.post<void>(`${this.apiActividadNinosUrl}/clase`, payload);
+  registrarActividadPorClase(claseId: number, actividadId: number): Observable<any> {
+    const payload = {
+      claseId: claseId,
+      actividad: {
+        actividadId: actividadId
+      }
+    };
+    return this.http.post(`${this.apiActividadNinosUrl}/clase`, payload);
   }
 
   // Registrar actividad para niños individuales
   registrarActividadIndividual(actividadId: number, ninoIds: number[]): Observable<void> {
-    const payload = { actividadId, ninoIds };
+    const payload = {
+      actividadId: actividadId,
+      ninoIds: ninoIds
+    };
     return this.http.post<void>(`${this.apiActividadNinosUrl}`, payload);
   }
 }

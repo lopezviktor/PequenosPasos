@@ -14,9 +14,23 @@ import { RouterModule } from '@angular/router';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
+  isCollapsed = false;
+
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  collapseSidebar() {
+    this.isCollapsed = true;
+  }
+
+  expandSidebar() {
+    this.isCollapsed = false;
+  }
+  
   items = [
     {
-      label: 'Dashboard',
+      label: '      Dashboard',
       icon: 'pi pi-home',
       routerLink: ['/dashboard']
     },
@@ -27,7 +41,7 @@ export class SidebarComponent {
     },
     {
       label: 'Niños',
-      icon: 'pi pi-users',
+      icon: 'pi pi-star',
       routerLink: ['/ninos']
     },
     {
@@ -37,17 +51,17 @@ export class SidebarComponent {
     },
     {
       label: 'Padres',
-      icon: 'pi pi-users',
+      icon: 'pi pi-plus',
       routerLink: ['/padres']
     },
     {
       label: 'Asistencia',
-      icon: 'pi pi-calendar-check',
+      icon: 'pi pi-clock',
       routerLink: ['/asistencias']
     },
     {
       label: 'Comidas',
-      icon: 'pi pi-utensils',
+      icon: 'pi pi-apple',
       routerLink: ['/comidas']
     },
     {

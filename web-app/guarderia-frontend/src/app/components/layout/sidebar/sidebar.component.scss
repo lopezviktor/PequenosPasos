@@ -1,9 +1,49 @@
-:host {
+:host ::ng-deep .p-panelmenu .p-panelmenu-header .p-panelmenu-header-text {
+  margin-left: 8rem !important;
+}
+.sidebar {
   display: block;
-  width: 250px;
+  width: 80px;
   min-height: 100vh;
   background: #e0e5ec;
   padding: 1rem;
   box-shadow: inset 4px 4px 8px #bec3c9;
   border-radius: 20px 0 0 20px;
+  transition: width 0.3s;
+
+  &.collapsed {
+    width: 74px;
+
+    .p-panelmenu .p-panelmenu-header .p-panelmenu-header-text {
+      display: none;
+    }
+
+    .p-panelmenu .p-panelmenu-header .pi {
+      margin-right: 0;
+    }
+  }
+
+  &:hover {
+    width: 250px;
+
+    .p-panelmenu .p-panelmenu-header .p-panelmenu-header-text {
+      display: inline-block;
+    }
+  }
+
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+
+    .p-panelmenu .p-panelmenu-header {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.5rem;
+
+      i {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
 }

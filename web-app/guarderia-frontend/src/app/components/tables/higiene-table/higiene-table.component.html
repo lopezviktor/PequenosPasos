@@ -15,10 +15,16 @@
       <td>{{ higiene.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ higiene.estado }}</td>
       <td>
-        <button pButton icon="pi pi-pencil" 
-          class="p-button-sm" (click)="editarHigiene(higiene)"></button>
-        <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm"
-          (click)="eliminarHigiene(higiene.id)"></button>
+        <button pButton 
+          icon="pi pi-pencil"
+          class="p-button-sm p-button-outlined p-button-success"
+          (click)="editarHigiene(higiene)">
+        </button>
+        <button pButton 
+          icon="pi pi-trash"
+          class="p-button-sm p-button-outlined p-button-danger"
+          (click)="eliminarHigiene(higiene.id)">
+        </button>
       </td>
     </tr>
   </ng-template>

@@ -1,1 +1,3 @@
-<p-panelMenu [model]="items" styleClass="sidebar-menu" />
+<div class="sidebar" [ngClass]="{ 'collapsed': isCollapsed }" (mouseenter)="expandSidebar()" (mouseleave)="collapseSidebar()">
+  <p-panelMenu [model]="items" class="sidebar-menu"></p-panelMenu>
+</div>

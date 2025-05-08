@@ -7,16 +7,23 @@
     </div>
     <button 
       pButton 
-      icon="pi pi-pencil" 
-      class="p-button-text p-button-sm" 
+      label="Detalles"
+      icon="pi pi-eye" 
+      class="p-button-sm p-button-outlined p-button-info"
+      (click)="onVerDetalles()">
+    </button>
+    <button 
+    pButton 
       label="Editar"
+      icon="pi pi-pencil" 
+      class="p-button-sm p-button-outlined p-button-success" 
       (click)="onEditar()">
     </button>
     <button 
-      pButton 
-      icon="pi pi-trash" 
-      class="p-button-text p-button-sm p-button-danger" 
+    pButton 
       label="Eliminar"
+      icon="pi pi-trash" 
+      class="p-button-sm p-button-outlined p-button-danger" 
       (click)="onEliminar()">
     </button>
 
