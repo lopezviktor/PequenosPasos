@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.service;
 
+import com.pequenospasos.backend.dto.HigieneResponse;
 import com.pequenospasos.backend.entity.Educador;
 import com.pequenospasos.backend.entity.Higiene;
 import com.pequenospasos.backend.entity.Nino;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class HigieneService {
@@ -41,12 +43,22 @@ public class HigieneService {
     }
 
     // Obtener registros de higiene de un niño específico
-    public List<Higiene> getHigieneByNinoId(Long ninoId) {
+    public List<HigieneResponse> getHigieneByNinoId(Long ninoId) {
         boolean existeNino = ninoRepository.existsById(ninoId);
         if (!existeNino) {
             throw new RuntimeException("Niño no encontrado con id: " + ninoId);
         }
-        return higieneRepository.findByNinoId(ninoId);
+
+        List<Higiene> higieneList = higieneRepository.findByNinoId(ninoId);
+
+        return higieneList.stream().map(higiene -> new HigieneResponse(
+                higiene.getId(),
+                higiene.getFechaHora().toString(),
+                higiene.getEstado().toString(),
+                higiene.getObservaciones(),
+                higiene.getEducador().getNombre() + " " + higiene.getEducador().getApellidos(),
+                higiene.getNino().getClase().getNombre()
+        )).collect(Collectors.toList());
     }
 
     // Obtener registros de higiene realizados por un educador específico (solo EDUCADORES)

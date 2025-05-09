@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.controller;
 
+import com.pequenospasos.backend.dto.HigieneResponse;
 import com.pequenospasos.backend.entity.Higiene;
 import com.pequenospasos.backend.service.HigieneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/higiene")
@@ -26,7 +28,7 @@ public class HigieneController {
     // Obtener registros de higiene de un niño específico
     @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR', 'ADMIN')")
     @GetMapping("/nino/{ninoId}")
-    public List<Higiene> getHigieneByNinoId(@PathVariable Long ninoId) {
+    public List<HigieneResponse> getHigieneByNinoId(@PathVariable Long ninoId) {
         return higieneService.getHigieneByNinoId(ninoId);
     }
 
@@ -40,15 +42,31 @@ public class HigieneController {
     // Obtener registros de higiene en un rango de fechas
     @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN')")
     @GetMapping("/rango-fechas")
-    public List<Higiene> getHigieneByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
-        return higieneService.getHigieneByFecha(inicio, fin);
+    public List<HigieneResponse> getHigieneByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
+        return higieneService.getHigieneByFecha(inicio, fin).stream()
+                .map(higiene -> new HigieneResponse(
+                        higiene.getId(),
+                        higiene.getFechaHora().toString(),
+                        higiene.getEstado().toString(),
+                        higiene.getObservaciones(),
+                        higiene.getEducador().getNombre() + " " + higiene.getEducador().getApellidos(),
+                        higiene.getNino().getClase().getNombre()
+                )).collect(Collectors.toList());
     }
 
     // Obtener el último registro de higiene de un niño
     @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR', 'ADMIN')")
     @GetMapping("/nino/{ninoId}/ultima")
-    public Higiene getUltimaHigieneByNinoId(@PathVariable Long ninoId) {
-        return higieneService.getUltimaHigieneByNinoId(ninoId);
+    public HigieneResponse getUltimaHigieneByNinoId(@PathVariable Long ninoId) {
+        Higiene higiene = higieneService.getUltimaHigieneByNinoId(ninoId);
+        return new HigieneResponse(
+                higiene.getId(),
+                higiene.getFechaHora().toString(),
+                higiene.getEstado().toString(),
+                higiene.getObservaciones(),
+                higiene.getEducador().getNombre() + " " + higiene.getEducador().getApellidos(),
+                higiene.getNino().getClase().getNombre()
+        );
     }
 
     // Obtener un registro de higiene por ID con validación
