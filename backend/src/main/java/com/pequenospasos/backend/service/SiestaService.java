@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.service;
 
+import com.pequenospasos.backend.dto.SiestaResponse;
 import com.pequenospasos.backend.entity.Notificacion;
 import com.pequenospasos.backend.entity.PadresHijos;
 import com.pequenospasos.backend.entity.Siesta;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SiestaService {
@@ -30,8 +32,16 @@ public class SiestaService {
     }
 
     // Obtener siestas de un niño específico
-    public List<Siesta> getSiestasByNinoId(Long ninoId) {
-        return siestaRepository.findByNinoId(ninoId);
+    public List<SiestaResponse> getSiestasByNinoId(Long ninoId) {
+        List<Siesta> siestaList = siestaRepository.findByNinoId(ninoId);
+
+        return siestaList.stream().map(siesta -> new SiestaResponse(
+                siesta.getId(),
+                siesta.getInicioSiesta().toString(),
+                siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : "Sin finalizar",
+                siesta.getEducador().getNombre() + " " + siesta.getEducador().getApellidos(),
+                siesta.getObservaciones()
+        )).collect(Collectors.toList());
     }
 
     // Obtener siestas registradas por un educador específico (solo EDUCADORES)

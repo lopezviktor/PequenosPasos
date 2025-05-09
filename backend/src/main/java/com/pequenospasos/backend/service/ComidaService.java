@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.service;
 
+import com.pequenospasos.backend.dto.ComidaResponse;
 import com.pequenospasos.backend.entity.Comida;
 import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.PadresHijos;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ComidaService {
@@ -30,8 +32,16 @@ public class ComidaService {
     }
 
     // Obtener comidas de un niño específico
-    public List<Comida> getComidasByNinoId(Long ninoId) {
-        return comidaRepository.findByNinoId(ninoId);
+    public List<ComidaResponse> getComidasByNinoId(Long ninoId) {
+        List<Comida> comidaList = comidaRepository.findByNinoId(ninoId);
+
+        return comidaList.stream().map(comida -> new ComidaResponse(
+                comida.getId(),
+                comida.getHoraComida().toString(),
+                comida.getDescripcionComida(),
+                comida.getObservaciones(),
+                comida.getEducador().getNombre() + " " + comida.getEducador().getApellidos()
+        )).collect(Collectors.toList());
     }
 
     // Obtener comidas registradas por un educador (solo EDUCADORES)

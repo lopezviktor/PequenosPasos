@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.controller;
 
+import com.pequenospasos.backend.dto.SiestaResponse;
 import com.pequenospasos.backend.entity.Siesta;
 import com.pequenospasos.backend.service.SiestaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/siestas")
@@ -23,7 +25,7 @@ public class SiestaController {
 
     // Obtener siestas de un niño específico
     @GetMapping("/nino/{ninoId}")
-    public List<Siesta> getSiestasByNinoId(@PathVariable Long ninoId) {
+    public List<SiestaResponse> getSiestasByNinoId(@PathVariable Long ninoId) {
         return siestaService.getSiestasByNinoId(ninoId);
     }
 
@@ -35,15 +37,29 @@ public class SiestaController {
 
     // Obtener siestas en un rango de fechas
     @GetMapping("/rango-fechas")
-    public List<Siesta> getSiestasByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
-        return siestaService.getSiestasByFecha(inicio, fin);
+    public List<SiestaResponse> getSiestasByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
+        return siestaService.getSiestasByFecha(inicio, fin).stream()
+                .map(siesta -> new SiestaResponse(
+                        siesta.getId(),
+                        siesta.getInicioSiesta().toString(),
+                        siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : "Sin finalizar",
+                        siesta.getEducador().getNombre() + " " + siesta.getEducador().getApellidos(),
+                        siesta.getObservaciones()
+                )).collect(Collectors.toList());
     }
 
     // Obtener la última siesta de un niño con validación
     @GetMapping("/nino/{ninoId}/ultima")
-    public Siesta getUltimaSiestaByNinoId(@PathVariable Long ninoId) {
-        return siestaService.getUltimaSiestaByNinoId(ninoId)
+    public SiestaResponse getUltimaSiestaByNinoId(@PathVariable Long ninoId) {
+        Siesta siesta = siestaService.getUltimaSiestaByNinoId(ninoId)
                 .orElseThrow(() -> new RuntimeException("No se encontró ninguna siesta registrada para este niño."));
+        return new SiestaResponse(
+                siesta.getId(),
+                siesta.getInicioSiesta().toString(),
+                siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : "Sin finalizar",
+                siesta.getEducador().getNombre() + " " + siesta.getEducador().getApellidos(),
+                siesta.getObservaciones()
+        );
     }
 
     // Obtener una siesta por ID con validación
