@@ -5,6 +5,9 @@ import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.service.PadreService;
 import com.pequenospasos.backend.service.PadresHijosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +34,15 @@ public class PadreController {
     public Padre getPadreById(@PathVariable Long id) {
         return padreService.findPadreById(id)
                 .orElseThrow(() -> new RuntimeException("Padre no encontrado con id: " + id));
+    }
+
+    // Obtener niños asociados al padre autenticado
+    @GetMapping("/mis-ninos")
+    @PreAuthorize("hasRole('PADRE')")
+    public List<Nino> getNinosByPadre(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        System.out.println("Username obtenido del token: " + username);
+        return padresHijosService.getNinosByUsuario(username);
     }
 
     // Obtener niños asociados a un padre
