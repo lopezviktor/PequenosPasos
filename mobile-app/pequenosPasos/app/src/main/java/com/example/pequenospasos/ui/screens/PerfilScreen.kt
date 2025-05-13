@@ -9,19 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.pequenospasos.data.model.Padre
 
 @Composable
 fun PerfilScreen(
-    nombre: String = "Carlitos",
-    apellidos: String = "Martinez Lopez",
-    edad: String = "3 años",
-    alergias: String = "Polen",
-    condicionesMedicas: String = "Asma"
+    padre: Padre
 ) {
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = "Perfil del Niño",
+                title = "Perfil del Padre",
                 showProfileIcon = false
             )
         }
@@ -31,16 +28,20 @@ fun PerfilScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "$nombre $apellidos",
+                text = "${padre.nombre} ${padre.apellidos}",
                 style = TextStyle(fontSize = 24.sp),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            Text("Edad: $edad", style = TextStyle(fontSize = 18.sp))
-            Text("Alergias: $alergias", style = TextStyle(fontSize = 18.sp))
-            Text("Condiciones Médicas: $condicionesMedicas", style = TextStyle(fontSize = 18.sp))
+            Text("Email: ${padre.email}", style = TextStyle(fontSize = 18.sp))
+            Text("Teléfono: ${padre.telefono}", style = TextStyle(fontSize = 18.sp))
+            Spacer(modifier = Modifier.height(24.dp))
+            Text("Hijos:", style = TextStyle(fontSize = 20.sp))
+            padre.hijos.forEach { hijo ->
+                Text("- ${hijo.nombre}", style = TextStyle(fontSize = 16.sp))
+            }
         }
     }
 }

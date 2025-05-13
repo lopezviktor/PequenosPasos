@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -19,13 +22,16 @@ import com.example.pequenospasos.ui.screens.PerfilScreen
 import com.example.pequenospasos.ui.screens.SeleccionHijoScreen
 import com.example.pequenospasos.ui.screens.SiestaScreen
 import com.example.pequenospasos.viewmodel.LoginViewModel
+import com.example.pequenospasos.data.model.Padre
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
+    val loginViewModel: LoginViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = "login",
@@ -33,20 +39,27 @@ fun AppNavHost(
     ) {
         // Pantalla de Login
         composable("login") {
-            LoginScreen(
-                onLoginSuccess = {
+            val padre by loginViewModel.padre.collectAsState()
+            val hijosCargados by loginViewModel.hijosCargados.collectAsState()
+
+            LaunchedEffect(hijosCargados) {
+                if (hijosCargados) {
                     navController.navigate("seleccion_hijo_screen") {
                         popUpTo("login") { inclusive = true }
                     }
                 }
+            }
+
+            LoginScreen(
+                loginViewModel = loginViewModel
             )
         }
 
-        // Nueva pantalla para seleccionar hijo
+        // Pantalla para seleccionar hijo
         composable("seleccion_hijo_screen") {
             SeleccionHijoScreen(
                 navController = navController,
-                loginViewModel = viewModel()
+                loginViewModel = loginViewModel
             )
         }
 
@@ -108,8 +121,10 @@ fun AppNavHost(
         }
 
         // Pantalla de Perfil
+        /*
         composable("perfil_screen") {
-            PerfilScreen()
-        }
+           PerfilScreen(padre = padreLogueado)
+            }
+         */
     }
 }

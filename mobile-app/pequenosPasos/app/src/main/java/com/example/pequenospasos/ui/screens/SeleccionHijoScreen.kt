@@ -29,8 +29,10 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.pequenospasos.viewmodel.LoginViewModel
 
 @Composable
-fun SeleccionHijoScreen(navController: NavController, loginViewModel: LoginViewModel) {
-    val padre by loginViewModel.padre.collectAsState()
+fun SeleccionHijoScreen(
+    navController: NavController,
+    loginViewModel: LoginViewModel
+) {
     val hijos by loginViewModel.hijos.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
@@ -41,37 +43,48 @@ fun SeleccionHijoScreen(navController: NavController, loginViewModel: LoginViewM
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(items = hijos) { hijo ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            navController.navigate("menu_principal/${hijo.id}")                        }
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(16.dp)
+        if (!hijos.isNullOrEmpty()) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                items(items = hijos) { hijo ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                if (hijos != null && hijos.isNotEmpty()) {
+                                    navController.navigate("menu_principal/${hijo.id}")
+                                }
+                            }
                     ) {
-                        val painter = rememberAsyncImagePainter(model = hijo.fotoUrl)
-                        Image(
-                            painter = painter,
-                            contentDescription = "Foto del niño",
-                            modifier = Modifier.size(64.dp),
-                            contentScale = ContentScale.Crop
-                        )
-
-                        Spacer(modifier = Modifier.width(16.dp))
-
-                        Column {
-                            Text(
-                                text = "${hijo.nombre} ${hijo.apellidos}",
-                                style = MaterialTheme.typography.titleMedium
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            val painter = rememberAsyncImagePainter(model = hijo.fotoUrl)
+                            Image(
+                                painter = painter,
+                                contentDescription = "Foto del niño",
+                                modifier = Modifier.size(64.dp),
+                                contentScale = ContentScale.Crop
                             )
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Column {
+                                Text(
+                                    text = "${hijo.nombre} ${hijo.apellidos}",
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
                         }
                     }
                 }
             }
+        } else {
+            Text(
+                text = "No hay hijos disponibles.",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(top = 24.dp)
+            )
         }
     }
 }
