@@ -58,16 +58,9 @@ public class ComidaController {
     // Obtener una comida por ID (PADRE o EDUCADOR)
     @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/{id}")
-    public ComidaResponse getComidaById(@PathVariable Long id) {
-        Comida comida = comidaService.getComidaById(id)
+    public Comida getComidaById(@PathVariable Long id) {
+        return comidaService.getComidaById(id)
                 .orElseThrow(() -> new RuntimeException("Comida no encontrada con id: " + id));
-        return new ComidaResponse(
-                comida.getId(),
-                comida.getHoraComida().toString(),
-                comida.getDescripcionComida(),
-                comida.getObservaciones(),
-                comida.getEducador().getNombre() + " " + comida.getEducador().getApellidos()
-        );
     }
 
     // Registrar una nueva comida (solo EDUCADOR)
