@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -56,7 +57,7 @@ fun HigieneScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                    colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9))
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF9C4))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(

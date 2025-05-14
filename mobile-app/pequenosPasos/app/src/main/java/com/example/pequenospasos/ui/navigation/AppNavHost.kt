@@ -64,16 +64,23 @@ fun AppNavHost(
         }
 
         // Pantalla de Menú Principal
-        composable("menu_principal/{ninoId}") { backStackEntry ->
-            val ninoId = backStackEntry.arguments?.getString("ninoId")?.toLongOrNull() ?: 0L
-            MenuPrincipal(
-                onComidaClick = { navController.navigate("comida_screen/$ninoId") },
-                onHigieneClick = { navController.navigate("higiene_screen/$ninoId") },
-                onSiestaClick = { navController.navigate("siesta_screen/$ninoId") },
-                onHabitosClick = { navController.navigate("habitos_screen/$ninoId") },
-                onProfileClick = { navController.navigate("perfil_screen") },
-                onActividadesClick = { navController.navigate("actividades_screen") }
-            )
+        composable("menu_principal") {
+            val nino by loginViewModel.ninoSeleccionado.collectAsState()
+
+            nino?.let {
+                MenuPrincipal(
+                    navController = navController,
+                    nino = it,
+                    nombre = it.nombre,
+                    apellidos = it.apellidos,
+                    onComidaClick = { navController.navigate("comida_screen/${it.id}") },
+                    onHigieneClick = { navController.navigate("higiene_screen/${it.id}") },
+                    onSiestaClick = { navController.navigate("siesta_screen/${it.id}") },
+                    onHabitosClick = { navController.navigate("habitos_screen/${it.id}") },
+                    onProfileClick = { navController.navigate("perfil_screen") },
+                    onActividadesClick = { navController.navigate("actividades_screen") }
+                )
+            }
         }
 
         // Pantalla de Comida
@@ -109,7 +116,7 @@ fun AppNavHost(
                 onComidaClick = { navController.navigate("comida_screen/$ninoId") },
                 onHigieneClick = { navController.navigate("higiene_screen/$ninoId") },
                 onSiestaClick = { navController.navigate("siesta_screen/$ninoId") },
-                onProfileClick = { navController.navigate("perfil_screen") }
+                onProfileClick = { navController.navigate("perfil_screen") },
             )
         }
 
@@ -121,10 +128,12 @@ fun AppNavHost(
         }
 
         // Pantalla de Perfil
-        /*
         composable("perfil_screen") {
-           PerfilScreen(padre = padreLogueado)
+            val padre by loginViewModel.padre.collectAsState()
+
+            padre?.let {
+                PerfilScreen(padre = it)
             }
-         */
+        }
     }
 }

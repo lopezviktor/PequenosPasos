@@ -54,7 +54,7 @@ fun ComidaScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE1F5FE))
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF1E4FF))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(text = "Descripción: ${comida.descripcionComida}", fontSize = 18.sp)

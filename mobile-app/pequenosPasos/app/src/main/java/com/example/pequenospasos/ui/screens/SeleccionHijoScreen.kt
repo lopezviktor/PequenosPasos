@@ -26,7 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.pequenospasos.R
 import com.example.pequenospasos.viewmodel.LoginViewModel
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun SeleccionHijoScreen(
@@ -50,16 +53,18 @@ fun SeleccionHijoScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                if (hijos != null && hijos.isNotEmpty()) {
-                                    navController.navigate("menu_principal/${hijo.id}")
-                                }
+                                loginViewModel.seleccionarNino(hijo)
+                                navController.navigate("menu_principal")
                             }
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(16.dp)
                         ) {
-                            val painter = rememberAsyncImagePainter(model = hijo.fotoUrl)
+                            val url = hijo.fotoUrl ?: ""
+                            val painter = rememberAsyncImagePainter(
+                                model = if (url.isNotBlank()) "http://10.0.2.2:8080$url" else R.drawable.ninos_default
+                            )
                             Image(
                                 painter = painter,
                                 contentDescription = "Foto del niño",
@@ -72,7 +77,7 @@ fun SeleccionHijoScreen(
                             Column {
                                 Text(
                                     text = "${hijo.nombre} ${hijo.apellidos}",
-                                    style = MaterialTheme.typography.titleMedium
+                                    style = MaterialTheme.typography.titleLarge
                                 )
                             }
                         }

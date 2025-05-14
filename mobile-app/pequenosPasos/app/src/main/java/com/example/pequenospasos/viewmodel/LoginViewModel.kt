@@ -29,6 +29,13 @@ class LoginViewModel : ViewModel() {
     private val _hijos = MutableStateFlow<List<Nino>>(emptyList())
     val hijos: StateFlow<List<Nino>> get() = _hijos
 
+    private val _ninoSeleccionado = MutableStateFlow<Nino?>(null)
+    val ninoSeleccionado: StateFlow<Nino?> get() = _ninoSeleccionado
+
+    fun seleccionarNino(nino: Nino) {
+        _ninoSeleccionado.value = nino
+    }
+
     fun login(email: String, password: String) {
         viewModelScope.launch {
             try {
