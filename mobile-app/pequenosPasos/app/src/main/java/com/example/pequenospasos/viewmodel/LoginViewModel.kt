@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
+    private val _hijosCargados = MutableStateFlow(false)
+    val hijosCargados: StateFlow<Boolean> get() = _hijosCargados
     private val _loginResult = MutableStateFlow<String>("")
     val loginResult: StateFlow<String> get() = _loginResult
 
@@ -26,6 +28,13 @@ class LoginViewModel : ViewModel() {
 
     private val _hijos = MutableStateFlow<List<Nino>>(emptyList())
     val hijos: StateFlow<List<Nino>> get() = _hijos
+
+    private val _ninoSeleccionado = MutableStateFlow<Nino?>(null)
+    val ninoSeleccionado: StateFlow<Nino?> get() = _ninoSeleccionado
+
+    fun seleccionarNino(nino: Nino) {
+        _ninoSeleccionado.value = nino
+    }
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
@@ -58,6 +67,8 @@ class LoginViewModel : ViewModel() {
                                     if (ninos != null) {
                                         Log.d("LoginViewModel", "Niños del padre: $ninos")
                                         _hijos.value = ninos
+                                        _padre.value = padre.copy(hijos = ninos)
+                                        _hijosCargados.value = true
                                         Log.d("NINOS_RESPONSE", ninos.toString())
                                     } else {
                                         Log.e("LoginViewModel", "Lista de niños es null")

@@ -1,31 +1,40 @@
 package com.example.pequenospasos.ui.navigation
 
-import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.pequenospasos.data.network.RetrofitClient
+import com.example.pequenospasos.data.repository.NotificacionesRepository
 import com.example.pequenospasos.ui.screens.ActividadesScreen
 import com.example.pequenospasos.ui.screens.ComidaScreen
 import com.example.pequenospasos.ui.screens.HabitosScreen
 import com.example.pequenospasos.ui.screens.HigieneScreen
 import com.example.pequenospasos.ui.screens.LoginScreen
 import com.example.pequenospasos.ui.screens.MenuPrincipal
+import com.example.pequenospasos.ui.screens.NotificacionesScreen
 import com.example.pequenospasos.ui.screens.PerfilScreen
 import com.example.pequenospasos.ui.screens.SeleccionHijoScreen
 import com.example.pequenospasos.ui.screens.SiestaScreen
 import com.example.pequenospasos.viewmodel.LoginViewModel
+import com.example.pequenospasos.viewmodel.NotificacionesViewModel
+import com.example.pequenospasos.viewmodel.NotificacionesViewModelFactory
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
+    val loginViewModel: LoginViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = "login",
@@ -33,34 +42,49 @@ fun AppNavHost(
     ) {
         // Pantalla de Login
         composable("login") {
-            LoginScreen(
-                onLoginSuccess = {
+            val padre by loginViewModel.padre.collectAsState()
+            val hijosCargados by loginViewModel.hijosCargados.collectAsState()
+
+            LaunchedEffect(hijosCargados) {
+                if (hijosCargados) {
                     navController.navigate("seleccion_hijo_screen") {
                         popUpTo("login") { inclusive = true }
                     }
                 }
+            }
+
+            LoginScreen(
+                loginViewModel = loginViewModel
             )
         }
 
-        // Nueva pantalla para seleccionar hijo
+        // Pantalla para seleccionar hijo
         composable("seleccion_hijo_screen") {
             SeleccionHijoScreen(
                 navController = navController,
-                loginViewModel = viewModel()
+                loginViewModel = loginViewModel
             )
         }
 
         // Pantalla de Menú Principal
-        composable("menu_principal/{ninoId}") { backStackEntry ->
-            val ninoId = backStackEntry.arguments?.getString("ninoId")?.toLongOrNull() ?: 0L
-            MenuPrincipal(
-                onComidaClick = { navController.navigate("comida_screen/$ninoId") },
-                onHigieneClick = { navController.navigate("higiene_screen/$ninoId") },
-                onSiestaClick = { navController.navigate("siesta_screen/$ninoId") },
-                onHabitosClick = { navController.navigate("habitos_screen/$ninoId") },
-                onProfileClick = { navController.navigate("perfil_screen") },
-                onActividadesClick = { navController.navigate("actividades_screen") }
-            )
+        composable("menu_principal") {
+            val nino by loginViewModel.ninoSeleccionado.collectAsState()
+
+            nino?.let {
+                MenuPrincipal(
+                    navController = navController,
+                    nino = it,
+                    nombre = it.nombre,
+                    apellidos = it.apellidos,
+                    onComidaClick = { navController.navigate("comida_screen/${it.id}") },
+                    onHigieneClick = { navController.navigate("higiene_screen/${it.id}") },
+                    onSiestaClick = { navController.navigate("siesta_screen/${it.id}") },
+                    onHabitosClick = { navController.navigate("habitos_screen/${it.id}") },
+                    onProfileClick = { navController.navigate("perfil_screen") },
+                    onActividadesClick = { navController.navigate("actividades_screen") },
+                    onNotificacionesClick = { navController.navigate("notificaciones_screen") }
+                )
+            }
         }
 
         // Pantalla de Comida
@@ -96,7 +120,7 @@ fun AppNavHost(
                 onComidaClick = { navController.navigate("comida_screen/$ninoId") },
                 onHigieneClick = { navController.navigate("higiene_screen/$ninoId") },
                 onSiestaClick = { navController.navigate("siesta_screen/$ninoId") },
-                onProfileClick = { navController.navigate("perfil_screen") }
+                onProfileClick = { navController.navigate("perfil_screen") },
             )
         }
 
@@ -109,7 +133,29 @@ fun AppNavHost(
 
         // Pantalla de Perfil
         composable("perfil_screen") {
-            PerfilScreen()
+            val padre by loginViewModel.padre.collectAsState()
+
+            padre?.let {
+                PerfilScreen(padre = it)
+            }
+        }
+
+        // Pantalla de Notificaciones
+        composable("notificaciones_screen") {
+            val padre by loginViewModel.padre.collectAsState()
+            padre?.let {
+                val factory = NotificacionesViewModelFactory(
+                    NotificacionesRepository(
+                        RetrofitClient.api
+                    )
+                )
+                val viewModel: NotificacionesViewModel = viewModel(factory = factory)
+                NotificacionesScreen(
+                    navController = navController,
+                    padreId = it.id,
+                    viewModel = viewModel
+                )
+            }
         }
     }
 }

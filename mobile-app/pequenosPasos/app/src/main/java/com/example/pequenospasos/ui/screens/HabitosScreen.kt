@@ -51,7 +51,7 @@ fun HabitosScreen(
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = "Hábitos",
+                title = "Hábitos de hoy",
                 showProfileIcon = true,
                 onProfileClick = onProfileClick
             )
@@ -66,6 +66,19 @@ fun HabitosScreen(
         ) {
             Text("Hábitos", style = TextStyle(fontSize = 24.sp))
             Spacer(modifier = Modifier.height(16.dp))
+
+            // Definición segura de última siesta, higiene y comida
+            val ultimaSiesta = siestasHoy.firstOrNull()?.let {
+                it.inicioSiesta?.takeIf { hora -> hora.length >= 16 }?.substring(11, 16) ?: "--:--"
+            } ?: "--:--"
+
+            val ultimaHigiene = higienesHoy.firstOrNull()?.let {
+                it.fechaHora?.split("T")?.getOrNull(1)?.take(5) ?: "--:--"
+            } ?: "--:--"
+
+            val ultimaComida = comidasHoy.firstOrNull()?.let {
+                it.horaComida?.split("T")?.getOrNull(1)?.take(5) ?: "--:--"
+            } ?: "--:--"
 
             // Card de Comida
             Card(
@@ -83,6 +96,7 @@ fun HabitosScreen(
                     Column(modifier = Modifier.weight(1f)) {
                         Text("Comida: ${comida?.descripcionComida ?: "Sin datos"}", style = TextStyle(fontSize = 18.sp, color = Color(0xFF6200EA)))
                         Text("Observaciones: ${comida?.observaciones ?: "-"}", style = TextStyle(fontSize = 16.sp, color = Color.Gray))
+                        Text("Última comida: $ultimaComida", style = TextStyle(fontSize = 16.sp, color = Color.Gray))
                         TextButton(onClick = onComidaClick) {
                             Text("Mostrar más comidas")
                         }
@@ -109,7 +123,7 @@ fun HabitosScreen(
                 ) {
                     val siesta = siestasHoy.firstOrNull()
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("${siesta?.inicioSiesta?.substring(11, 16) ?: "--:--"} - ${siesta?.finSiesta?.substring(11, 16) ?: "--:--"}", style = TextStyle(fontSize = 18.sp, color = Color(0xFF00796B)))
+                        Text("Última siesta: $ultimaSiesta", style = TextStyle(fontSize = 18.sp, color = Color(0xFF00796B)))
                         TextButton(onClick = onSiestaClick) {
                             Text("Mostrar más siestas")
                         }
@@ -136,7 +150,7 @@ fun HabitosScreen(
                 ) {
                     val higiene = higienesHoy.firstOrNull()
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("${higiene?.fechaHora?.substring(11, 16) ?: "--:--"} - ${higiene?.estado ?: "Sin datos"}", style = TextStyle(fontSize = 18.sp, color = Color(0xFFF57F17)))
+                        Text("Última higiene: $ultimaHigiene - ${higiene?.estado ?: "Sin datos"}", style = TextStyle(fontSize = 18.sp, color = Color(0xFFF57F17)))
                         TextButton(onClick = onHigieneClick) {
                             Text("Mostrar más higienes")
                         }
