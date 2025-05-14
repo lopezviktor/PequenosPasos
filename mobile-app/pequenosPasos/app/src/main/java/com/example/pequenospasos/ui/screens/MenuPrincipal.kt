@@ -1,11 +1,13 @@
 package com.example.pequenospasos.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,8 +19,13 @@ import androidx.navigation.NavHostController
 import com.example.pequenospasos.R
 import com.example.pequenospasos.ui.components.CustomTopBar
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.example.pequenospasos.data.model.Nino
+import com.example.pequenospasos.data.model.Padre
+import com.example.pequenospasos.viewmodel.NotificacionesViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,8 +40,17 @@ fun MenuPrincipal(
     navController: NavHostController,
     nino: Nino,
     nombre: String,
-    apellidos: String
+    apellidos: String,
+    padre: Padre,
+    notificacionesViewModel: NotificacionesViewModel,
+
     ) {
+    val notificacionesNoLeidas by notificacionesViewModel.notificacionesNoLeidas.collectAsState()
+    LaunchedEffect(padre.id) {
+        Log.d("MENU_PRINCIPAL", "ID del padre logueado: ${padre.id}")
+        notificacionesViewModel.cargarContadorNoLeidas(padre.id)
+        Log.d("MENU_PRINCIPAL", "Contador de no leídas (estado actual): ${notificacionesNoLeidas}")
+    }
     Scaffold(
         topBar = {
             CustomTopBar(
@@ -103,7 +119,8 @@ fun MenuPrincipal(
                     R.drawable.ic_notificacion,
                     onNotificacionesClick,
                     backgroundColor = Color(0xFFB2EBF2),
-                    textColor = Color(0xFF006064)
+                    textColor = Color(0xFF006064),
+                    badgeCount = notificacionesNoLeidas
                 )
             }
         }
@@ -111,7 +128,14 @@ fun MenuPrincipal(
 }
 
 @Composable
-fun MenuCard(titulo: String, icono: Int, onClick: () -> Unit, backgroundColor: Color, textColor: Color) {
+fun MenuCard(
+    titulo: String,
+    icono: Int,
+    onClick: () -> Unit,
+    backgroundColor: Color,
+    textColor: Color,
+    badgeCount: Int? = null
+) {
     ElevatedButton(
         onClick = onClick,
         shape = RoundedCornerShape(14.dp),
@@ -121,10 +145,26 @@ fun MenuCard(titulo: String, icono: Int, onClick: () -> Unit, backgroundColor: C
         colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(painter = painterResource(id = icono), contentDescription = titulo)
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Box {
+                Image(painter = painterResource(id = icono), contentDescription = titulo)
+                if (badgeCount != null && badgeCount > 0) {
+                    Box(
+                        modifier = Modifier
+                            .offset(x = (-20).dp, y = (-4).dp)
+                            .size(28.dp)
+                            .background(Color.Red, shape = RoundedCornerShape(10.dp))
+                            .zIndex(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = badgeCount.toString(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.White
+                        )
+                    }
+                }
+            }
             Spacer(modifier = Modifier.height(4.dp))
             Text(titulo, style = TextStyle(fontSize = 18.sp, color = textColor))
         }

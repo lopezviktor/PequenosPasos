@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -67,32 +68,47 @@ fun ActividadesScreen(
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(8.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFD7E8FF))
+                                .padding(vertical = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD)),
+                            shape = MaterialTheme.shapes.medium,
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
                                 Text(
-                                    text = "Actividad: ${actividadResponse.actividad.nombre}",
-                                    style = TextStyle(fontSize = 20.sp)
+                                    text = "🎨 ${actividadResponse.actividad.nombre}",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
                                 )
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
                                 Text(
-                                    text = "Descripción: ${actividadResponse.actividad.descripcion}",
-                                    style = TextStyle(fontSize = 16.sp)
+                                    text = "📝 ${actividadResponse.actividad.descripcion}",
+                                    fontSize = 14.sp,
+                                    color = Color.Black
                                 )
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
                                 val fechaFormateada = try {
                                     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
                                     LocalDateTime.parse(actividadResponse.fechaRegistro).format(formatter)
                                 } catch (e: Exception) {
                                     actividadResponse.fechaRegistro
                                 }
+
                                 Text(
-                                    text = "Fecha: $fechaFormateada",
-                                    style = TextStyle(fontSize = 14.sp)
+                                    text = "📅 $fechaFormateada",
+                                    fontSize = 14.sp,
+                                    color = Color.DarkGray
                                 )
+
                                 val educador = actividadResponse.nino.clase.educador
                                 Text(
-                                    text = "Educador: ${educador.nombre} ${educador.apellidos}",
-                                    style = TextStyle(fontSize = 12.sp)
+                                    text = "👩‍🏫 ${educador.nombre} ${educador.apellidos}",
+                                    fontSize = 12.sp,
+                                    color = Color.Gray
                                 )
                             }
                         }

@@ -61,4 +61,8 @@ interface ApiService {
     // Marcar todas como leídas para un padre
     @PUT("api/notificaciones/receptor/{receptorId}/marcar-todas-leidas")
     suspend fun marcarTodasComoLeidas(@Path("receptorId") id: Long): Response<Unit>
+
+    // Obtener las notificaciones no leídas de un padre
+    @GET("api/notificaciones/receptor/{receptorId}/no-leidas")
+    suspend fun getNotificacionesNoLeidas(@Path("receptorId") id: Long): List<Notificacion>
 }

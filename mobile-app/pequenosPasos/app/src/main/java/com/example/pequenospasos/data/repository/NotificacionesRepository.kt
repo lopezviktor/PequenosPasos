@@ -18,4 +18,8 @@ class NotificacionesRepository(
     suspend fun marcarTodasComoLeidas(padreId: Long) {
         apiService.marcarTodasComoLeidas(padreId)
     }
+
+    suspend fun getNumeroNotificacionesNoLeidas(padreId: Long): Int {
+        return apiService.getNotificacionesNoLeidas(padreId).size
+    }
 }
