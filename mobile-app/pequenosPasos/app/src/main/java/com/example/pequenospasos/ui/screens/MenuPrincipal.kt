@@ -1,6 +1,7 @@
 package com.example.pequenospasos.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -27,6 +28,7 @@ fun MenuPrincipal(
     onSiestaClick: () -> Unit,
     onHabitosClick: () -> Unit,
     onActividadesClick: () -> Unit,
+    onNotificacionesClick: () -> Unit,
     onProfileClick: () -> Unit,
     navController: NavHostController,
     nino: Nino,
@@ -45,6 +47,7 @@ fun MenuPrincipal(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color(0xFFFCF1EC))
                 .padding(paddingValues)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -68,8 +71,6 @@ fun MenuPrincipal(
                 color = MaterialTheme.colorScheme.primary
             )
 
-            Text("Selecciona una opción", style = TextStyle(fontSize = 24.sp))
-            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
@@ -90,22 +91,35 @@ fun MenuPrincipal(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                MenuCard("Actividades", R.drawable.ic_actividad, onActividadesClick, Color(
-                    0xFFDB514A
-                ), Color(0xFFDBC9C9)
-                )            }
+                MenuCard(
+                    "Actividades",
+                    R.drawable.ic_actividad,
+                    onActividadesClick,
+                    backgroundColor = Color(0xFFBBDEFB),
+                    textColor = Color(0xFF0D47A1)
+                )
+                MenuCard(
+                    "Notificaciones",
+                    R.drawable.ic_notificacion,
+                    onNotificacionesClick,
+                    backgroundColor = Color(0xFFB2EBF2),
+                    textColor = Color(0xFF006064)
+                )
+            }
         }
     }
 }
 
 @Composable
-fun MenuCard(titulo: String, icono: Int, onClick: () -> Unit, backgroundColor: Color, textColor: Color) {    Button(
+fun MenuCard(titulo: String, icono: Int, onClick: () -> Unit, backgroundColor: Color, textColor: Color) {
+    ElevatedButton(
         onClick = onClick,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(14.dp),
         modifier = Modifier
             .padding(8.dp)
             .size(150.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+        elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally

@@ -1,6 +1,5 @@
 package com.example.pequenospasos.ui.navigation
 
-import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -12,17 +11,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.pequenospasos.data.network.RetrofitClient
+import com.example.pequenospasos.data.repository.NotificacionesRepository
 import com.example.pequenospasos.ui.screens.ActividadesScreen
 import com.example.pequenospasos.ui.screens.ComidaScreen
 import com.example.pequenospasos.ui.screens.HabitosScreen
 import com.example.pequenospasos.ui.screens.HigieneScreen
 import com.example.pequenospasos.ui.screens.LoginScreen
 import com.example.pequenospasos.ui.screens.MenuPrincipal
+import com.example.pequenospasos.ui.screens.NotificacionesScreen
 import com.example.pequenospasos.ui.screens.PerfilScreen
 import com.example.pequenospasos.ui.screens.SeleccionHijoScreen
 import com.example.pequenospasos.ui.screens.SiestaScreen
 import com.example.pequenospasos.viewmodel.LoginViewModel
-import com.example.pequenospasos.data.model.Padre
+import com.example.pequenospasos.viewmodel.NotificacionesViewModel
+import com.example.pequenospasos.viewmodel.NotificacionesViewModelFactory
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -78,7 +81,8 @@ fun AppNavHost(
                     onSiestaClick = { navController.navigate("siesta_screen/${it.id}") },
                     onHabitosClick = { navController.navigate("habitos_screen/${it.id}") },
                     onProfileClick = { navController.navigate("perfil_screen") },
-                    onActividadesClick = { navController.navigate("actividades_screen") }
+                    onActividadesClick = { navController.navigate("actividades_screen") },
+                    onNotificacionesClick = { navController.navigate("notificaciones_screen") }
                 )
             }
         }
@@ -133,6 +137,24 @@ fun AppNavHost(
 
             padre?.let {
                 PerfilScreen(padre = it)
+            }
+        }
+
+        // Pantalla de Notificaciones
+        composable("notificaciones_screen") {
+            val padre by loginViewModel.padre.collectAsState()
+            padre?.let {
+                val factory = NotificacionesViewModelFactory(
+                    NotificacionesRepository(
+                        RetrofitClient.api
+                    )
+                )
+                val viewModel: NotificacionesViewModel = viewModel(factory = factory)
+                NotificacionesScreen(
+                    navController = navController,
+                    padreId = it.id,
+                    viewModel = viewModel
+                )
             }
         }
     }
