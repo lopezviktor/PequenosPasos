@@ -35,11 +35,23 @@ export class EducatorFormComponent implements OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['educator'] && this.educator) {
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['educator']) {
+    if (this.educator) {
       this.educatorForm.patchValue(this.educator);
+    } else {
+      this.educatorForm.reset({
+        id: null,
+        nombre: '',
+        apellidos: '',
+        email: '',
+        telefono: '',
+        password: '',
+        tipoUsuario: { value: 'EDUCADOR', disabled: true }
+      });
     }
   }
+}
 
   onSubmit() {
     if (this.educatorForm.valid) {

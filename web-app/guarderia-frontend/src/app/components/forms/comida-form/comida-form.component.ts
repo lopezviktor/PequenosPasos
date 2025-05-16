@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Comida } from '@models/comida.model';
@@ -28,7 +28,7 @@ import { NombreCompletoPipe } from '@shared/pipes/nombre-completo.pipe';
   styleUrls: ['./comida-form.component.scss'],
   providers: [MessageService]
 })
-export class ComidaFormComponent implements OnInit {
+export class ComidaFormComponent implements OnInit, OnChanges {
   @Input() comidaEditando?: Comida;
   @Output() comidaGuardada = new EventEmitter<void>();
   @Output() formularioCerrado = new EventEmitter<void>();
@@ -67,6 +67,32 @@ export class ComidaFormComponent implements OnInit {
         descripcionComida: this.comidaEditando.descripcionComida,
         observaciones: this.comidaEditando.observaciones || ''
       });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['comidaEditando']) {
+      if (this.comidaEditando) {
+        this.isEditing = true;
+        this.form.patchValue({
+          nino: this.comidaEditando.nino,
+          educador: this.comidaEditando.educador,
+          horaComida: new Date(this.comidaEditando.horaComida),
+          descripcionComida: this.comidaEditando.descripcionComida,
+          observaciones: this.comidaEditando.observaciones || ''
+        });
+      } else {
+        this.isEditing = false;
+        this.form.reset({
+          nino: null,
+          educador: null,
+          horaComida: null,
+          descripcionComida: '',
+          observaciones: ''
+        });
+        this.form.markAsPristine();
+        this.form.markAsUntouched();
+      }
     }
   }
 

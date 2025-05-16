@@ -13,6 +13,9 @@ class NotificacionesViewModel(
     private val repository: NotificacionesRepository
 ) : ViewModel() {
 
+    private val _notificacionesNoLeidas = MutableStateFlow(0)
+    val notificacionesNoLeidas: StateFlow<Int> = _notificacionesNoLeidas
+
     private val _notificaciones = MutableStateFlow<List<Notificacion>>(emptyList())
     val notificaciones: StateFlow<List<Notificacion>> = _notificaciones
 
@@ -48,6 +51,18 @@ class NotificacionesViewModel(
                     it.copy(estado = "LEIDO")
                 }
             } catch (_: Exception) {}
+        }
+    }
+
+    fun cargarContadorNoLeidas(padreId: Long) {
+        viewModelScope.launch {
+            try {
+                val count = repository.getNumeroNotificacionesNoLeidas(padreId)
+                _notificacionesNoLeidas.value = count
+                Log.d("NOTIFICACIONES_DEBUG", "No leídas: $count")
+            } catch (e: Exception) {
+                _notificacionesNoLeidas.value = 0
+            }
         }
     }
 }

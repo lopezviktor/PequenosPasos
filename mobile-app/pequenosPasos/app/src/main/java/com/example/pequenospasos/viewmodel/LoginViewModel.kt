@@ -32,6 +32,9 @@ class LoginViewModel : ViewModel() {
     private val _ninoSeleccionado = MutableStateFlow<Nino?>(null)
     val ninoSeleccionado: StateFlow<Nino?> get() = _ninoSeleccionado
 
+    private val _notificacionesNoLeidas = MutableStateFlow(0)
+    val notificacionesNoLeidas: StateFlow<Int> = _notificacionesNoLeidas
+
     fun seleccionarNino(nino: Nino) {
         _ninoSeleccionado.value = nino
     }

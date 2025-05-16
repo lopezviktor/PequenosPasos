@@ -69,6 +69,12 @@ fun AppNavHost(
         // Pantalla de Menú Principal
         composable("menu_principal") {
             val nino by loginViewModel.ninoSeleccionado.collectAsState()
+            val notificacionesNoLeidas by loginViewModel.notificacionesNoLeidas.collectAsState()
+            val notificacionesViewModel: NotificacionesViewModel = viewModel(
+                factory = NotificacionesViewModelFactory(
+                    NotificacionesRepository(RetrofitClient.api)
+                )
+            )
 
             nino?.let {
                 MenuPrincipal(
@@ -82,7 +88,9 @@ fun AppNavHost(
                     onHabitosClick = { navController.navigate("habitos_screen/${it.id}") },
                     onProfileClick = { navController.navigate("perfil_screen") },
                     onActividadesClick = { navController.navigate("actividades_screen") },
-                    onNotificacionesClick = { navController.navigate("notificaciones_screen") }
+                    onNotificacionesClick = { navController.navigate("notificaciones_screen") },
+                    padre = loginViewModel.padre.value!!,
+                    notificacionesViewModel = notificacionesViewModel
                 )
             }
         }

@@ -1,73 +1,100 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- Dropdown para seleccionar un niño -->
-    <p-dropdown 
-      [options]="ninos"
-      optionLabel="nombre"
-      formControlName="nino"
-      placeholder="Selecciona un niño">
-    </p-dropdown>
-  
-    <!-- Datepicker para seleccionar la hora de entrada -->
-    <p-calendar 
-      formControlName="horaEntrada"
-      [showTime]="true"
-      hourFormat="24"
-      placeholder="Hora de entrada">
-    </p-calendar>
-
-    <!-- Dropdown para seleccionar un padre que entrega -->
-    <p-dropdown 
-      [options]="padresEntrega"
-      optionLabel="nombreCompleto"
-      formControlName="padreEntrega"
-      placeholder="Padre que entrega">
-    </p-dropdown>
-
-      <!-- Dropdown para seleccionar un educador que recibe -->
-    <p-dropdown 
-      [options]="educadores"
-      [optionLabel]="'nombre'"
-      formControlName="educadorRecibe"
-      placeholder="Selecciona un educador">
-      <ng-template let-educador pTemplate="item">
-        {{ educador.nombre }} {{ educador.apellidos }}
-      </ng-template>
-    </p-dropdown>
-
-    <!-- Datepicker para seleccionar la hora de salida -->
-    <p-calendar 
-      formControlName="horaSalida"
-      [showTime]="true"
-      hourFormat="24"
-      placeholder="Hora de salida">
-    </p-calendar>
-
-    <!-- Dropdown para seleccionar un educador que entrega -->
-    <p-dropdown 
-      [options]="educadores"
-      [optionLabel]="'nombre'"
-      formControlName="educadorEntrega"
-      placeholder="Educador que entrega">
-      <ng-template let-educador pTemplate="item">
-        {{ educador.nombre }} {{ educador.apellidos }}
-      </ng-template>
-    </p-dropdown>
-  
-    <!-- Dropdown para seleccionar un padre que recoge -->
-    <p-dropdown 
-      [options]="padresRecoge"
-      optionLabel="nombreCompleto"
-      formControlName="padreRecoge"
-      placeholder="Padre que recoge">
-    </p-dropdown>
-  
-    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-      <button type="submit" pButton [disabled]="form.invalid">
-        {{ isEditing ? 'Actualizar Asistencia' : 'Guardar Asistencia' }}
-      </button>
-      <button type="button" pButton class="p-button-secondary" (click)="formularioCerrado.emit()">
-        Cancelar
-      </button>
+  <div class="p-field">
+    <div class="p-float-label">
+      <p-dropdown 
+        inputId="nino"
+        [options]="ninos"
+        optionLabel="nombre"
+        formControlName="nino">
+      </p-dropdown>
+      <label for="nino">Niño</label>
     </div>
-    
-  </form>
+  </div>
+
+  <div class="p-field">
+    <div class="p-float-label">
+      <p-calendar 
+        inputId="horaEntrada"
+        formControlName="horaEntrada"
+        [showTime]="true"
+        hourFormat="24">
+      </p-calendar>
+      <label for="horaEntrada">Hora de entrada</label>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div class="p-float-label">
+      <p-dropdown 
+        inputId="padreEntrega"
+        [options]="padresEntrega"
+        optionLabel="nombreCompleto"
+        formControlName="padreEntrega">
+      </p-dropdown>
+      <label for="padreEntrega">Padre que entrega</label>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div class="p-float-label">
+      <p-dropdown 
+        inputId="educadorRecibe"
+        [options]="educadores"
+        [optionLabel]="'nombre'"
+        formControlName="educadorRecibe">
+        <ng-template let-educador pTemplate="item">
+          {{ educador.nombre }} {{ educador.apellidos }}
+        </ng-template>
+      </p-dropdown>
+      <label for="educadorRecibe">Educador que recibe</label>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div class="p-float-label">
+      <p-calendar 
+        inputId="horaSalida"
+        formControlName="horaSalida"
+        [showTime]="true"
+        hourFormat="24">
+      </p-calendar>
+      <label for="horaSalida">Hora de salida</label>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div class="p-float-label">
+      <p-dropdown 
+        inputId="educadorEntrega"
+        [options]="educadores"
+        [optionLabel]="'nombre'"
+        formControlName="educadorEntrega">
+        <ng-template let-educador pTemplate="item">
+          {{ educador.nombre }} {{ educador.apellidos }}
+        </ng-template>
+      </p-dropdown>
+      <label for="educadorEntrega">Educador que entrega</label>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div class="p-float-label">
+      <p-dropdown 
+        inputId="padreRecoge"
+        [options]="padresRecoge"
+        optionLabel="nombreCompleto"
+        formControlName="padreRecoge">
+      </p-dropdown>
+      <label for="padreRecoge">Padre que recoge</label>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 1rem; margin-top: 1rem; justify-content: center;">
+    <button type="submit" pButton [disabled]="form.invalid">
+      {{ isEditing ? 'Actualizar Asistencia' : 'Guardar Asistencia' }}
+    </button>
+    <button type="button" pButton class="p-button-secondary" (click)="formularioCerrado.emit()">
+      Cancelar
+    </button>
+  </div>
+</form>

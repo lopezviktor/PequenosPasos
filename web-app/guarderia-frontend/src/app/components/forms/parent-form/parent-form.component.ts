@@ -36,8 +36,20 @@ export class ParentFormComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['parent'] && this.parent) {
-      this.parentForm.patchValue(this.parent);
+    if (changes['parent']) {
+      if (this.parent) {
+        this.parentForm.patchValue(this.parent);
+      } else {
+        this.parentForm.reset({
+          id: null,
+          nombre: '',
+          apellidos: '',
+          email: '',
+          telefono: '',
+          password: '',
+          tipoUsuario: { value: 'PADRE', disabled: true }
+        });
+      }
     }
   }
 

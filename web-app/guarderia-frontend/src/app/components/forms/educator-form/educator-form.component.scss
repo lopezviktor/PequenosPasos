@@ -1,6 +1,46 @@
-.parent-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 400px;
+.educator-form {
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center; /* forzamos el centrado explícito */
   }
+
+  .p-field {
+    display: block;
+    margin-bottom: 1.5rem;
+
+    .p-float-label {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+
+      input {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      label {
+        order: -1;
+        margin-bottom: 0.5rem;
+        text-align: left;
+      }
+    }
+
+    .p-error {
+      margin-top: 0.25rem;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+  }
+
+  .p-d-flex.p-jc-end {
+    justify-content: center !important;
+    margin-top: 2rem;
+  }
+}

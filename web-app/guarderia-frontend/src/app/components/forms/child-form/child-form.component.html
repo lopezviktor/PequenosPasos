@@ -1,68 +1,79 @@
+<form [formGroup]="childForm" (ngSubmit)="onSubmit()" class="child-form p-fluid">
+  <div class="p-grid p-formgrid">
 
-<form [formGroup]="childForm" (ngSubmit)="onSubmit()">
-    <div class="p-fluid p-formgrid p-grid">
-      <div class="p-field p-col-12 p-md-6">
-        <label for="nombre">Nombre</label>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <input id="nombre" type="text" pInputText formControlName="nombre" />
-        <small *ngIf="childForm.get('nombre')?.invalid && childForm.get('nombre')?.touched" class="p-error">
-          El nombre es obligatorio
-        </small>
-    </div>
-    <div class="p-field p-col-12 p-md-6">
-        <label for="apellidos">Apellidos</label>
-        <input id="apellidos" type="text" pInputText formControlName="apellidos" />
-        <small *ngIf="childForm.get('apellidos')?.invalid && childForm.get('apellidos')?.touched" class="p-error">
-        Los apellidos son obligatorios
-        </small>
-    </div>
-    <div class="p-field p-col-12 p-md-6">
-        <label for="fechaNacimiento">Fecha de nacimiento</label>
-        <input id="fechaNacimiento" type="date" pInputText formControlName="fechaNacimiento" />
-        <small *ngIf="childForm.get('fechaNacimiento')?.invalid && childForm.get('fechaNacimiento')?.touched" class="p-error">
-        La fecha de nacimiento es obligatoria
-        </small>
-    </div>
-
-    <div class="p-field p-col-12 p-md-6">
-        <label for="primerDia">Primer día</label>
-        <input id="primerDia" type="date" pInputText formControlName="primerDia" />
-    </div>
-
-    <div class="p-field p-col-12 p-md-6">
-        <label for="alergias">Alergias</label>
-        <textarea id="alergias" pInputTextarea rows="2" formControlName="alergias"></textarea>
-    </div>
-
-    <div class="p-field p-col-12 p-md-6">
-        <label for="condicionesMedicas">Condiciones médicas</label>
-        <textarea id="condicionesMedicas" pInputTextarea rows="2" formControlName="condicionesMedicas"></textarea>
+        <label for="nombre">Nombre</label>
+      </div>
+      <small *ngIf="childForm.get('nombre')?.invalid && childForm.get('nombre')?.touched" class="p-error">El nombre es obligatorio</small>
     </div>
 
     <div class="p-field p-col-12">
-        <label for="fotoUrl">Foto (URL)</label>
+      <div class="p-float-label">
+        <input id="apellidos" type="text" pInputText formControlName="apellidos" />
+        <label for="apellidos">Apellidos</label>
+      </div>
+      <small *ngIf="childForm.get('apellidos')?.invalid && childForm.get('apellidos')?.touched" class="p-error">Los apellidos son obligatorios</small>
+    </div>
+
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <input id="fechaNacimiento" type="date" pInputText formControlName="fechaNacimiento" />
+        <label for="fechaNacimiento">Fecha de nacimiento</label>
+      </div>
+      <small *ngIf="childForm.get('fechaNacimiento')?.invalid && childForm.get('fechaNacimiento')?.touched" class="p-error">La fecha de nacimiento es obligatoria</small>
+    </div>
+
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <input id="primerDia" type="date" pInputText formControlName="primerDia" />
+        <label for="primerDia">Primer día</label>
+      </div>
+    </div>
+
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <textarea id="alergias" pInputTextarea rows="2" formControlName="alergias"></textarea>
+        <label for="alergias">Alergias</label>
+      </div>
+    </div>
+
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <textarea id="condicionesMedicas" pInputTextarea rows="2" formControlName="condicionesMedicas"></textarea>
+        <label for="condicionesMedicas">Condiciones médicas</label>
+      </div>
+    </div>
+
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <input id="fotoUrl" type="text" pInputText formControlName="fotoUrl" />
+        <label for="fotoUrl">Foto (URL)</label>
+      </div>
     </div>
 
-    <div class="p-field p-col-12 p-md-6">
-        <label for="clase">Clase</label>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <p-dropdown
-            id="clase"
-            [options]="clasesDisponibles"
-            optionLabel="nombre"
-            optionValue="id"
-            placeholder="Selecciona una clase"
-            formControlName="clase"
-            [showClear]="true"
-            [filter]="true"
-            appendTo="body">
+          id="clase"
+          [options]="clasesDisponibles"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Selecciona una clase"
+          formControlName="clase"
+          [showClear]="true"
+          [filter]="true"
+          appendTo="body">
         </p-dropdown>
-        <small *ngIf="childForm.get('claseId')?.invalid && childForm.get('claseId')?.touched" class="p-error">
-            La clase es obligatoria
-        </small>
-    </div>
+        <label for="clase">Clase</label>
+      </div>
+      <small *ngIf="childForm.get('clase')?.invalid && childForm.get('clase')?.touched" class="p-error">La clase es obligatoria</small>
     </div>
 
-    <div class="p-d-flex p-jc-end">
+  </div>
+
+  <div class="p-d-flex p-jc-center p-mt-3">
     <button pButton type="submit" label="Guardar" [disabled]="childForm.invalid" class="p-button-success"></button>
-    </div>
+  </div>
 </form>

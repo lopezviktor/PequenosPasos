@@ -1,34 +1,46 @@
-.formulario-asistencia {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 2rem;
-}
-
-.botonera {
-  grid-column: span 2;
+form {
+  max-width: 400px;
+  margin: 0 auto;
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .p-field {
+    display: block;
+    margin-bottom: 1.5rem;
+
+    .p-float-label {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      label {
+        order: -1;
+        margin-bottom: 0.5rem;
+        text-align: left;
+      }
+    }
+
+    .p-error {
+      margin-top: 0.25rem;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+  }
+
+  p-dropdown,
+  p-calendar,
+  input,
+  textarea {
+    width: 100%;
+  }
+
+  > div[style] {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
 }
 
-p-dropdown,
-p-calendar,
-input,
-textarea {
-  width: 100%;
-}
 
-p-calendar {
-  display: block;
-}
-
-::ng-deep .p-calendar {
-  width: 100% !important;
-}
-
-::ng-deep .p-datepicker {
-  font-size: 0.95rem;
-  padding: 1rem;
-}

@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pequenospasos.R
@@ -64,8 +64,6 @@ fun HabitosScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Hábitos", style = TextStyle(fontSize = 24.sp))
-            Spacer(modifier = Modifier.height(16.dp))
 
             // Definición segura de última siesta, higiene y comida
             val ultimaSiesta = siestasHoy.firstOrNull()?.let {
@@ -94,9 +92,25 @@ fun HabitosScreen(
                 ) {
                     val comida = comidasHoy.firstOrNull()
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Comida: ${comida?.descripcionComida ?: "Sin datos"}", style = TextStyle(fontSize = 18.sp, color = Color(0xFF6200EA)))
-                        Text("Observaciones: ${comida?.observaciones ?: "-"}", style = TextStyle(fontSize = 16.sp, color = Color.Gray))
-                        Text("Última comida: $ultimaComida", style = TextStyle(fontSize = 16.sp, color = Color.Gray))
+                        Text(
+                            text = "🍽 ${comida?.descripcionComida ?: "Sin datos"}",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF6B9D98)
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "💬 ${comida?.observaciones ?: "-"}",
+                            fontSize = 14.sp,
+                            color = Color.DarkGray
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "🕒 $ultimaComida",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
                         TextButton(onClick = onComidaClick) {
                             Text("Mostrar más comidas")
                         }
@@ -123,7 +137,13 @@ fun HabitosScreen(
                 ) {
                     val siesta = siestasHoy.firstOrNull()
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Última siesta: $ultimaSiesta", style = TextStyle(fontSize = 18.sp, color = Color(0xFF00796B)))
+                        Text(
+                            text = "😴 Siesta de hoy: $ultimaSiesta",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF00796B)
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
                         TextButton(onClick = onSiestaClick) {
                             Text("Mostrar más siestas")
                         }
@@ -150,7 +170,19 @@ fun HabitosScreen(
                 ) {
                     val higiene = higienesHoy.firstOrNull()
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Última higiene: $ultimaHigiene - ${higiene?.estado ?: "Sin datos"}", style = TextStyle(fontSize = 18.sp, color = Color(0xFFF57F17)))
+                        Text(
+                            text = "🧼 Higiene de hoy: $ultimaHigiene",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFF57F17)
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Estado: ${higiene?.estado ?: "Sin datos"}",
+                            fontSize = 14.sp,
+                            color = Color.DarkGray
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
                         TextButton(onClick = onHigieneClick) {
                             Text("Mostrar más higienes")
                         }
