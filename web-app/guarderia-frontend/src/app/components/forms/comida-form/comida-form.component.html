@@ -1,14 +1,13 @@
-<div class="formulario">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-grid">
-      <div class="form-field">
-        <label for="nino">Niño</label>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="comida-form p-fluid">
+  <div class="p-grid p-formgrid">
+
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <p-dropdown
+          inputId="nino"
           [options]="ninos"
           formControlName="nino"
-          placeholder="Selecciona un niño"
-          dataKey="id"
-        >
+          dataKey="id">
           <ng-template let-nino pTemplate="item">
             {{ nino | nombreCompleto }}
           </ng-template>
@@ -16,16 +15,17 @@
             {{ nino | nombreCompleto }}
           </ng-template>
         </p-dropdown>
+        <label for="nino">Niño</label>
       </div>
+    </div>
 
-      <div class="form-field">
-        <label for="educador">Educador</label>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <p-dropdown
+          inputId="educador"
           [options]="educadores"
           formControlName="educador"
-          placeholder="Selecciona un educador"
-          dataKey="id"
-        >
+          dataKey="id">
           <ng-template let-educador pTemplate="item">
             {{ educador | nombreCompleto }}
           </ng-template>
@@ -33,55 +33,56 @@
             {{ educador | nombreCompleto }}
           </ng-template>
         </p-dropdown>
+        <label for="educador">Educador</label>
       </div>
+    </div>
 
-      <div class="form-field">
-        <label for="horaComida">Hora de la comida</label>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <p-calendar
+          inputId="horaComida"
           formControlName="horaComida"
           [showTime]="true"
           hourFormat="24"
-          placeholder="Selecciona la hora"
-        ></p-calendar>
+          >
+        </p-calendar>
+        <label for="horaComida">Hora de la comida</label>
       </div>
+    </div>
 
-      <div class="form-field full-width">
-        <label for="descripcionComida">Descripción de la comida</label>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <textarea
+          id="descripcionComida"
           pInputTextarea
           formControlName="descripcionComida"
-          rows="3"
-          placeholder="¿Qué ha comido?"
-        ></textarea>
+          rows="3">
+        </textarea>
+        <label for="descripcionComida">Descripción de la comida</label>
       </div>
+    </div>
 
-      <div class="form-field full-width">
-        <label for="observaciones">Observaciones (opcional)</label>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <textarea
+          id="observaciones"
           pInputTextarea
           formControlName="observaciones"
-          rows="2"
-          placeholder="Observaciones (opcional)"
-        ></textarea>
+          rows="2">
+        </textarea>
+        <label for="observaciones">Observaciones (opcional)</label>
       </div>
     </div>
 
-    <div class="botones-formulario">
-      <button
-        pButton
-        type="submit"
-        label="Guardar"
-        icon="pi pi-save"
-        [disabled]="form.invalid"
-      ></button>
-      <button
-        pButton
-        type="button"
-        label="Cancelar"
-        icon="pi pi-times"
-        class="p-button-secondary"
-        (click)="cancelar()"
-      ></button>
-    </div>
-  </form>
-</div>
+  </div>
+
+  <div class="p-d-flex p-jc-center p-mt-3">
+    <button
+      pButton
+      type="submit"
+      [label]="comidaEditando ? 'Actualizar comida' : 'Guardar comida'"
+      class="p-button-success"
+      [disabled]="form.invalid">
+    </button>
+  </div>
+</form>

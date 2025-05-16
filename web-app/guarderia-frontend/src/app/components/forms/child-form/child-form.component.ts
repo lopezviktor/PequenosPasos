@@ -47,15 +47,30 @@ export class ChildFormComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['child'] && this.child) {
-      const patch: any = {
-        ...this.child,
-        clase: typeof this.child.clase === 'object' && this.child.clase !== null
-          ? (this.child.clase.id ?? this.child.clase.nombre ?? '')
-          : this.child.clase ?? ''
-      };
-      this.childForm.patchValue(patch);
+    if (changes['child']) {
+      if (this.child) {
+        const patch: any = {
+          ...this.child,
+          clase: typeof this.child.clase === 'object' && this.child.clase !== null
+            ? (this.child.clase.id ?? this.child.clase.nombre ?? '')
+            : this.child.clase ?? ''
+        };
+        this.childForm.patchValue(patch);
+      } else {
+        this.childForm.reset({
+          id: null,
+          nombre: '',
+          apellidos: '',
+          fechaNacimiento: '',
+          primerDia: '',
+          alergias: '',
+          condicionesMedicas: '',
+          fotoUrl: '',
+          clase: ''
+        });
+      }
     }
+
     this.classroomService.getClases().subscribe({
       next: (clases) => {
         this.clasesDisponibles = clases;
