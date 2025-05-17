@@ -1,34 +1,20 @@
-:host ::ng-deep .p-panelmenu .p-panelmenu-header .p-panelmenu-header-text {
-  margin-left: 8rem !important;
-}
 .sidebar {
-  display: block;
-  width: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 200px;
   min-height: 100vh;
-  background: #e0e5ec;
+  background: #b8cce7c7;
   padding: 1rem;
   box-shadow: inset 4px 4px 8px #bec3c9;
-  border-radius: 20px 0 0 20px;
+  border-radius: 0 0 20px;
   transition: width 0.3s;
-
-  &.collapsed {
-    width: 74px;
-
-    .p-panelmenu .p-panelmenu-header .p-panelmenu-header-text {
-      display: none;
-    }
-
-    .p-panelmenu .p-panelmenu-header .pi {
-      margin-right: 0;
-    }
-  }
-
-  &:hover {
-    width: 250px;
-
-    .p-panelmenu .p-panelmenu-header .p-panelmenu-header-text {
-      display: inline-block;
-    }
+  font-size: 1,2rem;
+  
+  img.topbar-logo {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 1rem;
   }
 
   .sidebar-menu {
@@ -46,4 +32,35 @@
       }
     }
   }
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-action {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.sidebar-action {
+  width: 100%;
+  justify-content: flex-start;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: none;
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.03),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+}
+
+.sidebar-action:hover {
+  background-color: #a9c4e7;
+  color: #111827;
 }

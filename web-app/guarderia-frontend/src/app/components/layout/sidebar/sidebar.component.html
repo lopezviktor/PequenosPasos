@@ -1,3 +1,20 @@
-<div class="sidebar" [ngClass]="{ 'collapsed': isCollapsed }" (mouseenter)="expandSidebar()" (mouseleave)="collapseSidebar()">
+<div class="sidebar">
+  <img src="assets/Logo.png" alt="Logo" class="topbar-logo" />
   <p-panelMenu [model]="items" class="sidebar-menu"></p-panelMenu>
+  <div class="sidebar-footer">
+    <button 
+      pButton 
+      icon="pi pi-user" 
+      label="Perfil" 
+      class="p-button-text sidebar-action" 
+      (click)="irAlPerfil()">
+    </button>
+    <button 
+      pButton 
+      icon="pi pi-sign-out" 
+      label="Salir" 
+      class="p-button-text sidebar-action" 
+      (click)="cerrarSesion()">
+    </button>
+  </div>
 </div>

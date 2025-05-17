@@ -1,34 +1,67 @@
 .cards-container {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .summary-card {
-    width: 250px;
-    padding: 1rem;
-    border-radius: 20px;
-    background: #e0e5ec;
-    box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
-  
-    .card-content {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-  
-      .icon {
-        font-size: 2rem;
-        color: #4a4a4a;
-      }
-  
-      h2 {
-        margin: 0;
-        font-size: 1.8rem;
-      }
-  
-      span {
-        font-size: 0.9rem;
-        color: #666;
-      }
-    }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.summary-card {
+  background: #f3f4f6;
+  border-radius: 16px;
+  box-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #ffffff;
+  transition: transform 0.2s;
+}
+
+.summary-card:hover {
+  transform: translateY(-3px);
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card-content.updated {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  height: 100%;
+  font-family: 'Baloo 2', cursive;
+}
+
+.icon {
+  font-size: 2.5rem;
+  color: #4b5563;
+  flex-shrink: 0;
+}
+
+.middle {
+  flex: 1;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #374151;
+  font-family: 'Baloo 2', cursive;
+  
+  span {
+    font-size: 1.2rem;
+  }
+}
+
+.count h1 {
+  font-size: 4rem;
+  margin: 0;
+  color: #1f2937;
+  line-height: 1;
+  font-family: 'Baloo 2', cursive;
+}

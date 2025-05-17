@@ -1,36 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-sidebar',
   imports: [
     CommonModule,
     PanelMenuModule,
-    RouterModule
+    RouterModule,
+    ButtonModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  isCollapsed = false;
+  constructor(private router: Router) {}
 
-  toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed;
-  }
-
-  collapseSidebar() {
-    this.isCollapsed = true;
-  }
-
-  expandSidebar() {
-    this.isCollapsed = false;
-  }
-  
   items = [
     {
-      label: '      Dashboard',
+      label: 'Dashboard',
       icon: 'pi pi-home',
       routerLink: ['/dashboard']
     },
@@ -85,4 +75,13 @@ export class SidebarComponent {
       routerLink: ['/mensajes']
     }
   ]
+
+  irAlPerfil() {
+    this.router.navigate(['/perfil']);
+  }
+
+  cerrarSesion() {
+    // Aquí podrías limpiar el token, llamar a AuthService, etc.
+    this.router.navigate(['/login']);
+  }
 }

@@ -1,17 +1,32 @@
 <div class="neumorphic-card">
-    <p-calendar [(ngModel)]="selectedDate" inline="true" [showWeek]="false"></p-calendar>
+  <div class="calendar-section">
+    <p-datepicker [(ngModel)]="selectedDate" [inline]="true" [showWeek]="false"></p-datepicker>
+  </div>
 
-    <div class="event-summary">
-      <h4>Eventos del día</h4>
-      <ul>
-        <li>
-          <span class="event-time">10:30</span> 🧼 Higiene de Mario
-        </li>
-        <li>
-          <span class="event-time">12:15</span> 🍽️ Comida de Julia
-        </li>
-        <li>
-          <span class="event-time">15:00</span> ✨ Actividad: Pintura
-        </li>
-      </ul>
+  <div class="class-status">
+    <div class="class-row">
+      <span class="class-name">Pollitos </span>
+      <span class="status">
+        <span class="dot present"></span> 10 presentes
+      </span>
     </div>
+    <div class="class-row">
+      <span class="class-name">Ardillas</span>
+      <span class="status">
+        <span class="dot absent"></span> 2 comiendo
+      </span>
+    </div>
+    <div class="class-row">
+      <span class="class-name">Canguros</span>
+      <span class="status">
+        <span class="dot nap"></span> 3 en siesta
+      </span>
+    </div>
+  </div>
+
+  <div class="calendar-legend">
+    <div><span class="dot present"></span> Asistencia</div>
+    <div><span class="dot absent"></span> Comida</div>
+    <div><span class="dot nap"></span> Siesta</div>
+  </div>
+</div>
