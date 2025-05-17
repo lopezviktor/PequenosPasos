@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun CustomTopBar(
     title: String,
-    backgroundColor: Color = Color(0xFF245A89),
+    backgroundColor: Color = Color(0xC7B8CCE7),
     modifier: Modifier = Modifier,
     showProfileIcon: Boolean = false,
     onProfileClick: (() -> Unit)? = null
@@ -32,7 +32,7 @@ fun CustomTopBar(
                 text = title,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                color = Color.White,
+                color = Color(0xFF0F4F9E),
                 fontSize = 32.sp
             )
         },
@@ -42,7 +42,7 @@ fun CustomTopBar(
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = "Perfil",
-                        tint = Color.White
+                        tint = Color(0xFF0F4F9E),
                     )
                 }
             }
