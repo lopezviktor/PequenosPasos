@@ -66,6 +66,11 @@ export class ActividadService {
     );
   }
 
+  // Obtener todas las actividades con detalles
+  getActividadNinos(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiActividadNinosUrl);
+  }
+
   // Obtener actividad por ID
   getById(id: number): Observable<Actividad> {
     return this.http.get<Actividad>(`${this.apiUrl}/${id}`);

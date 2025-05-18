@@ -40,4 +40,20 @@ export class HigieneService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  private formatearFecha(date: Date): string {
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+  }
+
+  getHigienesDeHoy(): Observable<any[]> {
+    const hoy = new Date();
+    const inicio = new Date(hoy.setHours(0, 0, 0, 0));
+    const fin = new Date(hoy.setHours(23, 59, 59, 999));
+
+    const inicioStr = this.formatearFecha(inicio);
+    const finStr = this.formatearFecha(fin);
+
+    return this.http.get<any[]>(`${this.apiUrl}/rango-fechas?inicio=${inicioStr}&fin=${finStr}`);
+  }
 }

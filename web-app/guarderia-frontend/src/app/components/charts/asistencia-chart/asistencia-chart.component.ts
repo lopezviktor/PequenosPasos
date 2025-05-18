@@ -74,7 +74,7 @@ export class AsistenciaChartComponent implements OnInit, AfterViewInit {
       data: {
         labels: labels,
         datasets: [{
-          label: 'Asistencia',
+          label: 'Niños por día',
           data: data,
           backgroundColor: chartColor,
           borderRadius: 4,
@@ -92,7 +92,10 @@ export class AsistenciaChartComponent implements OnInit, AfterViewInit {
         },
         plugins: {
           legend: {
-            display: false
+            display: true,
+            labels: {
+              boxWidth: 20,
+            }
           },
         },
         scales: {

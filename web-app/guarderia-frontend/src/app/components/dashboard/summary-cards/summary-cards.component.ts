@@ -9,6 +9,7 @@ import { SiestaService } from '@services/siesta/siesta-service.service';
 import { ActividadService } from '@services/actividad/actividad.service';
 import { NotificacionesService } from '@services/notificaciones/notificaciones.service';
 import { AuthService } from '@services/auth/auth.service';
+import { HigieneService } from '@services/higiene/higiene.service';
 
 @Component({
   selector: 'app-summary-cards',
@@ -27,7 +28,11 @@ export class SummaryCardsComponent implements OnInit {
   siestasActivas: number = 0;
   ultimaActividadNombre: string = 'Sin actividades';
   notificacionesNoLeidas: number = 0;
+  totalNinos: number = 0;
+  ninosSinActividadHoy: number = 0;
+  promedioActividadesPorNino: number = 0;
 
+  higienesHoy: number = 0;
   constructor(
     private asistenciaService: AsistenciaService,
     private childService: ChildService,
@@ -35,7 +40,8 @@ export class SummaryCardsComponent implements OnInit {
     private siestaService: SiestaService,
     private actividadService: ActividadService,
     private notificacionService: NotificacionesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private higieneService: HigieneService,
   ) {}
 
   ngOnInit(): void {
@@ -45,24 +51,48 @@ export class SummaryCardsComponent implements OnInit {
           next: (asistencias) => {
             this.ninosPresentesHoy = asistencias.length;
             this.ausenciasHoy = children.length - asistencias.length;
+            this.totalNinos = children.length;
+            this.actividadService.getActividadNinos().subscribe({
+              next: (actividadNinos) => {
+                const hoy = new Date();
+                const actividadHoy = actividadNinos.filter(a => {
+                  const fecha = new Date(a.fechaRegistro);
+                  return fecha.toDateString() === hoy.toDateString();
+                });
 
+                const ninosConActividadHoy = new Set(actividadHoy.map(a => a.nino.id));
+                this.ninosSinActividadHoy = children.filter(n => !ninosConActividadHoy.has(n.id)).length;
+                this.promedioActividadesPorNino = actividadHoy.length / children.length;
+              },
+              error: (err) => {
+                console.error('Error al obtener actividad-ninos:', err);
+              }
+            });
             this.comidaService.getComidasDeHoy().subscribe({
               next: (comidas) => {
                 this.comidasHoy = comidas.length;
                 this.siestaService.getSiestasDeHoy().subscribe({
                   next: (siestas) => {
-                    console.log('Siestas de hoy:', siestas);
                     this.siestasActivas = siestas.filter(s => !s.finSiesta).length;
                     this.actividadService.getActividades().subscribe({
                       next: (actividades) => {
                         if (actividades.length > 0) {
                           this.ultimaActividadNombre = actividades[actividades.length - 1].nombre;
                         }
-                                                const userId = this.authService.getUserIdFromToken();
+                        const userId = this.authService.getUserIdFromToken();
                         if (userId) {
                           this.notificacionService.getNoLeidasPorUsuario(userId).subscribe({
                             next: (notificaciones) => {
                               this.notificacionesNoLeidas = notificaciones.length;
+                              this.higieneService.getHigienesDeHoy().subscribe({
+                                next: (higienes) => {
+                                  this.higienesHoy = higienes.length;
+                                },
+                                
+                                error: (err) => {
+                                  console.error('Error al obtener registros de higiene de hoy:', err);
+                                }
+                              });
                             },
                             error: (err) => {
                               console.error('Error al obtener notificaciones no leídas:', err);

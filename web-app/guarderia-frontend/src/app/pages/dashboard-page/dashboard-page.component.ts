@@ -5,6 +5,7 @@ import { CalendarWidgetComponent } from '../../components/dashboard/calendar-wid
 import Chart from 'chart.js/auto';
 import { AsistenciaChartComponent } from '@components/charts/asistencia-chart/asistencia-chart.component';
 import { EntradaChartComponent } from '@components/charts/entrada-chart/entrada-chart.component';
+import { ActividadChartComponent } from '@components/charts/actividad-chart/actividad-chart.component';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -13,7 +14,8 @@ import { EntradaChartComponent } from '@components/charts/entrada-chart/entrada-
     SummaryCardsComponent,
     CalendarWidgetComponent,
     AsistenciaChartComponent,
-    EntradaChartComponent
+    EntradaChartComponent,
+    ActividadChartComponent
   ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'

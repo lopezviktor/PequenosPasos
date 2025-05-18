@@ -3,6 +3,18 @@
     <div class="card-content updated">
       <i class="pi pi-users icon"></i>
       <div class="middle">
+        <span>Niños inscritos</span>
+      </div>
+      <div class="count">
+        <h1>{{ totalNinos }}</h1>
+      </div>
+    </div>
+  </p-card>
+  
+  <p-card class="summary-card">
+    <div class="card-content updated">
+      <i class="pi pi-users icon"></i>
+      <div class="middle">
         <span>Niños presentes</span>
       </div>
       <div class="count">
@@ -25,18 +37,6 @@
   
   <p-card class="summary-card">
     <div class="card-content updated">
-      <i class="pi pi-comments icon"></i>
-      <div class="middle">
-        <span>Mensajes nuevos</span>
-      </div>
-      <div class="count">
-        <h1>3</h1>
-      </div>
-    </div>
-  </p-card>
-  
-  <p-card class="summary-card">
-    <div class="card-content updated">
       <i class="pi pi-apple icon"></i>
       <div class="middle">
         <span>Comidas registradas</span>
@@ -46,8 +46,19 @@
       </div>
     </div>
   </p-card>
-
-
+  
+  <p-card class="summary-card">
+    <div class="card-content updated">
+      <i class="pi pi-check-square icon"></i>
+      <div class="middle">
+        <span>Registros de higiene</span>
+      </div>
+      <div class="count">
+        <h1>{{ higienesHoy }}</h1>
+      </div>
+    </div>
+  </p-card>
+  
   <p-card class="summary-card">
     <div class="card-content updated">
       <i class="pi pi-moon icon"></i>
@@ -59,7 +70,7 @@
       </div>
     </div>
   </p-card>
-
+  
   <p-card class="summary-card">
     <div class="card-content updated">
       <i class="pi pi-calendar icon"></i>
@@ -67,12 +78,47 @@
         <span>Ultima actividad</span>
       </div>
       <div class="count">
-        <h1>{{ ultimaActividadNombre }}</h1>
+        <h1><span>{{ ultimaActividadNombre }}</span></h1>
       </div>
     </div>
   </p-card>
 
-  
+    <p-card class="summary-card">
+    <div class="card-content updated">
+      <i class="pi pi-user-minus icon"></i>
+      <div class="middle">
+        <span>Niños sin actividad</span>
+      </div>
+      <div class="count">
+        <h1>{{ ninosSinActividadHoy }}</h1>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card class="summary-card">
+    <div class="card-content updated">
+      <i class="pi pi-chart-line icon"></i>
+      <div class="middle">
+        <span>Promedio actividades/niño</span>
+      </div>
+      <div class="count">
+        <h1>{{ promedioActividadesPorNino | number:'1.1-1' }}</h1>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card class="summary-card">
+    <div class="card-content updated">
+      <i class="pi pi-comments icon"></i>
+      <div class="middle">
+        <span>Mensajes nuevos</span>
+      </div>
+      <div class="count">
+        <h1>3</h1>
+      </div>
+    </div>
+  </p-card>
+
   <p-card class="summary-card">
     <div class="card-content updated">
       <i class="pi pi-bell icon"></i>
@@ -81,18 +127,6 @@
       </div>
       <div class="count">
         <h1>{{ notificacionesNoLeidas }}</h1>
-      </div>
-    </div>
-  </p-card>
-  
-  <p-card class="summary-card">
-    <div class="card-content updated">
-      <i class="pi pi-users icon"></i>
-      <div class="middle">
-        <span>Niños inscritos</span>
-      </div>
-      <div class="count">
-        <h1>30</h1>
       </div>
     </div>
   </p-card>
