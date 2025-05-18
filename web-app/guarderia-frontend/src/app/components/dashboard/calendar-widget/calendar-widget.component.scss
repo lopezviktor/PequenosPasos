@@ -14,13 +14,13 @@
 }
 
 .event-summary {
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .calendar-legend {
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
+  font-size: 1rem;
   padding-left: 0.5rem;
 }
 
@@ -45,32 +45,33 @@
 }
 
 .class-status {
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 
   .class-row {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
     align-items: center;
-    padding: 0.3rem 0;
+    gap: 0.75rem;
     border-bottom: 1px solid #e0e0e0;
+    padding: 0.5rem 0;
 
     .class-name {
-      font-weight: 500;
+      font-weight: 600;
       color: #374151;
     }
 
     .status {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 1rem;
 
       .dot {
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
       }
 
@@ -84,6 +85,12 @@
 
       .nap {
         background-color: #2196f3;
+      }
+
+      .status-item {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
       }
     }
   }

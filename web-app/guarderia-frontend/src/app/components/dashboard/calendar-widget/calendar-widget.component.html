@@ -1,32 +1,22 @@
 <div class="neumorphic-card">
   <div class="calendar-section">
-    <p-datepicker [(ngModel)]="selectedDate" [inline]="true" [showWeek]="false"></p-datepicker>
+    <p-datepicker [inline]="true" [showWeek]="false"></p-datepicker>
   </div>
 
   <div class="class-status">
-    <div class="class-row">
-      <span class="class-name">Pollitos </span>
-      <span class="status">
-        <span class="dot present"></span> 10 presentes
-      </span>
-    </div>
-    <div class="class-row">
-      <span class="class-name">Ardillas</span>
-      <span class="status">
-        <span class="dot absent"></span> 2 comiendo
-      </span>
-    </div>
-    <div class="class-row">
-      <span class="class-name">Canguros</span>
-      <span class="status">
-        <span class="dot nap"></span> 3 en siesta
-      </span>
+    <div class="class-row" *ngFor="let clase of resumenPorClase">
+      <span class="class-name">{{ clase.nombre }}</span>
+      <div class="status">
+        <div class="status-item"><span class="dot present"></span>{{ clase.presentes }}</div>
+        <div class="status-item"><span class="dot absent"></span>{{ clase.comiendo }}</div>
+        <div class="status-item"><span class="dot nap"></span>{{ clase.enSiesta }}</div>
+      </div>
     </div>
   </div>
 
   <div class="calendar-legend">
     <div><span class="dot present"></span> Asistencia</div>
     <div><span class="dot absent"></span> Comida</div>
-    <div><span class="dot nap"></span> Siesta</div>
+    <div><span class="dot nap"></span> En siesta</div>
   </div>
 </div>

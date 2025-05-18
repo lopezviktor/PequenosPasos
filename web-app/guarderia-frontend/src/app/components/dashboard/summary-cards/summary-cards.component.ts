@@ -7,6 +7,8 @@ import { ChildService } from '@services/child/child.service';
 import { ComidaService } from '@services/comida/comida.service';
 import { SiestaService } from '@services/siesta/siesta-service.service';
 import { ActividadService } from '@services/actividad/actividad.service';
+import { NotificacionesService } from '@services/notificaciones/notificaciones.service';
+import { AuthService } from '@services/auth/auth.service';
 
 @Component({
   selector: 'app-summary-cards',
@@ -24,13 +26,16 @@ export class SummaryCardsComponent implements OnInit {
   comidasHoy: number = 0;
   siestasActivas: number = 0;
   ultimaActividadNombre: string = 'Sin actividades';
-  
+  notificacionesNoLeidas: number = 0;
+
   constructor(
     private asistenciaService: AsistenciaService,
     private childService: ChildService,
     private comidaService: ComidaService,
     private siestaService: SiestaService,
-    private actividadService: ActividadService
+    private actividadService: ActividadService,
+    private notificacionService: NotificacionesService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +57,17 @@ export class SummaryCardsComponent implements OnInit {
                       next: (actividades) => {
                         if (actividades.length > 0) {
                           this.ultimaActividadNombre = actividades[actividades.length - 1].nombre;
+                        }
+                                                const userId = this.authService.getUserIdFromToken();
+                        if (userId) {
+                          this.notificacionService.getNoLeidasPorUsuario(userId).subscribe({
+                            next: (notificaciones) => {
+                              this.notificacionesNoLeidas = notificaciones.length;
+                            },
+                            error: (err) => {
+                              console.error('Error al obtener notificaciones no leídas:', err);
+                            }
+                          });
                         }
                       },
                       error: (err) => {

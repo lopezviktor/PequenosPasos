@@ -66,6 +66,6 @@ export class ComidaService {
     const inicioStr = formatDate(inicio);
     const finStr = formatDate(fin);
 
-    return this.http.get<Comida[]>(`${this.apiUrl}/rango-fechas?inicio=${inicioStr}&fin=${finStr}`);
+    return this.http.get<Comida[]>(`${this.apiUrl}/rango-fechas/entidad?inicio=${inicioStr}&fin=${finStr}`);
   }
 }
