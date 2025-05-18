@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { SummaryCardsComponent } from '../../components/dashboard/summary-cards/summary-cards.component';
 import { CalendarWidgetComponent } from '../../components/dashboard/calendar-widget/calendar-widget.component';
 import Chart from 'chart.js/auto';
-
+import { AsistenciaChartComponent } from '@components/charts/asistencia-chart/asistencia-chart.component';
 
 @Component({
   selector: 'app-dashboard-page',
   imports: [
     CommonModule,
     SummaryCardsComponent,
-    CalendarWidgetComponent
+    CalendarWidgetComponent,
+    AsistenciaChartComponent
   ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'

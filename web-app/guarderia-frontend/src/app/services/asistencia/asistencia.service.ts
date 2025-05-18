@@ -65,5 +65,9 @@ export class AsistenciaService {
     const url = `${this.apiUrl}/rango-fechas?inicio=${inicioStr}&fin=${finStr}`;
     return this.http.get<Asistencia[]>(url);
   }
-
+  getAsistenciasPorRango(inicio: string, fin: string): Observable<Asistencia[]> {
+    const url = `${this.apiUrl}/rango-fechas?inicio=${inicio}&fin=${fin}`;
+    return this.http.get<Asistencia[]>(url);
+  }
+  
 }
