@@ -1,0 +1,90 @@
+.neumorphic-card {
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.calendar-section {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+.event-summary {
+  font-size: 0.95rem;
+}
+
+.calendar-legend {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  padding-left: 0.5rem;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.present {
+  background-color: #4caf50;
+}
+
+.absent {
+  background-color: #f44336;
+}
+
+.nap {
+  background-color: #2196f3;
+}
+
+.class-status {
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .class-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    .class-name {
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .present {
+        background-color: #4caf50;
+      }
+
+      .absent {
+        background-color: #f44336;
+      }
+
+      .nap {
+        background-color: #2196f3;
+      }
+    }
+  }
+}
