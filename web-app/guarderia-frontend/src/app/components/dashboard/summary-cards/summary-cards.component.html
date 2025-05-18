@@ -15,10 +15,10 @@
     <div class="card-content updated">
       <i class="pi pi-clock icon"></i>
       <div class="middle">
-        <span>Entradas recientes</span>
+        <span>Ausencias de hoy</span>
       </div>
       <div class="count">
-        <h1>3</h1>
+        <h1>{{ ausenciasHoy }}</h1>
       </div>
     </div>
   </p-card>
@@ -42,7 +42,7 @@
         <span>Comidas registradas</span>
       </div>
       <div class="count">
-        <h1>8</h1>
+        <h1>{{comidasHoy}}</h1>
       </div>
     </div>
   </p-card>
@@ -55,7 +55,7 @@
         <span>Siestas activas</span>
       </div>
       <div class="count">
-        <h1>2</h1>
+        <h1>{{siestasActivas}}</h1>
       </div>
     </div>
   </p-card>
@@ -64,10 +64,10 @@
     <div class="card-content updated">
       <i class="pi pi-calendar icon"></i>
       <div class="middle">
-        <span>Actividades hoy</span>
+        <span>Ultima actividad</span>
       </div>
       <div class="count">
-        <h1>4</h1>
+        <h1>{{ ultimaActividadNombre }}</h1>
       </div>
     </div>
   </p-card>

@@ -47,4 +47,25 @@ export class ComidaService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  // Obtener comidas por fecha
+  getComidasDeHoy(): Observable<Comida[]> {
+    const hoy = new Date();
+
+    const inicio = new Date(hoy);
+    inicio.setHours(0, 0, 0, 0);
+
+    const fin = new Date(hoy);
+    fin.setHours(23, 59, 59, 999);
+
+    const formatDate = (d: Date): string => {
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    };
+
+    const inicioStr = formatDate(inicio);
+    const finStr = formatDate(fin);
+
+    return this.http.get<Comida[]>(`${this.apiUrl}/rango-fechas?inicio=${inicioStr}&fin=${finStr}`);
+  }
 }
