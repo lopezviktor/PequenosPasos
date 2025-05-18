@@ -38,7 +38,7 @@ public class SiestaService {
         return siestaList.stream().map(siesta -> new SiestaResponse(
                 siesta.getId(),
                 siesta.getInicioSiesta().toString(),
-                siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : "Sin finalizar",
+                siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : null,
                 siesta.getEducador().getNombre() + " " + siesta.getEducador().getApellidos(),
                 siesta.getObservaciones()
         )).collect(Collectors.toList());

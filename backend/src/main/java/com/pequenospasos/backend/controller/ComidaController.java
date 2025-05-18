@@ -55,6 +55,15 @@ public class ComidaController {
                 )).collect(Collectors.toList());
     }
 
+    // Obtener comidas en un rango de fechas con datos completos (solo EDUCADOR) — para dashboard
+    @PreAuthorize("hasRole('EDUCADOR')")
+    @GetMapping("/rango-fechas/entidad")
+    public List<Comida> getComidasEntidadByFecha(@RequestParam String inicio, @RequestParam String fin) {
+        LocalDateTime fechaInicio = LocalDateTime.parse(inicio);
+        LocalDateTime fechaFin = LocalDateTime.parse(fin);
+        return comidaService.getComidasByFecha(fechaInicio, fechaFin);
+    }
+
     // Obtener una comida por ID (PADRE o EDUCADOR)
     @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/{id}")
