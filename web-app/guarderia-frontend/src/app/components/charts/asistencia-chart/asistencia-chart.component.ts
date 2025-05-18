@@ -65,6 +65,10 @@ export class AsistenciaChartComponent implements OnInit, AfterViewInit {
   private renderChart(labels: string[], data: number[]): void {
     const ctx = this.asistenciaCanvas.nativeElement.getContext('2d');
 
+    const chartColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--chart-color')
+      .trim();
+
     this.chart = new Chart(ctx!, {
       type: 'bar',
       data: {
@@ -72,12 +76,20 @@ export class AsistenciaChartComponent implements OnInit, AfterViewInit {
         datasets: [{
           label: 'Asistencia',
           data: data,
-          backgroundColor: '#42A5F5',
-          borderRadius: 4
+          backgroundColor: chartColor,
+          borderRadius: 4,
+          maxBarThickness: 40,
+          barPercentage: 0.6
         }]
       },
       options: {
         responsive: true,
+        layout: {
+          padding: {
+            left: 10,
+            right: 10
+          }
+        },
         plugins: {
           legend: {
             display: false
@@ -85,7 +97,11 @@ export class AsistenciaChartComponent implements OnInit, AfterViewInit {
         },
         scales: {
           y: {
-            beginAtZero: true
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1,
+              precision: 0
+            }
           }
         }
       }
