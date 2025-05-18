@@ -30,7 +30,7 @@ export class ClassroomService {
   }
   
   deleteClase(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/clases/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
   
 }

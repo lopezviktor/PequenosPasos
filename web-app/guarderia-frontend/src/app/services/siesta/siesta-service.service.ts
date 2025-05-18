@@ -56,6 +56,6 @@ export class SiestaService {
     const inicioStr = formatDate(inicio);
     const finStr = formatDate(fin);
 
-    return this.http.get<Siesta[]>(`${this.apiUrl}/rango-fechas?inicio=${inicioStr}&fin=${finStr}`);
+    return this.http.get<Siesta[]>(`${this.apiUrl}/rango-fechas/entidad?inicio=${inicioStr}&fin=${finStr}`);
   }
 }

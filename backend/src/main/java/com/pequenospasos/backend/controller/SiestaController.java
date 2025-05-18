@@ -4,6 +4,7 @@ import com.pequenospasos.backend.dto.SiestaResponse;
 import com.pequenospasos.backend.entity.Siesta;
 import com.pequenospasos.backend.service.SiestaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -42,10 +43,18 @@ public class SiestaController {
                 .map(siesta -> new SiestaResponse(
                         siesta.getId(),
                         siesta.getInicioSiesta().toString(),
-                        siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : "Sin finalizar",
+                        siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : null,
                         siesta.getEducador().getNombre() + " " + siesta.getEducador().getApellidos(),
                         siesta.getObservaciones()
                 )).collect(Collectors.toList());
+    }
+
+    @PreAuthorize("hasRole('EDUCADOR')")
+    @GetMapping("/rango-fechas/entidad")
+    public List<Siesta> getSiestasEntidadByFecha(@RequestParam String inicio, @RequestParam String fin) {
+        LocalDateTime fechaInicio = LocalDateTime.parse(inicio.trim());
+        LocalDateTime fechaFin = LocalDateTime.parse(fin.trim());
+        return siestaService.getSiestasByFecha(fechaInicio, fechaFin);
     }
 
     // Obtener la última siesta de un niño con validación
@@ -56,7 +65,7 @@ public class SiestaController {
         return new SiestaResponse(
                 siesta.getId(),
                 siesta.getInicioSiesta().toString(),
-                siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : "Sin finalizar",
+                siesta.getFinSiesta() != null ? siesta.getFinSiesta().toString() : null,
                 siesta.getEducador().getNombre() + " " + siesta.getEducador().getApellidos(),
                 siesta.getObservaciones()
         );
