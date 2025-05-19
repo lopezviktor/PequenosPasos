@@ -1,3 +1,7 @@
+:host ::ng-deep .p-dropdown-panel,
+:host ::ng-deep .p-datepicker {
+  z-index: 1100 !important;
+}
 :host ::ng-deep .p-table {
     border-radius: 20px;
     background: #e0e5ec;

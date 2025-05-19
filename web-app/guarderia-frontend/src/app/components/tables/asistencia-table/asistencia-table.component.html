@@ -1,4 +1,10 @@
-<p-table [value]="asistencias" [paginator]="true" [rows]="10" [responsive]="true">
+<p-table 
+  [value]="asistenciasFiltradas"   
+  [stripedRows]="true"
+  [paginator]="true" 
+  [rows]="10" 
+  [responsive]="true"
+  >
     <ng-template pTemplate="header">
       <tr>
         <th>Niño</th>
@@ -10,14 +16,67 @@
         <th>Educador Entrega</th>
         <th>Acciones</th>
       </tr>
+      <tr>
+        <th>
+          <i class="pi pi-search" style="margin-right: 0.5rem;"></i>
+          <p-dropdown 
+            [options]="ninosUnicos" 
+            [(ngModel)]="ninoFiltro"
+            appendTo="body"
+            optionLabel="nombre"
+            optionValue="id"
+            placeholder="Filtrar niño"
+            class="p-dropdown-sm w-full"
+            [showClear]="true"
+            showClear="true"
+            >
+          </p-dropdown>
+        </th>
+        <th>
+          <p-calendar 
+            [(ngModel)]="fechaFiltro" 
+            appendTo="body"
+            dateFormat="dd/mm/yy" 
+            placeholder="Filtrar fecha" 
+            class="p-inputtext-sm w-full"
+            [showIcon]="true">
+          </p-calendar>
+        </th>
+        <th></th>
+        <th>
+          <p-dropdown 
+            [options]="educadoresUnicos" 
+            [(ngModel)]="educadorFiltro"
+            appendTo="body"
+            optionLabel="nombre"
+            optionValue="id"
+            placeholder="Filtrar educador"
+            class="p-dropdown-sm w-full"            
+            showClear="true"
+            >
+          </p-dropdown>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>
+          <button 
+            pButton 
+            icon="pi pi-times" 
+            class="p-button-sm p-button-secondary w-full" 
+            (click)="limpiarFiltros()" 
+            label="Limpiar">
+          </button>
+        </th>
+      </tr>
     </ng-template>
     <ng-template pTemplate="body" let-asistencia>
       <tr>
         <td>{{ asistencia.nino | nombreCompleto }}</td>
-        <td>{{ asistencia.horaEntrada | date:'short' }}</td>
+        <td>{{ asistencia.horaEntrada | date:'dd/MM/yyyy HH:mm' }}</td>
         <td>{{ asistencia.padreEntrega | nombreCompleto }}</td>
         <td>{{ asistencia.educadorRecibe | nombreCompleto }}</td>
-        <td>{{ asistencia.horaSalida ? (asistencia.horaSalida | date:'short') : '-' }}</td>
+        <td>{{ asistencia.horaSalida ? (asistencia.horaSalida | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
         <td>{{ asistencia.padreRecoge | nombreCompleto }}</td>
         <td>{{ asistencia.educadorEntrega | nombreCompleto }}</td>
         <td>

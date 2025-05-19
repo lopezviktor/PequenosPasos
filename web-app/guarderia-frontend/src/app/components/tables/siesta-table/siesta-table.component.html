@@ -1,5 +1,11 @@
-
-<p-table [value]="siestas" dataKey="id" class="p-datatable-sm">
+<p-table 
+  [value]="siestasFiltradas" 
+  dataKey="id" 
+  class="p-datatable-sm"
+  [stripedRows]="true"
+  [paginator]="true"
+  [rows]="10"
+>
   <ng-template pTemplate="header">
     <tr>
       <th>Niño</th>
@@ -9,13 +15,60 @@
       <th>Observaciones</th>
       <th>Acciones</th>
     </tr>
+    <tr>
+      <th>
+        <p-dropdown 
+          [options]="ninosUnicos"
+          appendTo="body"
+          [(ngModel)]="ninoFiltro"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Filtrar niño"
+          class="p-dropdown-sm w-full"
+          [showClear]="true">
+        </p-dropdown>
+      </th>
+      <th>
+        <p-dropdown 
+          [options]="educadoresUnicos"
+          appendTo="body"
+          [(ngModel)]="educadorFiltro"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Filtrar educador"
+          class="p-dropdown-sm w-full"
+          [showClear]="true">
+        </p-dropdown>
+      </th>
+      <th>
+        <p-calendar 
+          [(ngModel)]="fechaFiltro"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          placeholder="Filtrar fecha"
+          class="p-inputtext-sm w-full"
+          [showIcon]="true">
+        </p-calendar>
+      </th>
+      <th></th>
+      <th></th>
+      <th>
+        <button
+          pButton
+          icon="pi pi-times"
+          class="p-button-sm p-button-secondary w-full"
+          (click)="limpiarFiltros()"
+          label="Limpiar">
+        </button>
+      </th>
+    </tr>
   </ng-template>
   <ng-template pTemplate="body" let-siesta>
     <tr>
       <td>{{ siesta.nino.nombre }} {{ siesta.nino.apellidos }}</td>
       <td>{{ siesta.educador.nombre }} {{ siesta.educador.apellidos }}</td>
-      <td>{{ siesta.inicioSiesta | date: 'short' }}</td>
-      <td>{{ siesta.finSiesta ? (siesta.finSiesta | date: 'short') : '-' }}</td>
+      <td>{{ siesta.inicioSiesta | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ siesta.finSiesta ? (siesta.finSiesta | date: 'dd/MM/yyyy HH:mm') : '-' }}</td>
       <td>{{ siesta.observaciones || '-' }}</td>
       <td>
         <button

@@ -1,9 +1,8 @@
 <p-table 
-  [value]="parents"
+  [value]="parentsFiltrados"
   [paginator]="true"
+  [stripedRows]="true"
   [rows]="10"
-  [globalFilterFields]="['nombre', 'apellidos', 'email']"
-  [filters]="{ global: { value: globalFilter, matchMode: 'contains' } }"
   responsiveLayout="scroll"
 >
   <ng-template pTemplate="header">
@@ -13,6 +12,66 @@
       <th>Email</th>
       <th>Teléfono</th>
       <th>Acciones</th>
+    </tr>
+    <tr>
+      <th>
+        <span class="p-input-icon-left w-full">
+            <i class="pi pi-search" style="margin-right: 0.5rem;"></i>
+            <input 
+              pInputText 
+              [(ngModel)]="nombreFiltro" 
+              placeholder="Filtrar nombre..." 
+              class="p-inputtext p-inputtext-sm w-full" 
+              pKeyFilter="alpha" 
+              appendTo="body"
+            />
+        </span>
+      </th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <input 
+            pInputText 
+            [(ngModel)]="apellidosFiltro" 
+            placeholder="Filtrar apellidos..." 
+            class="p-inputtext p-inputtext-sm w-full" 
+            pKeyFilter="alpha" 
+            appendTo="body" 
+          />
+        </span>
+      </th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <input 
+            pInputText 
+            [(ngModel)]="emailFiltro" 
+            placeholder="Filtrar email..." 
+            class="p-inputtext p-inputtext-sm w-full" 
+            pKeyFilter="email" 
+            appendTo="body"
+          />
+        </span>
+      </th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <input 
+            pInputText 
+            [(ngModel)]="telefonoFiltro" 
+            placeholder="Filtrar teléfono..." 
+            class="p-inputtext p-inputtext-sm w-full" 
+            pKeyFilter="int" 
+            appendTo="body" 
+          />
+        </span>
+      </th>
+      <th>
+        <button 
+          pButton 
+          icon="pi pi-times" 
+          class="p-button-sm p-button-secondary" 
+          (click)="limpiarFiltros()" 
+          label="Limpiar">
+        </button>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-parent>

@@ -1,4 +1,9 @@
-<p-table [value]="higienes" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+<p-table 
+[value]="higienesFiltradas" 
+[paginator]="true" 
+[stripedRows]="true"
+[rows]="10" 
+responsiveLayout="scroll">
   <ng-template pTemplate="header">
     <tr>
       <th>Niño</th>
@@ -6,6 +11,61 @@
       <th>Fecha y hora</th>
       <th>Estado</th>
       <th>Acciones</th>
+    </tr>
+    <tr>
+      <th>
+        <p-dropdown 
+          [options]="ninosUnicos"
+          [(ngModel)]="ninoFiltro"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Filtrar niño"
+          class="p-dropdown-sm w-full"
+          [showClear]="true"
+          appendTo="body">
+        </p-dropdown>
+      </th>
+      <th>
+        <p-dropdown 
+          [options]="educadoresUnicos"
+          [(ngModel)]="educadorFiltro"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Filtrar educador"
+          class="p-dropdown-sm w-full"
+          [showClear]="true"
+          appendTo="body">
+        </p-dropdown>
+      </th>
+      <th>
+        <p-calendar 
+          [(ngModel)]="fechaFiltro"
+          dateFormat="dd/mm/yy"
+          placeholder="Filtrar fecha"
+          class="p-inputtext-sm w-full"
+          [showIcon]="true"
+          appendTo="body">
+        </p-calendar>
+      </th>
+      <th>
+        <p-dropdown 
+          [options]="estadosDisponibles"
+          [(ngModel)]="estadoFiltro"
+          placeholder="Filtrar estado"
+          class="p-dropdown-sm w-full"
+          [showClear]="true"
+          appendTo="body">
+        </p-dropdown>
+      </th>
+      <th>
+        <button
+          pButton
+          icon="pi pi-times"
+          class="p-button-sm p-button-secondary w-full"
+          (click)="limpiarFiltros()"
+          label="Limpiar">
+        </button>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-higiene>

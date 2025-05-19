@@ -3,3 +3,8 @@
     background: #e0e5ec;
     box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
   }
+
+::ng-deep .p-dropdown-panel,
+::ng-deep .p-datepicker {
+  z-index: 1100 !important;
+}

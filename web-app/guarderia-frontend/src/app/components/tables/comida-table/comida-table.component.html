@@ -1,5 +1,13 @@
-<p-table [value]="comidas" dataKey="id" class="p-datatable-sm">
-  <ng-template pTemplate="header">
+<p-table 
+  [value]="comidasFiltradas" 
+  dataKey="id" 
+  class="p-datatable-sm"
+  [stripedRows]="true"
+  [paginator]="true"
+  [rows]="10"
+  >
+  <ng-template 
+  pTemplate="header">
     <tr>
       <th>Niño</th>
       <th>Educador</th>
@@ -8,12 +16,59 @@
       <th>Observaciones</th>
       <th>Acciones</th>
     </tr>
+    <tr>
+      <th>
+        <i class="pi pi-search" style="margin-right: 0.5rem;"></i>
+        <p-dropdown 
+          [options]="ninosUnicos"
+          appendTo="body"
+          [(ngModel)]="ninoFiltro"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Filtrar niño"
+          class="p-dropdown-sm w-full"
+          [showClear]="true">
+        </p-dropdown>
+      </th>
+      <th>
+        <p-dropdown 
+          [options]="educadoresUnicos"
+          appendTo="body"
+          [(ngModel)]="educadorFiltro"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Filtrar educador"
+          class="p-dropdown-sm w-full"
+          [showClear]="true">
+        </p-dropdown>
+      </th>
+      <th>
+        <p-calendar 
+          [(ngModel)]="fechaFiltro"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          placeholder="Filtrar fecha"
+          class="p-inputtext-sm w-full"
+          [showIcon]="true">
+        </p-calendar>
+      </th>
+      <th colspan="2"></th>
+      <th>
+        <button
+          pButton
+          icon="pi pi-times"
+          class="p-button-sm p-button-secondary w-full"
+          (click)="limpiarFiltros()"
+          label="Limpiar">
+        </button>
+      </th>
+    </tr>
   </ng-template>
   <ng-template pTemplate="body" let-comida>
     <tr>
       <td>{{ comida.nino?.nombre }} {{ comida.nino?.apellidos }}</td>
       <td>{{ comida.educador?.nombre }} {{ comida.educador?.apellidos }}</td>
-      <td>{{ comida.horaComida | date: 'short' }}</td>
+      <td>{{ comida.horaComida | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ comida.descripcionComida }}</td>
       <td>{{ comida.observaciones || '—' }}</td>
       <td>
