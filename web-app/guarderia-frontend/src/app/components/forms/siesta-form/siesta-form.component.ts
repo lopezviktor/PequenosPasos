@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
@@ -28,7 +28,7 @@ import { NombreCompletoPipe } from '@shared/pipes/nombre-completo.pipe';
   styleUrl: './siesta-form.component.scss',
   providers: [MessageService]
 })
-export class SiestaFormComponent implements OnInit {
+export class SiestaFormComponent implements OnInit, OnChanges {
   @Input() siestaEditando?: Siesta;
   @Output() formularioCerrado = new EventEmitter<void>();
   @Output() siestaGuardada = new EventEmitter<void>();
@@ -65,8 +65,26 @@ export class SiestaFormComponent implements OnInit {
         educador: this.siestaEditando.educador,
         inicioSiesta: new Date(this.siestaEditando.inicioSiesta),
         finSiesta: this.siestaEditando.finSiesta ? new Date(this.siestaEditando.finSiesta) : null,
-        observaciones: this.siestaEditando.observaciones
+        observaciones: this.siestaEditando.observaciones || ''
       });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['siestaEditando'] && this.siestaEditando) {
+      this.isEditing = true;
+      this.form.patchValue({
+        nino: this.siestaEditando.nino,
+        educador: this.siestaEditando.educador,
+        inicioSiesta: new Date(this.siestaEditando.inicioSiesta),
+        finSiesta: this.siestaEditando.finSiesta ? new Date(this.siestaEditando.finSiesta) : null,
+        observaciones: this.siestaEditando.observaciones || ''
+      });
+    }
+
+    if (changes['siestaEditando'] && !this.siestaEditando) {
+      this.isEditing = false;
+      this.form.reset();
     }
   }
 

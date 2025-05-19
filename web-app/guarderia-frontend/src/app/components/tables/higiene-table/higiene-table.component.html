@@ -10,6 +10,7 @@ responsiveLayout="scroll">
       <th>Educador</th>
       <th>Fecha y hora</th>
       <th>Estado</th>
+      <th>Observaciones</th>
       <th>Acciones</th>
     </tr>
     <tr>
@@ -57,6 +58,7 @@ responsiveLayout="scroll">
           appendTo="body">
         </p-dropdown>
       </th>
+      <th></th>
       <th>
         <button
           pButton
@@ -74,6 +76,7 @@ responsiveLayout="scroll">
       <td>{{ higiene.educador?.nombre }} {{ higiene.educador?.apellidos }}</td>
       <td>{{ higiene.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ higiene.estado }}</td>
+      <td>{{ higiene.observaciones || '-' }}</td>
       <td>
         <button pButton 
           icon="pi pi-pencil"

@@ -1,40 +1,49 @@
-<div class="formulario">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="actividad-form p-fluid">
+  <div class="formulario">
     <div class="form-grid">
+
       <div class="form-field">
         <label for="nombre">Nombre de la actividad</label>
-        <input pInputText formControlName="nombre" placeholder="Nombre de la actividad" />
+        <input
+          id="nombre"
+          pInputText
+          formControlName="nombre"
+          class="w-full" />
       </div>
 
       <div class="form-field">
         <label for="descripcion">Descripción</label>
         <textarea
+          id="descripcion"
           pInputTextarea
           formControlName="descripcion"
           rows="3"
-          placeholder="Descripción de la actividad"
-        ></textarea>
+          class="w-full">
+        </textarea>
       </div>
 
       <div class="form-field">
         <label for="fecha">Fecha</label>
         <p-calendar
+          inputId="fecha"
           formControlName="fecha"
           [showTime]="true"
           hourFormat="24"
-          placeholder="Fecha y hora"
-        ></p-calendar>
+          appendTo="body"
+          [showIcon]="true"
+          class="w-full">
+        </p-calendar>
       </div>
 
       <div class="form-field">
         <label for="educador">Educador</label>
         <p-dropdown
+          inputId="educador"
           [options]="educadores"
           formControlName="educador"
-          placeholder="Selecciona un educador"
-          optionLabel="nombre"
           dataKey="id"
-        >
+          appendTo="body"
+          class="w-full">
           <ng-template let-educador pTemplate="item">
             {{ educador.nombre }} {{ educador.apellidos }}
           </ng-template>
@@ -44,15 +53,16 @@
         </p-dropdown>
       </div>
 
-      <!-- Dropdown de clase -->
       <div class="form-field">
         <label for="clase">Clase</label>
         <p-dropdown
+          inputId="clase"
           [options]="clases"
           formControlName="clase"
-          placeholder="Selecciona una clase"
+          dataKey="id"
           optionLabel="nombre"
-          dataKey="id">
+          appendTo="body"
+          class="w-full">
           <ng-template let-clase pTemplate="item">
             {{ clase.nombre }}
           </ng-template>
@@ -61,24 +71,25 @@
           </ng-template>
         </p-dropdown>
       </div>
+
     </div>
 
     <div class="botones-formulario">
       <button
         pButton
         type="submit"
-        label="Guardar"
-        icon="pi pi-save"
-        [disabled]="!form.valid"
-      ></button>
+        [label]="actividadEditando ? 'Actualizar actividad' : 'Guardar actividad'"
+        class="p-button-success"
+        [disabled]="form.invalid">
+      </button>
       <button
         pButton
         type="button"
         label="Cancelar"
         icon="pi pi-times"
         class="p-button-secondary"
-        (click)="cancelar()"
-      ></button>
+        (click)="cancelar()">
+      </button>
     </div>
-  </form>
-</div>
+  </div>
+</form>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
@@ -26,7 +26,7 @@ import { EducatorService } from '@services/educator/educator.service';
   styleUrl: './higiene-form.component.scss',
   providers: [MessageService]
 })
-export class HigieneFormComponent implements OnInit {
+export class HigieneFormComponent implements OnInit, OnChanges {
   @Input() higieneEditando?: Higiene;
   @Output() formularioCerrado = new EventEmitter<void>();
   @Output() higieneGuardada = new EventEmitter<void>();
@@ -68,9 +68,27 @@ export class HigieneFormComponent implements OnInit {
         nino: this.higieneEditando.nino,
         educador: this.higieneEditando.educador,
         fechaHora: new Date(this.higieneEditando.fechaHora),
-        estado: this.higieneEditando.estado,
-        observaciones: this.higieneEditando.observaciones
+        estado: this.estados.find(e => e.value === this.higieneEditando?.estado),
+        observaciones: this.higieneEditando.observaciones || ''
       });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['higieneEditando'] && this.higieneEditando) {
+      this.isEditing = true;
+      this.form.patchValue({
+        nino: this.higieneEditando.nino,
+        educador: this.higieneEditando.educador,
+        fechaHora: new Date(this.higieneEditando.fechaHora),
+        estado: this.estados.find(e => e.value === this.higieneEditando?.estado),
+        observaciones: this.higieneEditando.observaciones || ''
+      });
+    }
+
+    if (changes['higieneEditando'] && !this.higieneEditando) {
+      this.isEditing = false;
+      this.form.reset();
     }
   }
 
@@ -93,10 +111,11 @@ export class HigieneFormComponent implements OnInit {
 
   onSubmit() {
     const formData = { ...this.form.value };
+    formData.estado = typeof formData.estado === 'object' ? formData.estado.value : formData.estado;
     formData.fechaHora = this.ajustarZonaHorariaLocal(formData.fechaHora);
-    formData.estado = formData.estado.value;
 
     if (this.isEditing && this.higieneEditando) {
+      console.log('Datos enviados al editar higiene:', formData);
       this.higieneService.update(this.higieneEditando.id!, formData).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Higiene actualizada' });

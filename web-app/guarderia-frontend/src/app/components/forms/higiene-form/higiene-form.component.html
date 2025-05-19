@@ -1,46 +1,93 @@
-<form [formGroup]="form" class="formulario-asistencia" (ngSubmit)="onSubmit()">
-  <p-dropdown
-    formControlName="nino"
-    [options]="ninos"
-    optionLabel="nombre"
-    placeholder="Selecciona un niño">
-    <ng-template let-nino pTemplate="item">
-      {{ nino.nombre }} {{ nino.apellidos }}
-    </ng-template>
-  </p-dropdown>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="higiene-form p-fluid">
+  <div class="p-grid p-formgrid">
+    
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <p-dropdown
+          inputId="nino"
+          [options]="ninos"
+          formControlName="nino"
+          dataKey="id"
+          appendTo="body">
+          <ng-template let-nino pTemplate="item">
+            {{ nino.nombre }} {{ nino.apellidos }}
+          </ng-template>
+          <ng-template let-nino pTemplate="selectedItem">
+            {{ nino.nombre }} {{ nino.apellidos }}
+          </ng-template>
+        </p-dropdown>
+        <label for="nino">Niño</label>
+      </div>
+    </div>
 
-  <p-dropdown
-    formControlName="educador"
-    [options]="educadores"
-    optionLabel="nombre"
-    placeholder="Selecciona un educador">
-    <ng-template let-educador pTemplate="item">
-      {{ educador.nombre }} {{ educador.apellidos }}
-    </ng-template>
-  </p-dropdown>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <p-dropdown
+          inputId="educador"
+          [options]="educadores"
+          formControlName="educador"
+          dataKey="id"
+          appendTo="body">
+          <ng-template let-educador pTemplate="item">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+          <ng-template let-educador pTemplate="selectedItem">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+        </p-dropdown>
+        <label for="educador">Educador</label>
+      </div>
+    </div>
 
-  <p-calendar
-    formControlName="fechaHora"
-    [showTime]="true"
-    hourFormat="24"
-    placeholder="Fecha y hora de la higiene">
-  </p-calendar>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <p-calendar
+          inputId="fechaHora"
+          formControlName="fechaHora"
+          [showTime]="true"
+          hourFormat="24"
+          appendTo="body"
+          [showIcon]="true">
+        </p-calendar>
+        <label for="fechaHora">Fecha y hora</label>
+      </div>
+    </div>
 
-  <p-dropdown
-    formControlName="estado"
-    [options]="estados"
-    placeholder="Estado de la higiene"
-    optionLabel="label">
-  </p-dropdown>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <p-dropdown
+          inputId="estado"
+          [options]="estados"
+          formControlName="estado"
+          optionLabel="label"
+          appendTo="body">
+        </p-dropdown>
+        <label for="estado">Estado</label>
+      </div>
+    </div>
 
-  <textarea
-    formControlName="observaciones"
-    rows="3"
-    placeholder="Observaciones"
-    style="grid-column: span 2;"></textarea>
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <textarea
+          id="observaciones"
+          pInputTextarea
+          formControlName="observaciones"
+          rows="3"
+          class="w-full">
+          >
+        </textarea>
+        <label for="observaciones">Observaciones</label>
+      </div>
+    </div>
+  </div>
 
-  <div class="botonera">
-    <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
-    <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+  <div class="p-d-flex p-jc-center p-mt-3">
+    <button
+      pButton
+      type="submit"
+      [label]="higieneEditando ? 'Actualizar higiene' : 'Guardar higiene'"
+      class="p-button-success"
+      [disabled]="form.invalid">
+    </button>
   </div>
 </form>

@@ -1,59 +1,98 @@
-<div class="formulario">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-grid">
-      <div class="form-field">
-        <label for="nino">Niño</label>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="siesta-form p-fluid">
+  <div class="p-grid p-formgrid">
+    
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
         <p-dropdown
+          inputId="nino"
           [options]="ninos"
           formControlName="nino"
-          placeholder="Selecciona un niño"
           dataKey="id"
-        >
+          appendTo="body"
+          class="w-full">
           <ng-template let-nino pTemplate="item">
-            {{ nino | nombreCompleto }}
+            {{ nino.nombre }} {{ nino.apellidos }}
           </ng-template>
           <ng-template let-nino pTemplate="selectedItem">
-            {{ nino | nombreCompleto }}
-          </ng-template>
-      </p-dropdown>
-      </div>
-
-      <div class="form-field">
-        <label for="educador">Educador</label>
-        <p-dropdown
-          [options]="educadores"
-          formControlName="educador"
-          placeholder="Selecciona un educador"
-          dataKey="id"
-        >
-          <ng-template let-educador pTemplate="item">
-            {{ educador | nombreCompleto }}
-          </ng-template>
-          <ng-template let-educador pTemplate="selectedItem">
-            {{ educador | nombreCompleto }}
+            {{ nino.nombre }} {{ nino.apellidos }}
           </ng-template>
         </p-dropdown>
+        <label for="nino">Niño</label>
       </div>
+    </div>
 
-      <div class="form-field">
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <p-dropdown
+          inputId="educador"
+          [options]="educadores"
+          formControlName="educador"
+          dataKey="id"
+          appendTo="body"
+          class="w-full">
+          <ng-template let-educador pTemplate="item">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+          <ng-template let-educador pTemplate="selectedItem">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+        </p-dropdown>
+        <label for="educador">Educador</label>
+      </div>
+    </div>
+
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <p-calendar
+          inputId="inicioSiesta"
+          formControlName="inicioSiesta"
+          [showTime]="true"
+          hourFormat="24"
+          appendTo="body"
+          [showIcon]="true"
+          class="w-full">
+        </p-calendar>
         <label for="inicioSiesta">Hora inicio</label>
-        <p-calendar formControlName="inicioSiesta" [showTime]="true" hourFormat="24" placeholder="Selecciona la hora de inicio"></p-calendar>
       </div>
+    </div>
 
-      <div class="form-field">
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <p-calendar
+          inputId="finSiesta"
+          formControlName="finSiesta"
+          [showTime]="true"
+          hourFormat="24"
+          appendTo="body"
+          [showIcon]="true"
+          class="w-full">
+        </p-calendar>
         <label for="finSiesta">Hora fin</label>
-        <p-calendar formControlName="finSiesta" [showTime]="true" hourFormat="24" placeholder="Selecciona la hora de fin"></p-calendar>
       </div>
+    </div>
 
-      <div class="form-field full-width">
+    <div class="p-field p-col-12">
+      <div class="p-float-label">
+        <textarea
+          id="observaciones"
+          pInputTextarea
+          formControlName="observaciones"
+          rows="3"
+          class="w-full">
+        </textarea>
         <label for="observaciones">Observaciones</label>
-        <textarea pInputTextarea rows="3" formControlName="observaciones"></textarea>
       </div>
     </div>
 
-    <div class="botones-formulario">
-      <button pButton type="submit" label="Guardar" icon="pi pi-save" [disabled]="form.invalid"></button>
-      <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="cancelar()"></button>
-    </div>
-  </form>
-</div>
+  </div>
+
+  <div class="p-d-flex p-jc-center p-mt-3">
+    <button
+      pButton
+      type="submit"
+      [label]="siestaEditando ? 'Actualizar siesta' : 'Guardar siesta'"
+      class="p-button-success"
+      [disabled]="form.invalid">
+    </button>
+  </div>
+</form>

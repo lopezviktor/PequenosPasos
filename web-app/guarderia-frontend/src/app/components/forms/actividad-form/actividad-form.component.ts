@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 
@@ -37,7 +37,7 @@ import { ButtonModule } from 'primeng/button';
   providers: [MessageService]
 })
 
-export class ActividadFormComponent implements OnInit {
+export class ActividadFormComponent implements OnInit, OnChanges {
   @Input() actividadEditando?: Actividad;
   @Output() actividadGuardada = new EventEmitter<void>();
   @Output() formularioCerrado = new EventEmitter<void>();
@@ -67,16 +67,23 @@ export class ActividadFormComponent implements OnInit {
 
     this.loadEducadores();
     this.loadClases();
+  }
 
-    if (this.actividadEditando) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['actividadEditando'] && this.actividadEditando) {
       this.isEditing = true;
       this.form.patchValue({
         nombre: this.actividadEditando.nombre,
         descripcion: this.actividadEditando.descripcion,
-        fecha: this.actividadEditando?.fecha ? new Date(this.actividadEditando.fecha) : null,
+        fecha: this.actividadEditando.fecha ? new Date(this.actividadEditando.fecha) : null,
         educador: this.actividadEditando.educador,
         clase: this.actividadEditando.clase
       });
+    }
+
+    if (changes['actividadEditando'] && !this.actividadEditando) {
+      this.isEditing = false;
+      this.form.reset();
     }
   }
 

@@ -38,6 +38,7 @@ export class ComidaTableComponent {
   private _comidas: Comida[] = [];
   @Input() set comidas(value: Comida[]) {
     this._comidas = value;
+    this._comidas.sort((a, b) => new Date(b.horaComida).getTime() - new Date(a.horaComida).getTime());
 
     const ninosMap = new Map<number, string>();
     const educadoresMap = new Map<number, string>();

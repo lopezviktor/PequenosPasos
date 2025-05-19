@@ -65,3 +65,19 @@
   line-height: 1;
   font-family: 'Baloo 2', cursive;
 }
+
+.summary-card.ultima-actividad {
+  .middle {
+    font-size: 1rem;
+
+    span {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  }
+
+  .count h1 {
+    font-size: 2.2rem;
+    line-height: 1.8;
+  }
+}
