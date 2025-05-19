@@ -12,7 +12,6 @@
 <app-child-table 
   *ngIf="children"
   [children]="children" 
-  [globalFilter]="globalFilter" 
   (editar)="editarNino($event)"
   (eliminado)="eliminarNino($event)">
 </app-child-table>

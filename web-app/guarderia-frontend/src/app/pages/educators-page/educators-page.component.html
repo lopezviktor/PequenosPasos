@@ -12,7 +12,6 @@
 <app-educator-table 
   *ngIf="educators"
   [educators]="educators" 
-  [globalFilter]="globalFilter" 
   (editar)="editarEducador($event)"
   (eliminado)="eliminarEducador($event)">
 </app-educator-table>

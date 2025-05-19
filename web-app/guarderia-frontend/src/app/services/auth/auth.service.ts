@@ -19,6 +19,14 @@ export class AuthService {
     );
   }
 
+  logout(): void {
+    localStorage.removeItem('token');
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
   getUserIdFromToken(): number | null {
     const token = localStorage.getItem('token');
     if (!token) return null;

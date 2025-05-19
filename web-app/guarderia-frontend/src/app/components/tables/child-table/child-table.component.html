@@ -1,10 +1,9 @@
-
 <p-table 
-  [value]="children"
+  [value]="childrenFiltrados"
+  [stripedRows]="true"
   [paginator]="true"
+  [globalFilterFields]="['nombre', 'apellidos', 'clase', 'alergias', 'condicionesMedicas']"
   [rows]="10"
-  [globalFilterFields]="['nombre', 'apellidos']"
-  [filters]="{ global: { value: globalFilter, matchMode: 'contains' } }"
   responsiveLayout="scroll"
 >
   <ng-template pTemplate="header">
@@ -18,6 +17,95 @@
       <th>Alergias</th>
       <th>Condiciones médicas</th>
       <th>Acciones</th>
+    </tr>
+    <tr>
+      <th><i class="pi pi-search"></i></th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <input pInputText [ngModel]="nombreFiltro" (ngModelChange)="nombreFiltro = $event.toString()" placeholder="Filtrar nombre..." class="p-inputtext p-inputtext-sm w-full" pKeyFilter="alpha" />
+        </span>
+      </th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <input pInputText [ngModel]="apellidosFiltro" (ngModelChange)="apellidosFiltro = $event.toString()" placeholder="Filtrar apellidos..." class="p-inputtext p-inputtext-sm w-full" pKeyFilter="alpha" />
+        </span>
+      </th>
+      <th>
+        <div class="flex flex-column gap-1">
+          <p-calendar 
+            [(ngModel)]="fechaNacimientoDesde" 
+            view="month" 
+            dateFormat="mm/yy" 
+            placeholder="Desde" 
+            class="p-inputtext-sm w-full" 
+            [showIcon]="true" 
+            [monthNavigator]="true" 
+            [yearNavigator]="true" 
+            yearRange="2000:2030">
+          </p-calendar>
+          <p-calendar 
+            [(ngModel)]="fechaNacimientoHasta" 
+            view="month" 
+            dateFormat="mm/yy" 
+            placeholder="Hasta" 
+            class="p-inputtext-sm w-full" 
+            [showIcon]="true" 
+            [monthNavigator]="true" 
+            [yearNavigator]="true" 
+            yearRange="2000:2030">
+          </p-calendar>
+        </div>
+      </th>
+      <th>
+        <div class="flex flex-column gap-1">
+          <p-calendar 
+            [(ngModel)]="primerDiaDesde" 
+            view="month" 
+            dateFormat="mm/yy" 
+            placeholder="Desde" 
+            class="p-inputtext-sm w-full" 
+            [showIcon]="true" 
+            [monthNavigator]="true" 
+            [yearNavigator]="true" 
+            yearRange="2000:2030">
+          </p-calendar>
+          <p-calendar 
+            [(ngModel)]="primerDiaHasta" 
+            view="month" 
+            dateFormat="mm/yy" 
+            placeholder="Hasta" 
+            class="p-inputtext-sm w-full" 
+            [showIcon]="true" 
+            [monthNavigator]="true" 
+            [yearNavigator]="true" 
+            yearRange="2000:2030">
+          </p-calendar>
+        </div>
+      </th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <p-dropdown 
+            [options]="clasesDisponibles"
+            [(ngModel)]="claseFiltro"
+            placeholder="Filtrar clase..."
+            class="p-dropdown-sm w-full"
+            >
+          </p-dropdown>
+        </span>
+      </th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <input pInputText [(ngModel)]="alergiasFiltro" placeholder="Filtrar alergias..." class="p-inputtext p-inputtext-sm w-full" />
+        </span>
+      </th>
+      <th>
+        <span class="p-input-icon-left w-full">
+          <input pInputText [(ngModel)]="condicionesFiltro" placeholder="Filtrar condiciones..." class="p-inputtext p-inputtext-sm w-full" />
+        </span>
+      </th>
+      <th>
+        <button pButton icon="pi pi-times" class="p-button-sm p-button-secondary" (click)="limpiarFiltros()" label="Limpiar"></button>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-child>

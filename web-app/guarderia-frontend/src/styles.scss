@@ -5,6 +5,36 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Baloo 2', cursive;
+}
+                
+:root {
+  --background: #f0f2f5;
+  --text-color: #1a1a1a;
+  --card-bg: #ffffff;
+  --card-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #ffffff;
+}
+
+:root.dark {
+  --bg-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --card-bg: #2a2a2a;
+  --card-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1e1e1e;
+    --text-color: #e0e0e0;
+    --card-bg: #2a2a2a;
+    --card-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
