@@ -60,6 +60,13 @@ class LoginViewModel : ViewModel() {
                             Log.d("LoginViewModel", "Email: ${padre.email}")
                             Log.d("LoginViewModel", "Teléfono: ${padre.telefono}")
                             Log.d("LoginViewModel", "Tipo de usuario: ${padre.tipoUsuario}")
+
+                            if (padre.tipoUsuario != "PADRE") {
+                                _loginResult.value = "Esta app es solo para padres."
+                                _isLoggedIn.value = false
+                                return@launch
+                            }
+
                             _padre.value = padre
 
                             // Obtener los niños del padre autenticado
