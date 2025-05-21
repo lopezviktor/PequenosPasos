@@ -53,9 +53,12 @@
       <td>{{ educator.apellidos }}</td>
       <td>{{ educator.email }}</td>
       <td>{{ educator.telefono }}</td>
-      <td>
+      <td *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'">
         <button pButton icon="pi pi-pencil" class="p-button-sm p-button-outlined p-button-success" (click)="editarEducador(educator)"></button>
         <button pButton icon="pi pi-trash" class="p-button-sm p-button-outlined p-button-danger" (click)="confirmarEliminar(educator)"></button>
+      </td>
+      <td *ngIf="authService.getTipoUsuarioFromToken() !== 'ADMINISTRADOR'">
+        <span class="text-muted">Sin permisos</span>
       </td>
     </tr>
   </ng-template>

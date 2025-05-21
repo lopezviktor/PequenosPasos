@@ -1,6 +1,7 @@
 <div class="page-header">
   <h2>👪 Padres</h2>
   <button 
+    *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
     pButton 
     label="Añadir padre" 
     icon="pi pi-plus" 
@@ -18,6 +19,7 @@
 </app-parent-table>
 
 <p-dialog 
+  *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
   header="{{ selectedParent ? 'Editar padre' : 'Añadir padre' }}" 
   [(visible)]="mostrarDialogoPadre" 
   [modal]="true" 

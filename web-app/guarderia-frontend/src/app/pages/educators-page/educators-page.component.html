@@ -1,6 +1,7 @@
 <div class="page-header">
   <h2>👩🏼‍🏫 Educadores</h2>
   <button 
+    *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
     pButton 
     label="Añadir educador" 
     icon="pi pi-plus" 
@@ -17,6 +18,7 @@
 </app-educator-table>
 
 <p-dialog 
+  *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
   header="{{ selectedEducator ? 'Editar educador' : 'Añadir educador' }}" 
   [(visible)]="mostrarDialogoEducador" 
   [modal]="true" 

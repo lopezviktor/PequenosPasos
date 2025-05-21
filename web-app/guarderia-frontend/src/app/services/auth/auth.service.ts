@@ -39,4 +39,21 @@ export class AuthService {
       return null;
     }
   }
+
+  getTipoUsuarioFromToken(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.tipoUsuario || null;
+    } catch (error) {
+      console.error('Error al decodificar el token:', error);
+      return null;
+    }
+  }
+
+  getAuthenticatedUser(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/usuarios/me`);
+  }
 }

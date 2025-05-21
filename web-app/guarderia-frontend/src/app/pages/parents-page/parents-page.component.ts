@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Parent } from '@models/parent.model';
 import { ParentService } from '@services/parent/parent.service';
+import { AuthService } from '@services/auth/auth.service';
 import { ParentTableComponent } from '@components/tables/parent-table/parent-table.component';
 import { ParentFormComponent } from '@components/forms/parent-form/parent-form.component';
 import { DialogModule } from 'primeng/dialog';
@@ -27,7 +28,10 @@ export class ParentsPageComponent implements OnInit {
   selectedParent?: Parent;
   parentEditando = false;
 
-  constructor(private parentService: ParentService) {}
+  constructor(
+    private parentService: ParentService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.cargarPadres();

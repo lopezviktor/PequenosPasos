@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Educator } from '@models/educator.model';
 import { EducatorService } from '@services/educator/educator.service';
+import { AuthService } from '@services/auth/auth.service';
 import { EducatorTableComponent } from '@components/tables/educator-table/educator-table.component';
 import { EducatorFormComponent } from '@components/forms/educator-form/educator-form.component';
 import { DialogModule } from 'primeng/dialog';
@@ -27,7 +28,10 @@ export class EducatorsPageComponent implements OnInit {
   selectedEducator?: Educator;
   educatorEditando = false;
 
-  constructor(private educatorService: EducatorService) {}
+  constructor(
+    private educatorService: EducatorService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.cargarEducadores();

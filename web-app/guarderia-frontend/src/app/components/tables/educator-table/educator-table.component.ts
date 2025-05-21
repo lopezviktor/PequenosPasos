@@ -7,6 +7,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { Educator } from '@models/educator.model';
 import { EducatorService } from '@services/educator/educator.service';
+import { AuthService } from '@services/auth/auth.service';
 import { KeyFilterModule } from 'primeng/keyfilter';
 
 @Component({
@@ -36,7 +37,8 @@ e.telefono.toString().toLowerCase().includes(this.telefonoFiltro.toLowerCase()) 
 
   constructor(
     private confirmationService: ConfirmationService,
-    private educatorService: EducatorService
+    private educatorService: EducatorService, 
+    public authService: AuthService
   ) {}
 
   editarEducador(educador: Educator) {

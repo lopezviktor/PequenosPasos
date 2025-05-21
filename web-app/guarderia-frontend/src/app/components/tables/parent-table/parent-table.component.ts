@@ -6,6 +6,7 @@ import { Parent } from '@models/parent.model';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ParentService } from '@services/parent/parent.service';
+import { AuthService } from '@services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -34,7 +35,8 @@ export class ParentTableComponent {
 
   constructor(
     private confirmationService: ConfirmationService,
-    private parentService: ParentService
+    private parentService: ParentService,
+    public authService: AuthService
   ) {}
 
   get parentsFiltrados(): Parent[] {

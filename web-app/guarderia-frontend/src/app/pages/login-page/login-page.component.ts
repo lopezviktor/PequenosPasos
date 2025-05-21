@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '@services/auth/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login-page',
@@ -23,7 +24,8 @@ export class LoginPageComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -35,7 +37,16 @@ export class LoginPageComponent {
     if (this.loginForm.invalid) return;
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => {
+        const tipoUsuario = this.authService.getTipoUsuarioFromToken();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Login exitoso',
+          detail: `Bienvenido, ${tipoUsuario?.toLowerCase()}`,
+          life: 3000
+        });
+        this.router.navigate(['/dashboard']);
+      },
       error: error => console.error('Login failed', error)
     });
   }

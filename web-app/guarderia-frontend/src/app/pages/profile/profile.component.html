@@ -1,0 +1,37 @@
+<div class="profile-container">
+  <p-card header="Perfil del Educador" styleClass="mb-3 profile-card">
+    <div class="profile-content">
+    <p><strong class="profile-label">Nombre</strong>: {{ educador.nombre }}</p>
+      <p><strong class="profile-label">Apellidos</strong>: {{ educador.apellidos }}</p>
+      <p><strong class="profile-label">Email</strong>: {{ educador.email }}</p>
+      <p><strong class="profile-label">Teléfono</strong>: {{ educador.telefono }}</p>
+    </div>
+    <div class="profile-button">
+      <button 
+        pButton 
+        type="button" 
+        label="Cambiar contraseña" 
+        icon="pi pi-lock" 
+        class="sidebar-action"
+        (click)="mostrarDialogoCambioPassword = true">
+      </button>
+    </div>
+
+    <p-dialog header="Cambiar Contraseña" [(visible)]="mostrarDialogoCambioPassword" [modal]="true" [closable]="true" [style]="{width: '400px'}">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="nuevaContrasena">Nueva contraseña</label>
+          <input id="nuevaContrasena" type="password" pInputText [(ngModel)]="nuevaContrasena" />
+        </div>
+        <div class="p-field">
+          <label for="confirmarContrasena">Confirmar contraseña</label>
+          <input id="confirmarContrasena" type="password" pInputText [(ngModel)]="confirmarContrasena" />
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="mostrarDialogoCambioPassword = false"></button>
+        <button pButton type="button" label="Guardar" icon="pi pi-check" (click)="cambiarContrasena()" [disabled]="nuevaContrasena !== confirmarContrasena"></button>
+      </ng-template>
+    </p-dialog>
+  </p-card>
+</div>

@@ -11,7 +11,6 @@ import { Educator } from '@models/educator.model';
 import { SiestaService } from '@services/siesta/siesta-service.service';
 import { ChildService } from '@services/child/child.service';
 import { EducatorService } from '@services/educator/educator.service';
-import { NombreCompletoPipe } from '@shared/pipes/nombre-completo.pipe';
 
 @Component({
   selector: 'app-siesta-form',
@@ -22,7 +21,6 @@ import { NombreCompletoPipe } from '@shared/pipes/nombre-completo.pipe';
     CalendarModule,
     DropdownModule,
     ButtonModule,
-    NombreCompletoPipe
    ],
   templateUrl: './siesta-form.component.html',
   styleUrl: './siesta-form.component.scss',

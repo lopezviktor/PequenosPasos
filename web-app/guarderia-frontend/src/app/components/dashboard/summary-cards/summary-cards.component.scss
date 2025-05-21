@@ -1,7 +1,6 @@
 .cards-container {
   display: grid;
   gap: 1.5rem;
-  padding: 1rem;
   grid-template-columns: repeat(1, 1fr);
 
   @media (min-width: 768px) {
