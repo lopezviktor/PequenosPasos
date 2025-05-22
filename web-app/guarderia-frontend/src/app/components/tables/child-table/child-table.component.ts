@@ -81,7 +81,7 @@ export class ChildTableComponent {
     return this.children.filter(c =>
       c.nombre.toLowerCase().includes(this.nombreFiltro.toLowerCase()) &&
       c.apellidos.toLowerCase().includes(this.apellidosFiltro.toLowerCase()) &&
-      c.clase?.nombre.toLowerCase().includes(this.claseFiltro.toLowerCase()) &&
+      (c.clase?.nombre ?? '').toLowerCase().includes((this.claseFiltro ?? '').toLowerCase()) &&
       (c.alergias?.toLowerCase().includes(this.alergiasFiltro.toLowerCase()) ?? false) &&
       (this.condicionesFiltro === '' || c.condicionesMedicas?.toLowerCase().includes(this.condicionesFiltro.toLowerCase())) &&
       (!this.fechaNacimientoDesde || new Date(c.fechaNacimiento) >= this.fechaNacimientoDesde) &&

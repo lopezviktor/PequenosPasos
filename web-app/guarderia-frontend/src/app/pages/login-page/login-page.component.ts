@@ -47,7 +47,16 @@ export class LoginPageComponent {
         });
         this.router.navigate(['/dashboard']);
       },
-      error: error => console.error('Login failed', error)
+      error: error => {
+        console.error('Login failed', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Login fallido',
+          detail: 'Credenciales incorrectas. Intenta de nuevo.',
+          life: 3000
+        });
+        this.loginForm.get('password')?.reset();
+      }
     });
   }
 }
