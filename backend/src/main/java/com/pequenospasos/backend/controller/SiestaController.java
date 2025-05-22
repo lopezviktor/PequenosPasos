@@ -18,25 +18,25 @@ public class SiestaController {
     @Autowired
     private SiestaService siestaService;
 
-    // Obtener todas las siestas registradas
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping
     public List<Siesta> getAllSiestas() {
         return siestaService.getAllSiestas();
     }
 
-    // Obtener siestas de un niño específico
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR', 'PADRE')")
     @GetMapping("/nino/{ninoId}")
     public List<SiestaResponse> getSiestasByNinoId(@PathVariable Long ninoId) {
         return siestaService.getSiestasByNinoId(ninoId);
     }
 
-    // Obtener siestas de un educador específico
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/educador/{educadorId}")
     public List<Siesta> getSiestasByEducadorId(@PathVariable Long educadorId) {
         return siestaService.getSiestasByEducadorId(educadorId);
     }
 
-    // Obtener siestas en un rango de fechas
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/rango-fechas")
     public List<SiestaResponse> getSiestasByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
         return siestaService.getSiestasByFecha(inicio, fin).stream()
@@ -57,7 +57,7 @@ public class SiestaController {
         return siestaService.getSiestasByFecha(fechaInicio, fechaFin);
     }
 
-    // Obtener la última siesta de un niño con validación
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR', 'PADRE')")
     @GetMapping("/nino/{ninoId}/ultima")
     public SiestaResponse getUltimaSiestaByNinoId(@PathVariable Long ninoId) {
         Siesta siesta = siestaService.getUltimaSiestaByNinoId(ninoId)
@@ -71,20 +71,20 @@ public class SiestaController {
         );
     }
 
-    // Obtener una siesta por ID con validación
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR', 'PADRE')")
     @GetMapping("/{id}")
     public Siesta getSiestaById(@PathVariable Long id) {
         return siestaService.getSiestaById(id)
                 .orElseThrow(() -> new RuntimeException("Siesta no encontrada con id: " + id));
     }
 
-    // Registrar una nueva siesta asegurando que solo EDUCADORES puedan hacerlo
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PostMapping
     public Siesta createSiesta(@RequestBody Siesta siesta) {
         return siestaService.saveSiesta(siesta);
     }
 
-    // Actualizar una siesta validando que solo el educador que la creó pueda modificarla
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PutMapping("/{id}")
     public Siesta updateSiesta(@PathVariable Long id, @RequestBody Siesta siestaDetalles) {
         Siesta siesta = siestaService.getSiestaById(id)
@@ -97,7 +97,7 @@ public class SiestaController {
         return siestaService.updateSiesta(id, siestaDetalles);
     }
 
-    // Eliminar una siesta con validación de existencia
+    @PreAuthorize("hasRole('EDUCADOR')")
     @DeleteMapping("/{id}")
     public void deleteSiesta(@PathVariable Long id) {
         siestaService.deleteSiesta(id);

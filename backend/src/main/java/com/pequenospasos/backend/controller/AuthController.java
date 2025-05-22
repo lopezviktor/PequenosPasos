@@ -29,6 +29,9 @@ public class AuthController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String token = jwtUtils.generateToken(userDetails.getUsuario());
 
+        System.out.println("Login exitoso para: " + userDetails.getUsername()
+                + " | Rol: " + userDetails.getUsuario().getTipoUsuario());
+
         return new AuthResponse(token);
     }
 }

@@ -23,13 +23,13 @@ public class PadreController {
     @Autowired
     private PadresHijosService padresHijosService;
 
-    // Obtener todos los padres correctamente
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping
     public List<Padre> getAllPadres() {
         return padreService.findAllPadres();
     }
 
-    // Obtener padre por ID con validación
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/{id}")
     public Padre getPadreById(@PathVariable Long id) {
         return padreService.findPadreById(id)
@@ -45,13 +45,13 @@ public class PadreController {
         return padresHijosService.getNinosByUsuario(username);
     }
 
-    // Obtener niños asociados a un padre
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/{padreId}/ninos")
     public List<Nino> getNinosByPadreId(@PathVariable Long padreId) {
         return padresHijosService.getNinosByPadreId(padreId);
     }
 
-    // Buscar padre por email
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/buscar")
     public Padre getPadreByEmail(@RequestParam String email) {
         return padreService.findPadreByEmail(email)
@@ -64,20 +64,20 @@ public class PadreController {
         return padreService.findPadresPorApellidos(apellidos);
     }
 
-    // Crear un nuevo padre con validación
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping
     public Padre createPadre(@RequestBody Padre padre) {
         padre.setTipoUsuario("PADRE"); // 🔹 Asegurar que el usuario creado es un PADRE
         return padreService.savePadre(padre);
     }
 
-    // Actualizar un padre existente sin sobrescribir contraseña si no se envía
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PutMapping("/{id}")
     public Padre updatePadre(@PathVariable Long id, @RequestBody Padre padreDetalles) {
         return padreService.updatePadre(id, padreDetalles);
     }
 
-    // Eliminar un padre con validación de existencia
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/{id}")
     public void deletePadre(@PathVariable Long id) {
         padreService.deletePadre(id);

@@ -4,6 +4,7 @@ import com.pequenospasos.backend.entity.Educador;
 import com.pequenospasos.backend.service.EducadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +17,14 @@ public class EducadorController {
     private EducadorService educadorService;
 
     // Obtener todos los educadores
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping
     public List<Educador> getAllEducadores() {
         return educadorService.getAllEducadores();
     }
 
     // Obtener educador por ID con validación
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/{id}")
     public Educador getEducadorById(@PathVariable Long id) {
         return educadorService.getEducadorById(id)
@@ -29,6 +32,7 @@ public class EducadorController {
     }
 
     // Buscar educador por email
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/buscar")
     public Educador getEducadorByEmail(@RequestParam String email) {
         return educadorService.getEducadorByEmail(email)
@@ -36,18 +40,21 @@ public class EducadorController {
     }
 
     // Crear un nuevo educador asegurando que el tipo de usuario es "EDUCADOR"
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping
     public Educador createEducador(@RequestBody Educador educador) {
         return educadorService.saveEducador(educador);
     }
 
     // Actualizar un educador existente sin sobrescribir la contraseña si no se envía
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PutMapping("/{id}")
     public Educador updateEducador(@PathVariable Long id, @RequestBody Educador educadorDetalles) {
         return educadorService.updateEducador(id, educadorDetalles);
     }
 
     // Eliminar un educador con validación de existencia
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/{id}")
     public void deleteEducador(@PathVariable Long id) {
         educadorService.deleteEducador(id);

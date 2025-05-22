@@ -6,6 +6,7 @@ import com.pequenospasos.backend.entity.PadresHijos;
 import com.pequenospasos.backend.service.PadresHijosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class PadresHijosController {
     private PadresHijosService padresHijosService;
 
     // Obtener los niños de un padre con validación
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'PADRE', 'EDUCADOR')")
     @GetMapping("/padre/{padreId}/ninos")
     public List<Nino> getNinosByPadreId(@PathVariable Long padreId) {
         List<Nino> ninos = padresHijosService.getNinosByPadreId(padreId);
@@ -26,12 +28,14 @@ public class PadresHijosController {
         return ninos;
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
     @GetMapping("/nino/{ninoId}/padres")
     public List<Padre> getPadresByNinoId(@PathVariable Long ninoId) {
         return padresHijosService.getPadresByNinoId(ninoId);
     }
 
     // Asignar un niño a un padre con validación
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping("/asignar")
     public PadresHijos asignarNinoAPadre(@RequestParam Long padreId, @RequestParam Long ninoId) {
         if (padreId == null || ninoId == null) {
@@ -43,6 +47,7 @@ public class PadresHijosController {
     }
 
     // Eliminar la relación entre un padre y un niño con validación
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/eliminar")
     public void eliminarRelacionPadreHijo(@RequestParam Long padreId, @RequestParam Long ninoId) {
         if (padreId == null || ninoId == null) {

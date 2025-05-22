@@ -3,11 +3,13 @@ package com.pequenospasos.backend.controller;
 import com.pequenospasos.backend.entity.Admin;
 import com.pequenospasos.backend.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@PreAuthorize("hasAuthority('ADMINISTRADOR')")
 @RestController
 @RequestMapping("/api/admins")
 public class AdminController {

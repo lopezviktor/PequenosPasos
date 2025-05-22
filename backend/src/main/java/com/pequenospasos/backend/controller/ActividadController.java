@@ -30,6 +30,7 @@ public class ActividadController {
     }
 
     // Buscar actividad por ID con validación
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'PADRE')")
     @GetMapping("/{id}")
     public Actividad getActividadById(@PathVariable Long id) {
         return actividadService.getActividadById(id)
@@ -37,7 +38,7 @@ public class ActividadController {
     }
 
     // Crear nueva actividad validando nombre único
-    @PreAuthorize("hasAnyRole('EDUCADOR', 'PADRE')")
+    @PreAuthorize("hasRole('EDUCADOR')")
     @PostMapping
     public Actividad createActividad(@RequestBody Actividad actividad) {
         if (!actividadService.getActividadesByNombre(actividad.getNombre()).isEmpty()) {

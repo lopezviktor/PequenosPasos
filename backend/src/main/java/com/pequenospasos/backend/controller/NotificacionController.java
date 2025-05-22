@@ -5,6 +5,7 @@ import com.pequenospasos.backend.entity.Notificacion;
 import com.pequenospasos.backend.service.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -16,24 +17,28 @@ public class NotificacionController {
     private NotificacionService notificacionService;
 
     // Obtener todas las notificaciones
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping
     public List<NotificacionDTO> getAllNotificaciones() {
         return notificacionService.getAllNotificaciones();
     }
 
     // Obtener notificaciones recibidas por un usuario
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/receptor/{receptorId}")
     public List<NotificacionDTO> getNotificacionesByReceptorId(@PathVariable Long receptorId) {
         return notificacionService.getNotificacionesByReceptorId(receptorId);
     }
 
     // Obtener notificaciones no leídas de un usuario
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/receptor/{receptorId}/no-leidas")
     public List<NotificacionDTO> getNotificacionesNoLeidas(@PathVariable Long receptorId) {
         return notificacionService.getNotificacionesNoLeidas(receptorId);
     }
 
     // Obtener una notificación por ID con validación
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @GetMapping("/{id}")
     public Notificacion getNotificacionById(@PathVariable Long id) {
         return notificacionService.getNotificacionById(id)
@@ -41,6 +46,7 @@ public class NotificacionController {
     }
 
     // Crear una nueva notificación asegurando que el receptor es un PADRE o EDUCADOR
+    @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMINISTRADOR')")
     @PostMapping
     public Notificacion createNotificacion(@RequestBody Notificacion notificacion) {
         if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") ||
@@ -51,18 +57,21 @@ public class NotificacionController {
     }
 
     // Marcar una notificación como leída con validación
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @PutMapping("/{id}/marcar-leida")
     public NotificacionDTO marcarComoLeida(@PathVariable Long id) {
         return notificacionService.marcarComoLeida(id);
     }
 
     // Marcar todas las notificaciones de un usuario como leídas con validación
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @PutMapping("/receptor/{receptorId}/marcar-todas-leidas")
     public List<NotificacionDTO> marcarTodasComoLeidas(@PathVariable Long receptorId) {
         return notificacionService.marcarTodasComoLeidas(receptorId);
     }
 
     // Eliminar una notificación con validación de existencia
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/{id}")
     public void deleteNotificacion(@PathVariable Long id) {
         notificacionService.getNotificacionById(id)
