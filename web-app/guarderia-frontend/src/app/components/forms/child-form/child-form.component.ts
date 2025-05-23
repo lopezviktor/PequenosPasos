@@ -8,6 +8,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Child } from '@models/child.model';
 import { Clase } from '@models/clase.model';
 import { ClassroomService } from '@services/classroom/classroom.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-child-form',
@@ -18,7 +19,8 @@ import { ClassroomService } from '@services/classroom/classroom.service';
     InputTextModule,
     ButtonModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
   ],
   templateUrl: './child-form.component.html',
   styleUrl: './child-form.component.scss'

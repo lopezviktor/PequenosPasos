@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Parent } from '@models/parent.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-parent-form',
@@ -11,7 +12,8 @@ import { Parent } from '@models/parent.model';
     CommonModule,
     ReactiveFormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './parent-form.component.html',
   styleUrl: './parent-form.component.scss'

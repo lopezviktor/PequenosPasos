@@ -6,11 +6,12 @@ import { DatePipe } from '@angular/common';
 
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-actividad-card',
   standalone: true,
-  imports: [CommonModule, ButtonModule, ConfirmDialogModule],
+  imports: [CommonModule, ButtonModule, ConfirmDialogModule, TranslateModule],
   templateUrl: './actividad-card.component.html',
   styleUrls: ['./actividad-card.component.scss']
 })

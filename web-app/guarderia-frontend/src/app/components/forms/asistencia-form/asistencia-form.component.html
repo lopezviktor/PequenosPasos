@@ -7,7 +7,7 @@
         optionLabel="nombre"
         formControlName="nino">
       </p-dropdown>
-      <label for="nino">Niño</label>
+      <label for="nino">{{ 'FORMULARIO.NINO' | translate }}</label>
     </div>
   </div>
 
@@ -19,7 +19,7 @@
         [showTime]="true"
         hourFormat="24">
       </p-calendar>
-      <label for="horaEntrada">Hora de entrada</label>
+      <label for="horaEntrada">{{ 'FORMULARIO.HORA_ENTRADA' | translate }}</label>
     </div>
   </div>
 
@@ -31,7 +31,7 @@
         optionLabel="nombreCompleto"
         formControlName="padreEntrega">
       </p-dropdown>
-      <label for="padreEntrega">Padre que entrega</label>
+      <label for="padreEntrega">{{ 'FORMULARIO.PADRE_ENTREGA' | translate }}</label>
     </div>
   </div>
 
@@ -46,7 +46,7 @@
           {{ educador.nombre }} {{ educador.apellidos }}
         </ng-template>
       </p-dropdown>
-      <label for="educadorRecibe">Educador que recibe</label>
+      <label for="educadorRecibe">{{ 'FORMULARIO.EDUCADOR_RECIBE' | translate }}</label>
     </div>
   </div>
 
@@ -58,7 +58,7 @@
         [showTime]="true"
         hourFormat="24">
       </p-calendar>
-      <label for="horaSalida">Hora de salida</label>
+      <label for="horaSalida">{{ 'FORMULARIO.HORA_SALIDA' | translate }}</label>
     </div>
   </div>
 
@@ -73,7 +73,7 @@
           {{ educador.nombre }} {{ educador.apellidos }}
         </ng-template>
       </p-dropdown>
-      <label for="educadorEntrega">Educador que entrega</label>
+      <label for="educadorEntrega">{{ 'FORMULARIO.EDUCADOR_ENTREGA' | translate }}</label>
     </div>
   </div>
 
@@ -85,16 +85,15 @@
         optionLabel="nombreCompleto"
         formControlName="padreRecoge">
       </p-dropdown>
-      <label for="padreRecoge">Padre que recoge</label>
+      <label for="padreRecoge">{{ 'FORMULARIO.PADRE_RECOGE' | translate }}</label>
     </div>
   </div>
 
   <div style="display: flex; gap: 1rem; margin-top: 1rem; justify-content: center;">
     <button type="submit" pButton [disabled]="form.invalid">
-      {{ isEditing ? 'Actualizar Asistencia' : 'Guardar Asistencia' }}
+      {{ isEditing ? ('BOTONES.ACTUALIZAR' | translate) + ' ' + ('ASISTENCIA' | translate) : ('BOTONES.GUARDAR' | translate) + ' ' + ('ASISTENCIA' | translate) }}
     </button>
-    <button type="button" pButton class="p-button-secondary" (click)="formularioCerrado.emit()">
-      Cancelar
+    <button type="button" pButton class="p-button-secondary" (click)="formularioCerrado.emit()" [label]="'BOTONES.CANCELAR' | translate">
     </button>
   </div>
 </form>

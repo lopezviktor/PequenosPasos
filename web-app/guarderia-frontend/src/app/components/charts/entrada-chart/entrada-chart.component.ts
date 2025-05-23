@@ -2,6 +2,7 @@ import { AsistenciaService } from '@services/asistencia/asistencia.service';
 import { Asistencia } from '@models/asistencia.model';
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-entrada-chart',
@@ -12,8 +13,10 @@ import { Chart } from 'chart.js/auto';
 export class EntradaChartComponent implements AfterViewInit {
   @ViewChild('entradaCanvas') entradaCanvas!: ElementRef<HTMLCanvasElement>;
   chart: Chart | undefined;
+  labels: string[] = [];
+  data: number[] = [];
 
-  constructor(private asistenciaService: AsistenciaService) {}
+  constructor(private asistenciaService: AsistenciaService, private translate: TranslateService) {}
 
   ngAfterViewInit(): void {
     this.asistenciaService.getAsistenciasDeHoy().subscribe(asistencias => {
@@ -26,7 +29,13 @@ export class EntradaChartComponent implements AfterViewInit {
         if (indice !== -1) conteoPorHora[indice]++;
       });
 
-      this.renderChart(horas, conteoPorHora);
+      this.labels = horas;
+      this.data = conteoPorHora;
+      this.renderChart(this.labels, this.data);
+
+      this.translate.onLangChange.subscribe(() => {
+        this.renderChart(this.labels, this.data);
+      });
     });
   }
 
@@ -36,49 +45,55 @@ export class EntradaChartComponent implements AfterViewInit {
       .getPropertyValue('--chart-color')
       .trim();
 
-    this.chart = new Chart(ctx!, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Entradas por hora',
-          data: data,
-          fill: true,
-          tension: 0.4,
-          borderColor: chartColor,
-          backgroundColor: chartColor,
-          pointBackgroundColor: chartColor,
-          pointBorderColor: '#fff',
-          pointRadius: 4,
-          pointHoverRadius: 6
-        }]
-      },
-      options: {
-        responsive: true,
-        layout: {
-          padding: {
-            left: 10,
-            right: 10
-          }
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.translate.stream('GRAFICA_ENTRADA.ENTRADAS_POR_HORA').subscribe(titulo => {
+      this.chart = new Chart(ctx!, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: titulo,
+            data: data,
+            fill: true,
+            tension: 0.4,
+            borderColor: chartColor,
+            backgroundColor: chartColor,
+            pointBackgroundColor: chartColor,
+            pointBorderColor: '#fff',
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
         },
-        plugins: {
-          legend: {
-            display: true,
-            labels: {
-              boxWidth: 20
+        options: {
+          responsive: true,
+          layout: {
+            padding: {
+              left: 10,
+              right: 10
             }
           },
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 1,
-              precision: 0
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                boxWidth: 20
+              }
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+                precision: 0
+              }
             }
           }
         }
-      }
+      });
     });
   }
 }

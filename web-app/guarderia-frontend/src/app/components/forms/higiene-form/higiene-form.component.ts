@@ -11,6 +11,7 @@ import { Educator } from '@models/educator.model';
 import { HigieneService } from '@services/higiene/higiene.service';
 import { ChildService } from '@services/child/child.service';
 import { EducatorService } from '@services/educator/educator.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-higiene-form',
@@ -20,7 +21,8 @@ import { EducatorService } from '@services/educator/educator.service';
     ReactiveFormsModule,
     CalendarModule,
     DropdownModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './higiene-form.component.html',
   styleUrl: './higiene-form.component.scss',

@@ -12,6 +12,7 @@ import { Parent } from '@models/parent.model';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
@@ -21,7 +22,8 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     DropdownModule,
     CalendarModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './asistencia-form.component.html',
   styleUrls: ['./asistencia-form.component.scss']

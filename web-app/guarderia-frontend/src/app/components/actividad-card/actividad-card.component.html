@@ -8,21 +8,21 @@
   <div class="card-actions">
     <button 
       pButton 
-      label="Detalles" 
+      [label]="'ACTIVIDAD_CARD.DETALLES' | translate" 
       icon="pi pi-eye" 
       class="p-button-sm p-button-outlined p-button-info"
       (click)="verDetalles()">
     </button>
     <button 
       pButton 
-      label="Editar" 
+      [label]="'ACTIVIDAD_CARD.EDITAR' | translate" 
       icon="pi pi-pencil" 
       class="p-button-sm p-button-outlined p-button-success" 
       (click)="onEdit()">
     </button>
     <button 
       pButton 
-      label="Eliminar" 
+      [label]="'ACTIVIDAD_CARD.ELIMINAR' | translate" 
       icon="pi pi-trash" 
       class="p-button-sm p-button-outlined p-button-danger" 
       (click)="onDelete()">

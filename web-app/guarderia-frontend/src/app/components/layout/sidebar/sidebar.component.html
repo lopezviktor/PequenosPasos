@@ -1,18 +1,22 @@
 <div class="sidebar">
   <img src="assets/Logo.png" alt="Logo" class="topbar-logo" />
   <p-panelMenu [model]="items" class="sidebar-menu"></p-panelMenu>
+  <select (change)="cambiarIdioma($event)">
+    <option value="es">Español</option>
+    <option value="en">English</option>
+  </select>
   <div class="sidebar-footer">
     <button 
       pButton 
       icon="pi pi-user" 
-      label="Perfil" 
+      [label]="'SIDEBAR.PERFIL' | translate"
       class="p-button-text sidebar-action" 
       (click)="irAlPerfil()">
     </button>
     <button 
       pButton 
       icon="pi pi-sign-out" 
-      label="Salir" 
+      [label]="'SIDEBAR.SALIR' | translate"
       class="p-button-text sidebar-action" 
       (click)="cerrarSesion()">
     </button>

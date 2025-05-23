@@ -3,7 +3,7 @@
     <div class="form-grid">
 
       <div class="form-field">
-        <label for="nombre">Nombre de la actividad</label>
+        <label for="nombre">{{ 'FORMULARIO.NOMBRE' | translate }}</label>
         <input
           id="nombre"
           pInputText
@@ -12,7 +12,7 @@
       </div>
 
       <div class="form-field">
-        <label for="descripcion">Descripción</label>
+        <label for="descripcion">{{ 'FORMULARIO.DESCRIPCION' | translate }}</label>
         <textarea
           id="descripcion"
           pInputTextarea
@@ -23,7 +23,7 @@
       </div>
 
       <div class="form-field">
-        <label for="fecha">Fecha</label>
+        <label for="fecha">{{ 'FORMULARIO.FECHA' | translate }}</label>
         <p-calendar
           inputId="fecha"
           formControlName="fecha"
@@ -36,7 +36,7 @@
       </div>
 
       <div class="form-field">
-        <label for="educador">Educador</label>
+        <label for="educador">{{ 'FORMULARIO.EDUCADOR' | translate }}</label>
         <p-dropdown
           inputId="educador"
           [options]="educadores"
@@ -54,7 +54,7 @@
       </div>
 
       <div class="form-field">
-        <label for="clase">Clase</label>
+        <label for="clase">{{ 'FORMULARIO.CLASE' | translate }}</label>
         <p-dropdown
           inputId="clase"
           [options]="clases"
@@ -78,14 +78,14 @@
       <button
         pButton
         type="submit"
-        [label]="actividadEditando ? 'Actualizar actividad' : 'Guardar actividad'"
+        [label]="actividadEditando ? ('BOTONES.ACTUALIZAR' | translate) + ' ' + ('ACTIVIDAD' | translate) : ('BOTONES.GUARDAR' | translate) + ' ' + ('ACTIVIDAD' | translate)"
         class="p-button-success"
         [disabled]="form.invalid">
       </button>
       <button
         pButton
         type="button"
-        label="Cancelar"
+        [label]="'BOTONES.CANCELAR' | translate"
         icon="pi pi-times"
         class="p-button-secondary"
         (click)="cancelar()">

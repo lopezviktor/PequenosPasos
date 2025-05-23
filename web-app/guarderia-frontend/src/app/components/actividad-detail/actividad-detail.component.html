@@ -1,15 +1,15 @@
 <div *ngIf="actividad" class="p-card p-fluid">
   <div class="p-card-header">
-    <h2>Detalles de la Actividad</h2>
+    <h2>{{ 'DETALLE_ACTIVIDAD.TITULO' | translate }}</h2>
   </div>
   <div class="p-card-body">
-    <p><strong>Nombre:</strong> {{ actividad.nombre }}</p>
-    <p><strong>Descripción:</strong> {{ actividad.descripcion }}</p>
-    <p><strong>Educador:</strong> {{ actividad.educadorNombre }}</p>
-    <p><strong>Clase:</strong> {{ actividad.claseNombre }}</p>
-    <p><strong>Fecha:</strong> {{ actividad.fecha }}</p>
+    <p><strong>{{ 'APP.NOMBRE' | translate }}:</strong> {{ actividad.nombre }}</p>
+    <p><strong>{{ 'APP.DESCRIPCION' | translate }}:</strong> {{ actividad.descripcion }}</p>
+    <p><strong>{{ 'APP.EDUCADOR' | translate }}:</strong> {{ actividad.educadorNombre }}</p>
+    <p><strong>{{ 'APP.CLASE' | translate }}:</strong> {{ actividad.claseNombre }}</p>
+    <p><strong>{{ 'APP.FECHA' | translate }}:</strong> {{ actividad.fecha }}</p>
     
-    <h3>Niños Participantes</h3>
+    <h3>{{ 'DETALLE_ACTIVIDAD.NINOS' | translate }}</h3>
     <p-listbox 
         [options]="ninosOptions" 
         optionLabel="label"
@@ -17,6 +17,6 @@
     </p-listbox>
   </div>
   <div class="p-card-footer">
-    <button pButton label="Volver" icon="pi pi-arrow-left" (click)="volver()" class="p-button-secondary"></button>
+    <button pButton [label]="'APP.VOLVER' | translate" icon="pi pi-arrow-left" (click)="volver()" class="p-button-secondary"></button>
   </div>
 </div>

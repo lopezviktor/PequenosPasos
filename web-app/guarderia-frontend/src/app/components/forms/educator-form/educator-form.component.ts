@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Educator } from '@models/educator.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-educator-form',
@@ -12,7 +13,8 @@ import { Educator } from '@models/educator.model';
     CommonModule,
     ReactiveFormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './educator-form.component.html',
   styleUrl: './educator-form.component.scss'

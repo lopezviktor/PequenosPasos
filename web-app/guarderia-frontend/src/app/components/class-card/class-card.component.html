@@ -1,27 +1,27 @@
 <p-card header="{{ clase.nombre }}" styleClass="ui-card-shadow">
     <div>
-      <strong>Educador:</strong> {{ clase.educador?.nombre }} {{ clase.educador?.apellidos }}
+      <strong>{{ 'APP.EDUCADOR' | translate }}:</strong> {{ clase.educador?.nombre }} {{ clase.educador?.apellidos }}
     </div>
     <div>
-      <strong>Número de niños:</strong> {{ clase.ninos?.length || 0 }}
+      <strong>{{ 'CLASE.NUMERO_NINOS' | translate }}:</strong> {{ clase.ninos?.length || 0 }}
     </div>
     <button 
       pButton 
-      label="Detalles"
+      [label]="'APP.DETALLES' | translate"
       icon="pi pi-eye" 
       class="p-button-sm p-button-outlined p-button-info"
       (click)="onVerDetalles()">
     </button>
     <button 
-    pButton 
-      label="Editar"
+      pButton 
+      [label]="'APP.EDITAR' | translate"
       icon="pi pi-pencil" 
       class="p-button-sm p-button-outlined p-button-success" 
       (click)="onEditar()">
     </button>
     <button 
-    pButton 
-      label="Eliminar"
+      pButton 
+      [label]="'APP.ELIMINAR' | translate"
       icon="pi pi-trash" 
       class="p-button-sm p-button-outlined p-button-danger" 
       (click)="onEliminar()">

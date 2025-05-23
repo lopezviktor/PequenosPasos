@@ -16,7 +16,7 @@
             {{ nino.nombre }} {{ nino.apellidos }}
           </ng-template>
         </p-dropdown>
-        <label for="nino">Niño</label>
+        <label for="nino">{{ 'FORMULARIO.NINO' | translate }}</label>
       </div>
     </div>
 
@@ -35,7 +35,7 @@
             {{ educador.nombre }} {{ educador.apellidos }}
           </ng-template>
         </p-dropdown>
-        <label for="educador">Educador</label>
+        <label for="educador">{{ 'FORMULARIO.EDUCADOR' | translate }}</label>
       </div>
     </div>
 
@@ -49,7 +49,7 @@
           appendTo="body"
           [showIcon]="true">
         </p-calendar>
-        <label for="fechaHora">Fecha y hora</label>
+        <label for="fechaHora">{{ 'FORMULARIO.FECHA' | translate }} & {{ 'FORMULARIO.HORA' | translate }}</label>
       </div>
     </div>
 
@@ -62,7 +62,7 @@
           optionLabel="label"
           appendTo="body">
         </p-dropdown>
-        <label for="estado">Estado</label>
+        <label for="estado">{{ 'FORMULARIO.ESTADO' | translate }}</label>
       </div>
     </div>
 
@@ -76,7 +76,7 @@
           class="w-full">
           >
         </textarea>
-        <label for="observaciones">Observaciones</label>
+        <label for="observaciones">{{ 'FORMULARIO.OBSERVACIONES' | translate }}</label>
       </div>
     </div>
   </div>
@@ -85,7 +85,7 @@
     <button
       pButton
       type="submit"
-      [label]="higieneEditando ? 'Actualizar higiene' : 'Guardar higiene'"
+      [label]="isEditing ? ('BOTONES.ACTUALIZAR' | translate) + ' ' + ('HIGIENE' | translate) : ('BOTONES.GUARDAR' | translate) + ' ' + ('HIGIENE' | translate)"
       class="p-button-success"
       [disabled]="form.invalid">
     </button>

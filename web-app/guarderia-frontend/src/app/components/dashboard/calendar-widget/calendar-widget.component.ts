@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { ResumenClase } from '@models/resumenClase.model';
 import { ClassroomService } from '@services/classroom/classroom.service';
 import { ChildService } from '@services/child/child.service';
@@ -17,7 +18,8 @@ import { firstValueFrom } from 'rxjs';
   imports: [
     CommonModule,
     DatePickerModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ],
   templateUrl: './calendar-widget.component.html',
   styleUrl: './calendar-widget.component.scss'

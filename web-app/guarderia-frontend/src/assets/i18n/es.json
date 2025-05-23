@@ -1,0 +1,109 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "Dashboard",
+    "EDUCADORES": "Educadores",
+    "NINOS": "Niños",
+    "CLASES": "Clases",
+    "PADRES": "Padres",
+    "ASISTENCIA": "Asistencia",
+    "COMIDAS": "Comidas",
+    "HIGIENES": "Higienes",
+    "SIESTAS": "Siestas",
+    "ACTIVIDADES": "Actividades",
+    "MENSAJES": "Mensajes",
+    "PERFIL": "Perfil",
+    "SALIR": "Salir"
+  },
+  "CALENDARIO": {
+    "ASISTENCIA": "Asistencia",
+    "COMIDA": "Comida",
+    "SIESTA": "En siesta"
+  },
+  "RESUMEN": {
+    "NINOS_INSCRITOS": "Niños inscritos",
+    "NINOS_PRESENTES": "Niños presentes",
+    "AUSENCIAS_HOY": "Ausencias de hoy",
+    "COMIDAS_REGISTRADAS": "Comidas registradas",
+    "REGISTROS_HIGIENE": "Registros de higiene",
+    "SIESTAS_ACTIVAS": "Siestas activas",
+    "ULTIMA_ACTIVIDAD": "Ultima actividad",
+    "NINOS_SIN_ACTIVIDAD": "Niños sin actividad",
+    "PROMEDIO_ACTIVIDADES": "Promedio actividades/niño",
+    "MENSAJES_NUEVOS": "Mensajes nuevos",
+    "NOTIFICACIONES": "Notificaciones"
+  },
+  "APP": {
+    "DETALLES": "Detalles",
+    "EDITAR": "Editar",
+    "ELIMINAR": "Eliminar",
+    "NOMBRE": "Nombre",
+    "DESCRIPCION": "Descripción",
+    "EDUCADOR": "Educador",
+    "CLASE": "Clase",
+    "FECHA": "Fecha",
+    "VOLVER": "Volver",
+    "OPCIONAL": "Opcional",
+    "OBLIGATORIO": "Obligatorio",
+    "CAMPO_INFORMATIVO": "Campo informativo"
+  },
+  "DETALLE_ACTIVIDAD": {
+    "TITULO": "Detalles de la Actividad",
+    "NINOS": "Niños Participantes"
+  },
+  "GRAFICA_ACTIVIDAD": {
+    "TITULO": "Actividades por clase"
+  },
+  "GRAFICA_ASISTENCIA": {
+    "NINOS_POR_DIA": "Niños por día"
+  },
+  "GRAFICA_ENTRADA": {
+    "ENTRADAS_POR_HORA": "Entradas por hora"
+  },
+    "CLASE": {
+    "NUMERO_NINOS": "Número de niños"
+  },
+  "FORMULARIO": {
+    "NOMBRE": "Nombre",
+    "APELLIDOS": "Apellidos",
+    "EMAIL": "Email",
+    "TELEFONO": "Teléfono",
+    "CONTRASENA": "Contraseña",
+    "TIPO_USUARIO": "Tipo de usuario",
+    "NINO": "Niño",
+    "EDUCADOR": "Educador",
+    "CLASE": "Clase",
+    "FECHA": "Fecha",
+    "HORA": "Hora",
+    "HORA_ENTRADA": "Hora de entrada",
+    "HORA_SALIDA": "Hora de salida",
+    "HORA_INICIO": "Hora inicio",
+    "HORA_FIN": "Hora fin",
+    "FECHA_NACIMIENTO": "Fecha de nacimiento",
+    "PRIMER_DIA": "Primer día",
+    "ALERGIAS": "Alergias",
+    "CONDICIONES_MEDICAS": "Condiciones médicas",
+    "FOTO_URL": "Foto (URL)",
+    "ESTADO": "Estado",
+    "OBSERVACIONES": "Observaciones",
+    "DESCRIPCION_COMIDA": "Descripción de la comida",
+    "PADRE_ENTREGA": "Padre que entrega",
+    "PADRE_RECOGE": "Padre que recoge",
+    "EDUCADOR_ENTREGA": "Educador que entrega",
+    "EDUCADOR_RECIBE": "Educador que recibe",
+    "DESCRIPCION": "Descripción"
+
+  },
+  "BOTONES": {
+    "GUARDAR": "Guardar",
+    "ACTUALIZAR": "Actualizar",
+    "CANCELAR": "Cancelar"
+  },
+  "ACTIVIDAD": "actividad",
+  "ASISTENCIA": "asistencia",
+  "COMIDA": "aomida",
+  "SIESTA": "siesta",
+  "HIGIENE": "higiene",
+  "MENSAJE": "mensaje",
+  "EDUCADOR": "educador",
+  "PADRE": "padre"
+}

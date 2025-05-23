@@ -4,9 +4,11 @@ import { CardModule } from 'primeng/card';
 
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-class-card',
-  imports: [CardModule, ButtonModule, ConfirmDialogModule],
+  standalone: true,
+  imports: [CardModule, ButtonModule, ConfirmDialogModule, TranslateModule],
   templateUrl: './class-card.component.html',
   styleUrl: './class-card.component.scss'
 })

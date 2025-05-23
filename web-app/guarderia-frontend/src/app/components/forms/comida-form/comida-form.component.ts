@@ -12,6 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { NombreCompletoPipe } from '@shared/pipes/nombre-completo.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comida-form',
@@ -22,7 +23,8 @@ import { NombreCompletoPipe } from '@shared/pipes/nombre-completo.pipe';
     CalendarModule,
     DropdownModule,
     ButtonModule,
-    NombreCompletoPipe
+    NombreCompletoPipe,
+    TranslateModule
   ],
   templateUrl: './comida-form.component.html',
   styleUrls: ['./comida-form.component.scss'],

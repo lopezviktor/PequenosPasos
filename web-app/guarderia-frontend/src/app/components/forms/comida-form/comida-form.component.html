@@ -15,7 +15,7 @@
             {{ nino | nombreCompleto }}
           </ng-template>
         </p-dropdown>
-        <label for="nino">Niño</label>
+        <label for="nino">{{ 'FORMULARIO.NINO' | translate }}</label>
       </div>
     </div>
 
@@ -33,7 +33,7 @@
             {{ educador | nombreCompleto }}
           </ng-template>
         </p-dropdown>
-        <label for="educador">Educador</label>
+        <label for="educador">{{ 'FORMULARIO.EDUCADOR' | translate }}</label>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
           hourFormat="24"
           >
         </p-calendar>
-        <label for="horaComida">Hora de la comida</label>
+        <label for="horaComida">{{ 'FORMULARIO.HORA' | translate }}</label>
       </div>
     </div>
 
@@ -58,7 +58,7 @@
           formControlName="descripcionComida"
           rows="3">
         </textarea>
-        <label for="descripcionComida">Descripción de la comida</label>
+        <label for="descripcionComida">{{ 'FORMULARIO.DESCRIPCION_COMIDA' | translate }}</label>
       </div>
     </div>
 
@@ -72,7 +72,7 @@
           class="w-full">
           >
         </textarea>
-        <label for="observaciones">Observaciones (opcional)</label>
+        <label for="observaciones">{{ 'FORMULARIO.OBSERVACIONES' | translate }} ({{ 'APP.OPCIONAL' | translate }})</label>
       </div>
     </div>
 
@@ -82,7 +82,7 @@
     <button
       pButton
       type="submit"
-      [label]="comidaEditando ? 'Actualizar comida' : 'Guardar comida'"
+      [label]="comidaEditando ? ('BOTONES.ACTUALIZAR' | translate) + ' ' + ('COMIDA' | translate) : ('BOTONES.GUARDAR' | translate) + ' ' + ('COMIDA' | translate)"
       class="p-button-success"
       [disabled]="form.invalid">
     </button>

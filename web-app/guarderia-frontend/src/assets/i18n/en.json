@@ -1,0 +1,109 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "Dashboard",
+    "EDUCADORES": "Educators",
+    "NINOS": "Children",
+    "CLASES": "Classes",
+    "PADRES": "Parents",
+    "ASISTENCIA": "Attendance",
+    "COMIDAS": "Meals",
+    "HIGIENES": "Hygiene",
+    "SIESTAS": "Naps",
+    "ACTIVIDADES": "Activities",
+    "MENSAJES": "Messages",
+    "PERFIL": "Profile",
+    "SALIR": "Logout"
+  },
+  "CALENDARIO": {
+    "ASISTENCIA": "Attendance",
+    "COMIDA": "Meal",
+    "SIESTA": "Napping"
+  },
+  "RESUMEN": {
+    "NINOS_INSCRITOS": "Registered children",
+    "NINOS_PRESENTES": "Present children",
+    "AUSENCIAS_HOY": "Today's absences",
+    "COMIDAS_REGISTRADAS": "Recorded meals",
+    "REGISTROS_HIGIENE": "Hygiene records",
+    "SIESTAS_ACTIVAS": "Active naps",
+    "ULTIMA_ACTIVIDAD": "Latest activity",
+    "NINOS_SIN_ACTIVIDAD": "Children without activity",
+    "PROMEDIO_ACTIVIDADES": "Avg activities/child",
+    "MENSAJES_NUEVOS": "New messages",
+    "NOTIFICACIONES": "Notifications"
+  },
+  "APP": {
+    "DETALLES": "Details",
+    "EDITAR": "Edit",
+    "ELIMINAR": "Delete",
+    "NOMBRE": "Name",
+    "DESCRIPCION": "Description",
+    "EDUCADOR": "Educator",
+    "CLASE": "Class",
+    "FECHA": "Date",
+    "VOLVER": "Back",
+    "OPCIONAL": "Optional",
+    "OBLIGATORIO": "Required",
+    "CAMPO_INFORMATIVO": "Informative field"
+  },
+  "DETALLE_ACTIVIDAD": {
+    "TITULO": "Activity Details",
+    "NINOS": "Participating Children"
+  },
+  "GRAFICA_ACTIVIDAD": {
+    "TITULO": "Activities per class"
+  },
+  "GRAFICA_ASISTENCIA": {
+    "NINOS_POR_DIA": "Children per day"
+  },
+  "GRAFICA_ENTRADA": {
+    "ENTRADAS_POR_HORA": "Entries per hour"
+  },
+    "CLASE": {
+    "NUMERO_NINOS": "Number of children"
+  },
+  "FORMULARIO": {
+    "NOMBRE": "Name",
+    "APELLIDOS": "Last name",
+    "EMAIL": "Email",
+    "TELEFONO": "Phone",
+    "CONTRASENA": "Password",
+    "TIPO_USUARIO": "User type",
+    "NINO": "Child",
+    "EDUCADOR": "Educator",
+    "CLASE": "Class",
+    "FECHA": "Date",
+    "HORA": "Time",
+    "HORA_ENTRADA": "Check-in time",
+    "HORA_SALIDA": "Check-out time",
+    "HORA_INICIO": "Start time",
+    "HORA_FIN": "End time",
+    "FECHA_NACIMIENTO": "Date of birth",
+    "PRIMER_DIA": "First day",
+    "ALERGIAS": "Allergies",
+    "CONDICIONES_MEDICAS": "Medical conditions",
+    "FOTO_URL": "Photo (URL)",
+    "ESTADO": "Status",
+    "OBSERVACIONES": "Observations",
+    "DESCRIPCION_COMIDA": "Meal description",
+    "PADRE_ENTREGA": "Parent delivering",
+    "PADRE_RECOGE": "Parent picking up",
+    "EDUCADOR_ENTREGA": "Educator delivering",
+    "EDUCADOR_RECIBE": "Educator receiving",
+    "DESCRIPCION": "Description"
+
+  },
+  "BOTONES": {
+    "GUARDAR": "Save",
+    "ACTUALIZAR": "Update",
+    "CANCELAR": "Cancel"
+  },
+  "ACTIVIDAD": "activity",
+  "ASISTENCIA": "attendance",
+  "COMIDA": "meal",
+  "HIGIENE": "hygiene",
+  "SIESTA": "nap",
+  "MENSAJE": "message",
+  "EDUCADOR": "educator",
+  "PADRE": "parent"
+}

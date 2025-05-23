@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { AsistenciaService } from '@services/asistencia/asistencia.service';
 import Chart from 'chart.js/auto';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-asistencia-chart',
@@ -10,8 +11,10 @@ import Chart from 'chart.js/auto';
 export class AsistenciaChartComponent implements OnInit, AfterViewInit {
   @ViewChild('asistenciaCanvas') asistenciaCanvas!: ElementRef<HTMLCanvasElement>;
   chart!: Chart;
+  labels: string[] = [];
+  data: number[] = [];
 
-  constructor(private asistenciaService: AsistenciaService) {}
+  constructor(private asistenciaService: AsistenciaService, private translate: TranslateService) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -48,12 +51,19 @@ export class AsistenciaChartComponent implements OnInit, AfterViewInit {
         data.push(conteoPorDia[fechaStr]?.size || 0);
       }
 
-      console.log('Gráfica Asistencia - Labels:', labels, 'Data:', data);
-      this.renderChart(labels, data);
+      this.labels = labels;
+      this.data = data;
+
+      console.log('Gráfica Asistencia - Labels:', this.labels, 'Data:', this.data);
+      this.renderChart(this.labels, this.data);
     });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.translate.onLangChange.subscribe(() => {
+      this.renderChart(this.labels, this.data);
+    });
+  }
 
   private formatDateTime(date: Date, time: string): string {
     const yyyy = date.getFullYear();
@@ -69,45 +79,51 @@ export class AsistenciaChartComponent implements OnInit, AfterViewInit {
       .getPropertyValue('--chart-color')
       .trim();
 
-    this.chart = new Chart(ctx!, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Niños por día',
-          data: data,
-          backgroundColor: chartColor,
-          borderRadius: 4,
-          maxBarThickness: 40,
-          barPercentage: 0.6
-        }]
-      },
-      options: {
-        responsive: true,
-        layout: {
-          padding: {
-            left: 10,
-            right: 10
-          }
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.translate.stream('GRAFICA_ASISTENCIA.NINOS_POR_DIA').subscribe(titulo => {
+      this.chart = new Chart(ctx!, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: titulo,
+            data: data,
+            backgroundColor: chartColor,
+            borderRadius: 4,
+            maxBarThickness: 40,
+            barPercentage: 0.6
+          }]
         },
-        plugins: {
-          legend: {
-            display: true,
-            labels: {
-              boxWidth: 20,
+        options: {
+          responsive: true,
+          layout: {
+            padding: {
+              left: 10,
+              right: 10
             }
           },
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 1,
-              precision: 0
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                boxWidth: 20,
+              }
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+                precision: 0
+              }
             }
           }
         }
-      }
+      });
     });
   }
 }

@@ -4,54 +4,66 @@
     <div class="p-field p-col-12 p-md-6">
       <div class="p-float-label">
         <input id="nombre" type="text" pInputText formControlName="nombre" />
-        <label for="nombre">Nombre</label>
+        <label for="nombre">{{ 'FORMULARIO.NOMBRE' | translate }}</label>
       </div>
-      <small *ngIf="educatorForm.get('nombre')?.invalid && educatorForm.get('nombre')?.touched" class="p-error">El nombre es obligatorio</small>
+      <small *ngIf="educatorForm.get('nombre')?.invalid && educatorForm.get('nombre')?.touched" class="p-error">
+        {{ 'FORMULARIO.NOMBRE' | translate }} {{ 'APP.ES_OBLIGATORIO' | translate }}
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-6">
       <div class="p-float-label">
         <input id="apellidos" type="text" pInputText formControlName="apellidos" />
-        <label for="apellidos">Apellidos</label>
+        <label for="apellidos">{{ 'FORMULARIO.APELLIDOS' | translate }}</label>
       </div>
-      <small *ngIf="educatorForm.get('apellidos')?.invalid && educatorForm.get('apellidos')?.touched" class="p-error">Los apellidos son obligatorios</small>
+      <small *ngIf="educatorForm.get('apellidos')?.invalid && educatorForm.get('apellidos')?.touched" class="p-error">
+        {{ 'FORMULARIO.APELLIDOS' | translate }} {{ 'APP.ES_OBLIGATORIO' | translate }}
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-6">
       <div class="p-float-label">
         <input id="email" type="email" pInputText formControlName="email" />
-        <label for="email">Email</label>
+        <label for="email">{{ 'FORMULARIO.EMAIL' | translate }}</label>
       </div>
-      <small *ngIf="educatorForm.get('email')?.invalid && educatorForm.get('email')?.touched" class="p-error">El email no es válido</small>
+      <small *ngIf="educatorForm.get('email')?.invalid && educatorForm.get('email')?.touched" class="p-error">
+        {{ 'FORMULARIO.EMAIL' | translate }} {{ 'APP.EMAIL_INVALIDO' | translate }}
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-6">
       <div class="p-float-label">
         <input id="telefono" type="text" pInputText formControlName="telefono" />
-        <label for="telefono">Teléfono</label>
+        <label for="telefono">{{ 'FORMULARIO.TELEFONO' | translate }}</label>
       </div>
-      <small *ngIf="educatorForm.get('telefono')?.invalid && educatorForm.get('telefono')?.touched" class="p-error">El teléfono es obligatorio</small>
+      <small *ngIf="educatorForm.get('telefono')?.invalid && educatorForm.get('telefono')?.touched" class="p-error">
+        {{ 'FORMULARIO.TELEFONO' | translate }} {{ 'APP.ES_OBLIGATORIO' | translate }}
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-6" *ngIf="!educator">
       <div class="p-float-label">
         <input id="password" type="password" pInputText formControlName="password" />
-        <label for="password">Contraseña</label>
+        <label for="password">{{ 'FORMULARIO.CONTRASENA' | translate }}</label>
       </div>
-      <small *ngIf="educatorForm.get('password')?.errors?.['required'] && educatorForm.get('password')?.touched" class="p-error">La contraseña es obligatoria</small>
-      <small *ngIf="educatorForm.get('password')?.errors?.['minlength'] && educatorForm.get('password')?.touched" class="p-error">La contraseña debe tener al menos 6 caracteres</small>
+      <small *ngIf="educatorForm.get('password')?.errors?.['required'] && educatorForm.get('password')?.touched" class="p-error">
+        {{ 'FORMULARIO.CONTRASENA' | translate }} {{ 'APP.ES_OBLIGATORIO' | translate }}
+      </small>
+      <small *ngIf="educatorForm.get('password')?.errors?.['minlength'] && educatorForm.get('password')?.touched" class="p-error">
+        {{ 'APP.CONTRASENA_MINIMA' | translate }}
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-6">
       <div class="p-float-label">
         <input id="tipoUsuario" type="text" pInputText [value]="'EDUCADOR'" readonly />
-        <label for="tipoUsuario">Tipo de usuario</label>
+        <label for="tipoUsuario">{{ 'FORMULARIO.TIPO_USUARIO' | translate }}</label>
       </div>
-      <small class="p-text-secondary">Este campo es informativo</small>
+      <small class="p-text-secondary">{{ 'APP.CAMPO_INFORMATIVO' | translate }}</small>
     </div>
   </div>
 
   <div class="p-d-flex p-jc-end p-mt-3">
-    <button pButton type="submit" [label]="educator ? 'Actualizar educador' : 'Guardar educador'" class="p-button-success"></button>
+    <button pButton type="submit" [label]="educator ? ('BOTONES.ACTUALIZAR' | translate) + ' ' + ('EDUCADOR' | translate) : ('BOTONES.GUARDAR' | translate) + ' ' + ('EDUCADOR' | translate)" class="p-button-success"></button>
   </div>
 </form>

@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Clase } from '@models/clase.model';
 import { Educator } from '@models/educator.model';
 import { DropdownModule } from 'primeng/dropdown';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-class-form',
   standalone: true,
-  imports: [ReactiveFormsModule, DropdownModule],
+  imports: [ReactiveFormsModule, DropdownModule, TranslateModule],
   templateUrl: './class-form.component.html',
   styleUrl: './class-form.component.scss'
 })

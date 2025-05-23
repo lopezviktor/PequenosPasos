@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ListboxModule } from 'primeng/listbox';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-actividad-detail',
@@ -15,7 +16,8 @@ import { ListboxModule } from 'primeng/listbox';
     CommonModule,
     CardModule,
     ButtonModule,
-    ListboxModule
+    ListboxModule,
+    TranslateModule
   ],
   templateUrl: './actividad-detail.component.html',
   styleUrl: './actividad-detail.component.scss'

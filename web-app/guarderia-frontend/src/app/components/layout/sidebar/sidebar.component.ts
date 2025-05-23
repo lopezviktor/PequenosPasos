@@ -5,6 +5,8 @@ import { RouterModule, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '@services/auth/auth.service';
 import { OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,7 +14,8 @@ import { OnInit } from '@angular/core';
     CommonModule,
     PanelMenuModule,
     RouterModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
@@ -22,67 +25,86 @@ export class SidebarComponent implements OnInit {
   public tipoUsuario: string | null;
   items: any[] = [];
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private translate: TranslateService
+  ) {
     this.tipoUsuario = this.authService.getTipoUsuarioFromToken();
   }
 ngOnInit(): void {
+    this.setSidebarItems();
+    this.translate.onLangChange.subscribe(() => {
+      this.setSidebarItems();
+    });
+  }
+
+  private setSidebarItems(): void {
     this.items = [
       {
-        label: 'Dashboard',
+        label: this.translate.instant('SIDEBAR.DASHBOARD'),
         icon: 'pi pi-home',
         routerLink: ['/dashboard']
       },
-      ...(this.tipoUsuario === 'ADMINISTRADOR' ? [{
-        label: 'Educadores',
-        icon: 'pi pi-user-edit',
-        routerLink: ['/educadores']
-      }] : []),
+      ...(this.tipoUsuario === 'ADMINISTRADOR'
+        ? [{
+            label: this.translate.instant('SIDEBAR.EDUCADORES'),
+            icon: 'pi pi-user-edit',
+            routerLink: ['/educadores']
+          }]
+        : []),
       {
-        label: 'Niños',
+        label: this.translate.instant('SIDEBAR.NINOS'),
         icon: 'pi pi-star',
         routerLink: ['/ninos']
       },
       {
-        label: 'Clases',
+        label: this.translate.instant('SIDEBAR.CLASES'),
         icon: 'pi pi-users',
         routerLink: ['/clases']
       },
       {
-        label: 'Padres',
+        label: this.translate.instant('SIDEBAR.PADRES'),
         icon: 'pi pi-plus',
         routerLink: ['/padres']
       },
       {
-        label: 'Asistencia',
+        label: this.translate.instant('SIDEBAR.ASISTENCIA'),
         icon: 'pi pi-clock',
         routerLink: ['/asistencias']
       },
       {
-        label: 'Comidas',
+        label: this.translate.instant('SIDEBAR.COMIDAS'),
         icon: 'pi pi-apple',
         routerLink: ['/comidas']
       },
       {
-        label: 'Higienes',
+        label: this.translate.instant('SIDEBAR.HIGIENES'),
         icon: 'pi pi-shield',
         routerLink: ['/higienes']
       },
       {
-        label: 'Siestas',
+        label: this.translate.instant('SIDEBAR.SIESTAS'),
         icon: 'pi pi-moon',
         routerLink: ['/siestas']
       },
       {
-        label: 'Actividades',
+        label: this.translate.instant('SIDEBAR.ACTIVIDADES'),
         icon: 'pi pi-book',
         routerLink: ['/actividades']
       },
       {
-        label: 'Mensajes',
+        label: this.translate.instant('SIDEBAR.MENSAJES'),
         icon: 'pi pi-comments',
         routerLink: ['/mensajes']
       }
     ];
+  }
+
+  cambiarIdioma(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const lang = target.value;
+    this.translate.use(lang);
   }
 
   irAlPerfil() {

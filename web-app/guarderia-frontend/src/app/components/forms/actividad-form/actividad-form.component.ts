@@ -19,6 +19,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-actividad-form',
   standalone: true,
@@ -30,7 +32,8 @@ import { ButtonModule } from 'primeng/button';
     CalendarModule,
     DropdownModule,
     MultiSelectModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './actividad-form.component.html',
   styleUrls: ['./actividad-form.component.scss'],

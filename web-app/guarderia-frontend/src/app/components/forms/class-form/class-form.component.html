@@ -1,17 +1,17 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="p-fluid">
     <div class="p-field">
-      <label for="nombre">Nombre de la clase</label>
+      <label for="nombre">{{ 'FORMULARIO.NOMBRE' | translate }} {{ 'FORMULARIO.CLASE' | translate }}</label>
       <input id="nombre" type="text" pInputText formControlName="nombre" />
     </div>
 
     <div class="p-field">
-      <label for="educador">Educador/a</label>
+      <label for="educador">{{ 'FORMULARIO.EDUCADOR' | translate }}</label>
       <p-dropdown 
         id="educador"
         [options]="educadores"
         optionLabel="nombre"
-        placeholder="Selecciona un educador/a"
+        [placeholder]="'APP.EDUCADOR' | translate"
         formControlName="educador"
         [filter]="true"
         appendTo="body"

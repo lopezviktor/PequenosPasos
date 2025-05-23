@@ -5,6 +5,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
+import { TranslateModule } from '@ngx-translate/core';
 import { Siesta } from '@models/siesta.model';
 import { Child } from '@models/child.model';
 import { Educator } from '@models/educator.model';
@@ -21,6 +22,7 @@ import { EducatorService } from '@services/educator/educator.service';
     CalendarModule,
     DropdownModule,
     ButtonModule,
+    TranslateModule
    ],
   templateUrl: './siesta-form.component.html',
   styleUrl: './siesta-form.component.scss',

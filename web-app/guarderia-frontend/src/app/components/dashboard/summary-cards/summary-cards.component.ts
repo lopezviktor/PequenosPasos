@@ -10,12 +10,14 @@ import { ActividadService } from '@services/actividad/actividad.service';
 import { NotificacionesService } from '@services/notificaciones/notificaciones.service';
 import { AuthService } from '@services/auth/auth.service';
 import { HigieneService } from '@services/higiene/higiene.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-summary-cards',
   imports: [
     CommonModule,
-    CardModule
+    CardModule,
+    TranslateModule
   ],
   templateUrl: './summary-cards.component.html',
   styleUrl: './summary-cards.component.scss'
@@ -31,7 +33,6 @@ export class SummaryCardsComponent implements OnInit {
   totalNinos: number = 0;
   ninosSinActividadHoy: number = 0;
   promedioActividadesPorNino: number = 0;
-
   higienesHoy: number = 0;
   constructor(
     private asistenciaService: AsistenciaService,
