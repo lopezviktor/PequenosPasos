@@ -7,7 +7,7 @@
   background: #b8cce7c7;
   padding: 1rem;
   box-shadow: inset 4px 4px 8px #bec3c9;
-  border-radius: 0 0 20px;
+  border-radius: 0 20px 20px 0;
   transition: width 0.3s;
   font-size: 1,2rem;
   
@@ -32,6 +32,16 @@
       }
     }
   }
+}
+
+.sidebar-dropdown {
+  width: 100%;
+  margin-top: 1rem;
+  border-radius: 6px;
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.03),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+  background: #f3f4f6;
 }
 
 .sidebar-footer {

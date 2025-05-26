@@ -6,12 +6,12 @@
 responsiveLayout="scroll">
   <ng-template pTemplate="header">
     <tr>
-      <th>Niño</th>
-      <th>Educador</th>
-      <th>Fecha y hora</th>
-      <th>Estado</th>
-      <th>Observaciones</th>
-      <th>Acciones</th>
+      <th>{{ 'FORMULARIO.NINO' | translate }}</th>
+      <th>{{ 'FORMULARIO.EDUCADOR' | translate }}</th>
+      <th>{{ 'FORMULARIO.FECHA' | translate }} & {{ 'FORMULARIO.HORA' | translate }}</th>
+      <th>{{ 'FORMULARIO.ESTADO' | translate }}</th>
+      <th>{{ 'FORMULARIO.OBSERVACIONES' | translate }}</th>
+      <th>{{ 'TABLA.ACCIONES' | translate }}</th>
     </tr>
     <tr>
       <th>
@@ -20,7 +20,7 @@ responsiveLayout="scroll">
           [(ngModel)]="ninoFiltro"
           optionLabel="nombre"
           optionValue="id"
-          placeholder="Filtrar niño"
+          [placeholder]="'TABLA.FILTRAR_NINO' | translate"
           class="p-dropdown-sm w-full"
           [showClear]="true"
           appendTo="body">
@@ -32,7 +32,7 @@ responsiveLayout="scroll">
           [(ngModel)]="educadorFiltro"
           optionLabel="nombre"
           optionValue="id"
-          placeholder="Filtrar educador"
+          [placeholder]="'TABLA.FILTRAR_EDUCADOR' | translate"
           class="p-dropdown-sm w-full"
           [showClear]="true"
           appendTo="body">
@@ -42,7 +42,7 @@ responsiveLayout="scroll">
         <p-calendar 
           [(ngModel)]="fechaFiltro"
           dateFormat="dd/mm/yy"
-          placeholder="Filtrar fecha"
+          [placeholder]="'TABLA.FILTRAR_FECHA' | translate"
           class="p-inputtext-sm w-full"
           [showIcon]="true"
           appendTo="body">
@@ -52,7 +52,7 @@ responsiveLayout="scroll">
         <p-dropdown 
           [options]="estadosDisponibles"
           [(ngModel)]="estadoFiltro"
-          placeholder="Filtrar estado"
+          [placeholder]="'TABLA.FILTRAR_ESTADO' | translate"
           class="p-dropdown-sm w-full"
           [showClear]="true"
           appendTo="body">
@@ -65,7 +65,7 @@ responsiveLayout="scroll">
           icon="pi pi-times"
           class="p-button-sm p-button-secondary w-full"
           (click)="limpiarFiltros()"
-          label="Limpiar">
+          [label]="'BOTONES.LIMPIAR' | translate">
         </button>
       </th>
     </tr>

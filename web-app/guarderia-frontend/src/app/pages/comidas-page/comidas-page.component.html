@@ -1,9 +1,9 @@
 <div class="page-header">
-  <h2>🍽️ Comidas</h2>
+  <h2>🍽️ {{ 'SIDEBAR.COMIDAS' | translate }}</h2>
   <button
     pButton
     icon="pi pi-plus"
-    label="Añadir comida"
+    [label]="'APP.ANADIR_COMIDA' | translate"
     class="p-button-outlined p-button-success"
     (click)="crearComida()"
   ></button>
@@ -19,7 +19,7 @@
   [(visible)]="mostrarDialogo"
   [modal]="true"
   [style]="{ width: '40rem' }"
-  header="{{ comidaSeleccionada ? 'Editar comida' : 'Nueva comida' }}"
+  [header]="comidaSeleccionada ? ('APP.EDITAR_COMIDA' | translate) : ('APP.NUEVA_COMIDA' | translate)"
   (onHide)="cerrarDialogo()"
 >
   <app-comida-form

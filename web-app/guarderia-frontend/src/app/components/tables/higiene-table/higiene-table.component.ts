@@ -9,6 +9,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-higiene-table',
@@ -20,7 +21,8 @@ import { DropdownModule } from 'primeng/dropdown';
     ConfirmDialogModule,
     CalendarModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    TranslateModule
   ],
   templateUrl: './higiene-table.component.html',
   styleUrl: './higiene-table.component.scss',

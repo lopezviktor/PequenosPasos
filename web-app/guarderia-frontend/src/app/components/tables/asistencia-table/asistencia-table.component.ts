@@ -11,6 +11,8 @@ import { NombreCompletoPipe } from '@shared/pipes/nombre-completo.pipe';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-asistencia-table',
@@ -24,7 +26,8 @@ import { CalendarModule } from 'primeng/calendar';
     NombreCompletoPipe,
     ConfirmDialogModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
   ],
   templateUrl: './asistencia-table.component.html',
   styleUrl: './asistencia-table.component.scss',
@@ -44,7 +47,8 @@ export class AsistenciaTableComponent implements OnInit {
   constructor(
     private asistenciaService: AsistenciaService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {

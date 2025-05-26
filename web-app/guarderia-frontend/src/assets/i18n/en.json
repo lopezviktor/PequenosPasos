@@ -44,19 +44,44 @@
     "VOLVER": "Back",
     "OPCIONAL": "Optional",
     "OBLIGATORIO": "Required",
-    "CAMPO_INFORMATIVO": "Informative field"
+    "CAMPO_INFORMATIVO": "Informative field",
+    "SIN_CLASE": "No class",
+    "NINGUNA": "None",
+    "CARGANDO": "Loading activity details...",
+    "NUEVA_ACTIVIDAD": "New activity",
+    "FORMULARIO_ACTIVIDAD": "Activity form",
+    "NUEVA_ASISTENCIA": "New attendance",
+    "EDITAR_ASISTENCIA": "Edit attendance",
+    "ANADIR_NINO": "Add child",
+    "EDITAR_NINO": "Edit child",
+    "ANADIR_CLASE": "Add class",
+    "EDITAR_CLASE": "Edit class",
+    "ANADIR_COMIDA": "Add meal",
+    "NUEVA_COMIDA": "New meal",
+    "EDITAR_COMIDA": "Edit meal",
+    "ANADIR_EDUCADOR": "Add educator",
+    "EDITAR_EDUCADOR": "Edit educator",
+    "NUEVA_HIGIENE": "New hygiene",
+    "EDITAR_HIGIENE": "Edit hygiene",
+    "ANADIR_PADRE": "Add parent",
+    "EDITAR_PADRE": "Edit parent",
+    "ANADIR_SIESTA": "Add nap",
+    "NUEVA_SIESTA": "New nap",
+    "EDITAR_SIESTA": "Edit nap"
   },
   "DETALLE_ACTIVIDAD": {
     "TITULO": "Activity Details",
     "NINOS": "Participating Children"
   },
   "GRAFICA_ACTIVIDAD": {
-    "TITULO": "Activities per class"
+    "TITULO": "Most active classes"
   },
   "GRAFICA_ASISTENCIA": {
+    "TITULO": "Weekly attendance",
     "NINOS_POR_DIA": "Children per day"
   },
   "GRAFICA_ENTRADA": {
+    "TITULO": "Daily entries",
     "ENTRADAS_POR_HORA": "Entries per hour"
   },
     "CLASE": {
@@ -96,7 +121,32 @@
   "BOTONES": {
     "GUARDAR": "Save",
     "ACTUALIZAR": "Update",
-    "CANCELAR": "Cancel"
+    "CANCELAR": "Cancel",
+    "LIMPIAR": "Clear"
+  },
+  "TABLA": {
+    "NINO": "Child",
+    "HORA_ENTRADA": "Check-in time",
+    "PADRE_ENTREGA": "Parent delivering",
+    "EDUCADOR_RECIBE": "Educator receiving",
+    "HORA_SALIDA": "Check-out time",
+    "PADRE_RECOGE": "Parent picking up",
+    "EDUCADOR_ENTREGA": "Educator delivering",
+    "ACCIONES": "Actions",
+    "FILTRAR_NINO": "Filter child",
+    "FILTRAR_FECHA": "Filter date",
+    "FILTRAR_EDUCADOR": "Filter educator",
+    "FOTO": "Photo",
+    "FILTRAR_NOMBRE": "Filter name",
+    "FILTRAR_APELLIDOS": "Filter last name",
+    "DESDE": "From",
+    "HASTA": "To",
+    "FILTRAR_CLASE": "Filter class",
+    "FILTRAR_ALERGIAS": "Filter allergies",
+    "FILTRAR_CONDICIONES": "Filter conditions",
+    "FILTRAR_EMAIL": "Filter email",
+    "FILTRAR_TELEFONO": "Filter phone",
+    "FILTRAR_ESTADO": "Filter status"
   },
   "ACTIVIDAD": "activity",
   "ASISTENCIA": "attendance",
@@ -105,5 +155,11 @@
   "SIESTA": "nap",
   "MENSAJE": "message",
   "EDUCADOR": "educator",
-  "PADRE": "parent"
+  "PADRE": "parent",
+  "PERFIL": {
+    "ENCABEZADO": "Educator Profile",
+    "CAMBIAR_CONTRASENA": "Change password",
+    "NUEVA_CONTRASENA": "New password",
+    "CONFIRMAR_CONTRASENA": "Confirm password"
+  }
 }

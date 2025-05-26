@@ -9,11 +9,20 @@ import { Educator } from '@models/educator.model';
 import { EducatorService } from '@services/educator/educator.service';
 import { AuthService } from '@services/auth/auth.service';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-educator-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, TableModule, ButtonModule, ConfirmDialogModule, KeyFilterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    TableModule, 
+    ButtonModule, 
+    ConfirmDialogModule, 
+    KeyFilterModule,
+    TranslateModule
+  ],
   templateUrl: './educator-table.component.html',
   styleUrls: ['./educator-table.component.scss']
 })
@@ -32,7 +41,8 @@ export class EducatorTableComponent {
       e.nombre.toLowerCase().includes(this.nombreFiltro.toLowerCase()) &&
       e.apellidos.toLowerCase().includes(this.apellidosFiltro.toLowerCase()) &&
       e.email.toLowerCase().includes(this.emailFiltro.toLowerCase()) &&
-e.telefono.toString().toLowerCase().includes(this.telefonoFiltro.toLowerCase())    );
+      e.telefono.toString().toLowerCase().includes(this.telefonoFiltro.toLowerCase())
+    );
   }
 
   constructor(

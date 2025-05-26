@@ -7,14 +7,14 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>Niño</th>
-        <th>Hora Entrada</th>
-        <th>Padre Entrega</th>
-        <th>Educador Recibe</th>
-        <th>Hora Salida</th>
-        <th>Padre Recoge</th>
-        <th>Educador Entrega</th>
-        <th>Acciones</th>
+        <th>{{ 'TABLA.NINO' | translate }}</th>
+        <th>{{ 'TABLA.HORA_ENTRADA' | translate }}</th>
+        <th>{{ 'TABLA.PADRE_ENTREGA' | translate }}</th>
+        <th>{{ 'TABLA.EDUCADOR_RECIBE' | translate }}</th>
+        <th>{{ 'TABLA.HORA_SALIDA' | translate }}</th>
+        <th>{{ 'TABLA.PADRE_RECOGE' | translate }}</th>
+        <th>{{ 'TABLA.EDUCADOR_ENTREGA' | translate }}</th>
+        <th>{{ 'TABLA.ACCIONES' | translate }}</th>
       </tr>
       <tr>
         <th>
@@ -25,10 +25,9 @@
             appendTo="body"
             optionLabel="nombre"
             optionValue="id"
-            placeholder="Filtrar niño"
+            [placeholder]="'TABLA.FILTRAR_NINO' | translate"
             class="p-dropdown-sm w-full"
             [showClear]="true"
-            showClear="true"
             >
           </p-dropdown>
         </th>
@@ -37,7 +36,7 @@
             [(ngModel)]="fechaFiltro" 
             appendTo="body"
             dateFormat="dd/mm/yy" 
-            placeholder="Filtrar fecha" 
+            [placeholder]="'TABLA.FILTRAR_FECHA' | translate" 
             class="p-inputtext-sm w-full"
             [showIcon]="true">
           </p-calendar>
@@ -50,7 +49,7 @@
             appendTo="body"
             optionLabel="nombre"
             optionValue="id"
-            placeholder="Filtrar educador"
+            [placeholder]="'TABLA.FILTRAR_EDUCADOR' | translate"
             class="p-dropdown-sm w-full"            
             showClear="true"
             >
@@ -65,7 +64,7 @@
             icon="pi pi-times" 
             class="p-button-sm p-button-secondary w-full" 
             (click)="limpiarFiltros()" 
-            label="Limpiar">
+            [label]="'BOTONES.LIMPIAR' | translate">
           </button>
         </th>
       </tr>

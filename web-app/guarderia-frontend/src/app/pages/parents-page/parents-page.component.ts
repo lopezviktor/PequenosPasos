@@ -7,6 +7,7 @@ import { ParentFormComponent } from '@components/forms/parent-form/parent-form.c
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-parents-page',
@@ -16,7 +17,8 @@ import { CommonModule } from '@angular/common';
     ParentTableComponent,
     ParentFormComponent,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './parents-page.component.html',
   styleUrl: './parents-page.component.scss'

@@ -8,26 +8,26 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th>Foto</th>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Fecha de nacimiento</th>
-      <th>Primer día</th>
-      <th>Clase</th>
-      <th>Alergias</th>
-      <th>Condiciones médicas</th>
-      <th>Acciones</th>
+      <th>{{ 'TABLA.FOTO' | translate }}</th>
+      <th>{{ 'FORMULARIO.NOMBRE' | translate }}</th>
+      <th>{{ 'FORMULARIO.APELLIDOS' | translate }}</th>
+      <th>{{ 'FORMULARIO.FECHA_NACIMIENTO' | translate }}</th>
+      <th>{{ 'FORMULARIO.PRIMER_DIA' | translate }}</th>
+      <th>{{ 'FORMULARIO.CLASE' | translate }}</th>
+      <th>{{ 'FORMULARIO.ALERGIAS' | translate }}</th>
+      <th>{{ 'FORMULARIO.CONDICIONES_MEDICAS' | translate }}</th>
+      <th>{{ 'TABLA.ACCIONES' | translate }}</th>
     </tr>
     <tr>
       <th><i class="pi pi-search"></i></th>
       <th>
         <span class="p-input-icon-left w-full">
-          <input pInputText [ngModel]="nombreFiltro" (ngModelChange)="nombreFiltro = $event.toString()" placeholder="Filtrar nombre..." class="p-inputtext p-inputtext-sm w-full" pKeyFilter="alpha" />
+          <input pInputText [ngModel]="nombreFiltro" (ngModelChange)="nombreFiltro = $event.toString()" placeholder="{{ 'TABLA.FILTRAR_NOMBRE' | translate }}" class="p-inputtext p-inputtext-sm w-full" pKeyFilter="alpha" />
         </span>
       </th>
       <th>
         <span class="p-input-icon-left w-full">
-          <input pInputText [ngModel]="apellidosFiltro" (ngModelChange)="apellidosFiltro = $event.toString()" placeholder="Filtrar apellidos..." class="p-inputtext p-inputtext-sm w-full" pKeyFilter="alpha" />
+          <input pInputText [ngModel]="apellidosFiltro" (ngModelChange)="apellidosFiltro = $event.toString()" placeholder="{{ 'TABLA.FILTRAR_APELLIDOS' | translate }}" class="p-inputtext p-inputtext-sm w-full" pKeyFilter="alpha" />
         </span>
       </th>
       <th>
@@ -36,7 +36,7 @@
             [(ngModel)]="fechaNacimientoDesde" 
             view="month" 
             dateFormat="mm/yy" 
-            placeholder="Desde" 
+            placeholder="{{ 'TABLA.DESDE' | translate }}" 
             class="p-inputtext-sm w-full" 
             [showIcon]="true" 
             [monthNavigator]="true" 
@@ -48,7 +48,7 @@
             [(ngModel)]="fechaNacimientoHasta" 
             view="month" 
             dateFormat="mm/yy" 
-            placeholder="Hasta" 
+            placeholder="{{ 'TABLA.HASTA' | translate }}" 
             class="p-inputtext-sm w-full" 
             [showIcon]="true" 
             [monthNavigator]="true" 
@@ -64,7 +64,7 @@
             [(ngModel)]="primerDiaDesde" 
             view="month" 
             dateFormat="mm/yy" 
-            placeholder="Desde" 
+            placeholder="{{ 'TABLA.DESDE' | translate }}" 
             class="p-inputtext-sm w-full" 
             [showIcon]="true" 
             [monthNavigator]="true" 
@@ -76,7 +76,7 @@
             [(ngModel)]="primerDiaHasta" 
             view="month" 
             dateFormat="mm/yy" 
-            placeholder="Hasta" 
+            placeholder="{{ 'TABLA.HASTA' | translate }}" 
             class="p-inputtext-sm w-full" 
             [showIcon]="true" 
             [monthNavigator]="true" 
@@ -91,7 +91,7 @@
           <p-dropdown 
             [options]="clasesDisponibles"
             [(ngModel)]="claseFiltro"
-            placeholder="Filtrar clase..."
+            placeholder="{{ 'TABLA.FILTRAR_CLASE' | translate }}"
             class="p-dropdown-sm w-full"
             appendTo="body"
             >
@@ -100,16 +100,16 @@
       </th>
       <th>
         <span class="p-input-icon-left w-full">
-          <input pInputText [(ngModel)]="alergiasFiltro" placeholder="Filtrar alergias..." class="p-inputtext p-inputtext-sm w-full" />
+          <input pInputText [(ngModel)]="alergiasFiltro" placeholder="{{ 'TABLA.FILTRAR_ALERGIAS' | translate }}" class="p-inputtext p-inputtext-sm w-full" />
         </span>
       </th>
       <th>
         <span class="p-input-icon-left w-full">
-          <input pInputText [(ngModel)]="condicionesFiltro" placeholder="Filtrar condiciones..." class="p-inputtext p-inputtext-sm w-full" />
+          <input pInputText [(ngModel)]="condicionesFiltro" placeholder="{{ 'TABLA.FILTRAR_CONDICIONES' | translate }}" class="p-inputtext p-inputtext-sm w-full" />
         </span>
       </th>
       <th>
-        <button pButton icon="pi pi-times" class="p-button-sm p-button-secondary" (click)="limpiarFiltros()" label="Limpiar"></button>
+        <button pButton icon="pi pi-times" class="p-button-sm p-button-secondary" (click)="limpiarFiltros()" label="{{ 'BOTONES.LIMPIAR' | translate }}"></button>
       </th>
     </tr>
   </ng-template>
@@ -117,15 +117,15 @@
     <tr>
       <td>
         <img [src]="child.fotoUrl" width="50" height="50" style="border-radius: 5px;" *ngIf="child.fotoUrl; else noImg"/>
-        <ng-template #noImg><span style="color: gray;">Sin imagen</span></ng-template>
+        <ng-template #noImg><span style="color: gray;">{{ 'APP.SIN_IMAGEN' | translate }}</span></ng-template>
       </td>
       <td>{{ child.nombre }}</td>
       <td>{{ child.apellidos }}</td>
       <td>{{ child.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
       <td>{{ child.primerDia | date: 'dd/MM/yyyy' }}</td>
-      <td>{{ child.clase?.nombre || 'Sin clase' }}</td>
-      <td>{{ child.alergias || 'Ninguna' }}</td>
-      <td>{{ child.condicionesMedicas || 'Ninguna' }}</td>
+      <td>{{ child.clase?.nombre || ('APP.SIN_CLASE' | translate) }}</td>
+      <td>{{ child.alergias || ('APP.NINGUNA' | translate) }}</td>
+      <td>{{ child.condicionesMedicas || ('APP.NINGUNA' | translate) }}</td>
       <td>
         <button pButton icon="pi pi-pencil" class="p-button-sm p-button-outlined p-button-success" (click)="editarNino(child)"></button>
         <button pButton icon="pi pi-trash" class="p-button-sm p-button-outlined p-button-danger" (click)="confirmarEliminar(child)"></button>

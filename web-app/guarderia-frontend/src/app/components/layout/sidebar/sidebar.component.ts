@@ -7,6 +7,8 @@ import { AuthService } from '@services/auth/auth.service';
 import { OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +17,9 @@ import { TranslateModule } from '@ngx-translate/core';
     PanelMenuModule,
     RouterModule,
     ButtonModule,
-    TranslateModule
+    TranslateModule,
+    DropdownModule,
+    FormsModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
@@ -24,6 +28,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class SidebarComponent implements OnInit {
   public tipoUsuario: string | null;
   items: any[] = [];
+  selectedLang: string;
 
   constructor(
     private router: Router,
@@ -31,6 +36,7 @@ export class SidebarComponent implements OnInit {
     private translate: TranslateService
   ) {
     this.tipoUsuario = this.authService.getTipoUsuarioFromToken();
+    this.selectedLang = localStorage.getItem('lang') || 'es';
   }
 ngOnInit(): void {
     this.setSidebarItems();
@@ -92,18 +98,13 @@ ngOnInit(): void {
         label: this.translate.instant('SIDEBAR.ACTIVIDADES'),
         icon: 'pi pi-book',
         routerLink: ['/actividades']
-      },
-      {
-        label: this.translate.instant('SIDEBAR.MENSAJES'),
-        icon: 'pi pi-comments',
-        routerLink: ['/mensajes']
       }
     ];
   }
 
-  cambiarIdioma(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const lang = target.value;
+  cambiarIdioma(event: any): void {
+    const lang = event.value;
+    localStorage.setItem('lang', lang);
     this.translate.use(lang);
   }
 

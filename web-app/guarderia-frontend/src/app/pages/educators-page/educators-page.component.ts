@@ -7,6 +7,7 @@ import { EducatorTableComponent } from '@components/tables/educator-table/educat
 import { EducatorFormComponent } from '@components/forms/educator-form/educator-form.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-educators-page',
@@ -16,7 +17,8 @@ import { ButtonModule } from 'primeng/button';
     EducatorTableComponent,
     EducatorFormComponent,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './educators-page.component.html',
   styleUrl: './educators-page.component.scss'

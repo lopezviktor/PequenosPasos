@@ -1,9 +1,9 @@
 <div class="classes-container">
   <div class="page-header">
-    <h2>🏫 Clases</h2>
+    <h2>🏫 {{ 'SIDEBAR.CLASES' | translate }}</h2>
     <button 
       pButton 
-      label="Añadir clase" 
+      [label]="'APP.ANADIR_CLASE' | translate" 
       icon="pi pi-plus" 
       class="p-button-outlined"
       (click)="abrirDialogoParaNuevaClase()">
@@ -25,7 +25,7 @@
   [style]="{width: '30rem'}"
   [closable]="true"
   (onHide)="cancelarDialogoClase()"
-  [header]="claseEditando ? 'Editar clase' : 'Añadir clase'">
+  [header]="claseEditando ? ('APP.EDITAR_CLASE' | translate) : ('APP.ANADIR_CLASE' | translate)">
 
   <app-class-form
     [clase]="claseEditando"

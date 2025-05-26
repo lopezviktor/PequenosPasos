@@ -6,6 +6,7 @@ import { SiestaFormComponent } from '@components/forms/siesta-form/siesta-form.c
 import { SiestaTableComponent } from '@components/tables/siesta-table/siesta-table.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-siestas-page',
@@ -15,7 +16,8 @@ import { ButtonModule } from 'primeng/button';
     SiestaFormComponent,
     SiestaTableComponent,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './siestas-page.component.html',
   styleUrl: './siestas-page.component.scss'

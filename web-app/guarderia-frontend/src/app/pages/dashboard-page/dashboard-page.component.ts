@@ -6,6 +6,7 @@ import Chart from 'chart.js/auto';
 import { AsistenciaChartComponent } from '@components/charts/asistencia-chart/asistencia-chart.component';
 import { EntradaChartComponent } from '@components/charts/entrada-chart/entrada-chart.component';
 import { ActividadChartComponent } from '@components/charts/actividad-chart/actividad-chart.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -15,7 +16,8 @@ import { ActividadChartComponent } from '@components/charts/actividad-chart/acti
     CalendarWidgetComponent,
     AsistenciaChartComponent,
     EntradaChartComponent,
-    ActividadChartComponent
+    ActividadChartComponent,
+    TranslateModule
   ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'

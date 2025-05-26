@@ -1,9 +1,9 @@
 <div class="page-header">
-  <h2>💤 Siestas</h2>
+  <h2>💤 {{ 'SIDEBAR.SIESTAS' | translate }}</h2>
   <button
     pButton
     icon="pi pi-plus"
-    label="Añadir siesta"
+    [label]="'APP.ANADIR_SIESTA' | translate"
     class="p-button-outlined p-button-success"
     (click)="crearSiesta()"
   ></button>
@@ -19,7 +19,7 @@
   [(visible)]="mostrarDialogo"
   [modal]="true"
   [style]="{ width: '40rem' }"
-  header="{{ siestaSeleccionada ? 'Editar siesta' : 'Nueva siesta' }}"
+  [header]="siestaSeleccionada ? ('APP.EDITAR_SIESTA' | translate) : ('APP.NUEVA_SIESTA' | translate)"
   (onHide)="cerrarDialogo()"
 >
   <app-siesta-form

@@ -8,43 +8,43 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Email</th>
-      <th>Teléfono</th>
-      <th>Acciones</th>
+      <th>{{ 'FORMULARIO.NOMBRE' | translate }}</th>
+      <th>{{ 'FORMULARIO.APELLIDOS' | translate }}</th>
+      <th>{{ 'FORMULARIO.EMAIL' | translate }}</th>
+      <th>{{ 'FORMULARIO.TELEFONO' | translate }}</th>
+      <th>{{ 'TABLA.ACCIONES' | translate }}</th>
     </tr>
     <tr>
       <th>
         <ng-container pKeyFilter="alpha">
           <span class="p-input-icon-left w-full">
             <i class="pi pi-search" style="margin-right: 0.5rem;"></i>
-            <input pInputText type="text" [(ngModel)]="nombreFiltro" placeholder="Filtrar nombre..." class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
+            <input pInputText type="text" [(ngModel)]="nombreFiltro" [placeholder]="'TABLA.FILTRAR_NOMBRE' | translate" class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
           </span>
         </ng-container>
       </th>
       <th>
         <ng-container pKeyFilter="alpha">
           <span class="p-input-icon-left w-full">
-            <input pInputText type="text" [(ngModel)]="apellidosFiltro" placeholder="Filtrar apellidos..." class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
+            <input pInputText type="text" [(ngModel)]="apellidosFiltro" [placeholder]="'TABLA.FILTRAR_APELLIDOS' | translate" class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
           </span>
         </ng-container>
       </th>
       <th>
         <ng-container pKeyFilter="email">
           <span class="p-input-icon-left w-full">
-            <input pInputText type="text" [(ngModel)]="emailFiltro" placeholder="Filtrar email..." class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
+            <input pInputText type="text" [(ngModel)]="emailFiltro" [placeholder]="'TABLA.FILTRAR_EMAIL' | translate" class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
           </span>
         </ng-container>
       </th>
       <th>
         <ng-container pKeyFilter="int">
           <span class="p-input-icon-left w-full">
-            <input pInputText type="text" [(ngModel)]="telefonoFiltro" placeholder="Filtrar teléfono..." class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
+            <input pInputText type="text" [(ngModel)]="telefonoFiltro" [placeholder]="'TABLA.FILTRAR_TELEFONO' | translate" class="p-inputtext p-inputtext-sm w-full" appendTo="body" />
           </span>
         </ng-container>
       </th>
-      <th><button pButton icon="pi pi-times" class="p-button-sm p-button-secondary" (click)="limpiarFiltros()" label="Limpiar"></button></th>
+      <th><button pButton icon="pi pi-times" class="p-button-sm p-button-secondary" (click)="limpiarFiltros()" [label]="'BOTONES.LIMPIAR' | translate"></button></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-educator>

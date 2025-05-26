@@ -6,6 +6,7 @@ import { ComidaFormComponent } from '@components/forms/comida-form/comida-form.c
 import { ComidaTableComponent } from '@components/tables/comida-table/comida-table.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comidas-page',
@@ -15,7 +16,8 @@ import { ButtonModule } from 'primeng/button';
     ComidaFormComponent,
     ComidaTableComponent,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './comidas-page.component.html',
   styleUrls: ['./comidas-page.component.scss']

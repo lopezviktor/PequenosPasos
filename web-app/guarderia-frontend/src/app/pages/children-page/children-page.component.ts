@@ -6,6 +6,7 @@ import { ChildTableComponent } from '@components/tables/child-table/child-table.
 import { ChildFormComponent } from '@components/forms/child-form/child-form.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-children-page',
@@ -16,6 +17,7 @@ import { ButtonModule } from 'primeng/button';
     ChildFormComponent,
     DialogModule,
     ButtonModule,
+    TranslateModule
   ],
   templateUrl: './children-page.component.html',
   styleUrl: './children-page.component.scss'

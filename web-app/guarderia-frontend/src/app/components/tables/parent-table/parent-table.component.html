@@ -7,11 +7,11 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Email</th>
-      <th>Teléfono</th>
-      <th>Acciones</th>
+      <th>{{ 'FORMULARIO.NOMBRE' | translate }}</th>
+      <th>{{ 'FORMULARIO.APELLIDOS' | translate }}</th>
+      <th>{{ 'FORMULARIO.EMAIL' | translate }}</th>
+      <th>{{ 'FORMULARIO.TELEFONO' | translate }}</th>
+      <th>{{ 'TABLA.ACCIONES' | translate }}</th>
     </tr>
     <tr>
       <th>
@@ -20,7 +20,7 @@
             <input 
               pInputText 
               [(ngModel)]="nombreFiltro" 
-              placeholder="Filtrar nombre..." 
+              [placeholder]="'TABLA.FILTRAR_NOMBRE' | translate" 
               class="p-inputtext p-inputtext-sm w-full" 
               pKeyFilter="alpha" 
               appendTo="body"
@@ -32,7 +32,7 @@
           <input 
             pInputText 
             [(ngModel)]="apellidosFiltro" 
-            placeholder="Filtrar apellidos..." 
+            [placeholder]="'TABLA.FILTRAR_APELLIDOS' | translate" 
             class="p-inputtext p-inputtext-sm w-full" 
             pKeyFilter="alpha" 
             appendTo="body" 
@@ -44,7 +44,7 @@
           <input 
             pInputText 
             [(ngModel)]="emailFiltro" 
-            placeholder="Filtrar email..." 
+            [placeholder]="'TABLA.FILTRAR_EMAIL' | translate" 
             class="p-inputtext p-inputtext-sm w-full" 
             pKeyFilter="email" 
             appendTo="body"
@@ -56,7 +56,7 @@
           <input 
             pInputText 
             [(ngModel)]="telefonoFiltro" 
-            placeholder="Filtrar teléfono..." 
+            [placeholder]="'TABLA.FILTRAR_TELEFONO' | translate" 
             class="p-inputtext p-inputtext-sm w-full" 
             pKeyFilter="int" 
             appendTo="body" 
@@ -69,7 +69,7 @@
           icon="pi pi-times" 
           class="p-button-sm p-button-secondary" 
           (click)="limpiarFiltros()" 
-          label="Limpiar">
+          [label]="'BOTONES.LIMPIAR' | translate">
         </button>
       </th>
     </tr>

@@ -5,11 +5,19 @@ import { HigieneFormComponent } from '@components/forms/higiene-form/higiene-for
 import { HigieneTableComponent } from '@components/tables/higiene-table/higiene-table.component';
 import { Higiene } from '@models/higiene.model';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-higienes-page',
   standalone: true,
-  imports: [CommonModule, DialogModule, HigieneFormComponent, HigieneTableComponent, ButtonModule],
+  imports: [
+    CommonModule, 
+    DialogModule, 
+    HigieneFormComponent, 
+    HigieneTableComponent, 
+    ButtonModule,
+    TranslateModule
+  ],
   templateUrl: './higienes-page.component.html',
   styleUrl: './higienes-page.component.scss'
 })

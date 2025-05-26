@@ -8,12 +8,12 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th>Niño</th>
-      <th>Educador</th>
-      <th>Inicio</th>
-      <th>Fin</th>
-      <th>Observaciones</th>
-      <th>Acciones</th>
+      <th>{{ 'FORMULARIO.NINO' | translate }}</th>
+      <th>{{ 'FORMULARIO.EDUCADOR' | translate }}</th>
+      <th>{{ 'FORMULARIO.HORA_INICIO' | translate }}</th>
+      <th>{{ 'FORMULARIO.HORA_FIN' | translate }}</th>
+      <th>{{ 'FORMULARIO.OBSERVACIONES' | translate }}</th>
+      <th>{{ 'TABLA.ACCIONES' | translate }}</th>
     </tr>
     <tr>
       <th>
@@ -23,7 +23,7 @@
           [(ngModel)]="ninoFiltro"
           optionLabel="nombre"
           optionValue="id"
-          placeholder="Filtrar niño"
+          [placeholder]="'TABLA.FILTRAR_NINO' | translate"
           class="p-dropdown-sm w-full"
           [showClear]="true">
         </p-dropdown>
@@ -35,7 +35,7 @@
           [(ngModel)]="educadorFiltro"
           optionLabel="nombre"
           optionValue="id"
-          placeholder="Filtrar educador"
+          [placeholder]="'TABLA.FILTRAR_EDUCADOR' | translate"
           class="p-dropdown-sm w-full"
           [showClear]="true">
         </p-dropdown>
@@ -45,7 +45,7 @@
           [(ngModel)]="fechaFiltro"
           appendTo="body"
           dateFormat="dd/mm/yy"
-          placeholder="Filtrar fecha"
+          [placeholder]="'TABLA.FILTRAR_FECHA' | translate"
           class="p-inputtext-sm w-full"
           [showIcon]="true">
         </p-calendar>
@@ -58,7 +58,7 @@
           icon="pi pi-times"
           class="p-button-sm p-button-secondary w-full"
           (click)="limpiarFiltros()"
-          label="Limpiar">
+          [label]="'BOTONES.LIMPIAR' | translate">
         </button>
       </th>
     </tr>

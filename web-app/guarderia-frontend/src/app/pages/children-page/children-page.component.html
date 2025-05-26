@@ -1,8 +1,8 @@
 <div class="page-header">
-  <h2>👦🏻👧🏼 Niños</h2>
+  <h2>👦🏻👧🏼 {{ 'SIDEBAR.NINOS' | translate }}</h2>
   <button 
     pButton 
-    label="Añadir niño" 
+    [label]="'APP.ANADIR_NINO' | translate" 
     icon="pi pi-plus" 
     class="p-button-outlined" 
     (click)="abrirDialogoParaNuevoNino()">
@@ -17,7 +17,7 @@
 </app-child-table>
 
 <p-dialog 
-  header="{{ selectedChild ? 'Editar niño' : 'Añadir niño' }}" 
+  [header]="selectedChild ? ('APP.EDITAR_NINO' | translate) : ('APP.ANADIR_NINO' | translate)" 
   [(visible)]="mostrarDialogoNino" 
   [modal]="true" 
   [style]="{ width: '500px' }"

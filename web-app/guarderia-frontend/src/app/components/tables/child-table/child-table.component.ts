@@ -10,6 +10,7 @@ import { Child } from '@models/child.model';
 import { ChildService } from '@services/child/child.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-child-table',
@@ -22,7 +23,8 @@ import { CalendarModule } from 'primeng/calendar';
     ConfirmDialogModule, 
     KeyFilterModule, 
     DropdownModule, 
-    CalendarModule
+    CalendarModule,
+    TranslateModule
   ],
   templateUrl: './child-table.component.html',
   styleUrls: ['./child-table.component.scss']

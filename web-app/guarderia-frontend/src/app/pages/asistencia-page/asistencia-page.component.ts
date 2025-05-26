@@ -6,6 +6,7 @@ import { Asistencia } from '@models/asistencia.model';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ViewChild } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-asistencia-page',
@@ -15,7 +16,8 @@ import { ViewChild } from '@angular/core';
     AsistenciaTableComponent,
     AsistenciaFormComponent,
     ButtonModule,
-    DialogModule
+    DialogModule,
+    TranslateModule
   ],
   templateUrl: './asistencia-page.component.html',
   styleUrl: './asistencia-page.component.scss'

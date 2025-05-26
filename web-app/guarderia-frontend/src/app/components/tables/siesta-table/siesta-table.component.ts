@@ -9,6 +9,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-siesta-table',
@@ -20,7 +21,8 @@ import { DropdownModule } from 'primeng/dropdown';
     ConfirmDialogModule,
     CalendarModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    TranslateModule
   ],
   templateUrl: './siesta-table.component.html',
   styleUrl: './siesta-table.component.scss',

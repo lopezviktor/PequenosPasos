@@ -1,9 +1,9 @@
 <div class="page-header">
-  <h2>👪 Padres</h2>
+  <h2>👪 {{ 'SIDEBAR.PADRES' | translate }}</h2>
   <button 
     *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
     pButton 
-    label="Añadir padre" 
+    [label]="'APP.ANADIR_PADRE' | translate" 
     icon="pi pi-plus" 
     class="p-button-outlined" 
     (click)="abrirDialogoParaNuevoPadre()">
@@ -20,7 +20,7 @@
 
 <p-dialog 
   *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
-  header="{{ selectedParent ? 'Editar padre' : 'Añadir padre' }}" 
+  [header]="selectedParent ? ('APP.EDITAR_PADRE' | translate) : ('APP.ANADIR_PADRE' | translate)"
   [(visible)]="mostrarDialogoPadre" 
   [modal]="true" 
   [style]="{ width: '500px' }"
@@ -29,7 +29,6 @@
   <app-parent-form 
     [parent]="selectedParent"
     (submitParent)="guardarPadre($event)"
-    (cancel)="cancelarDialogoPadre()"
-    >
+    (cancel)="cancelarDialogoPadre()">
   </app-parent-form>
 </p-dialog>

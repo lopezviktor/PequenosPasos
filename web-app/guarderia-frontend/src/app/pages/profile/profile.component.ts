@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,8 @@ import { ButtonModule } from 'primeng/button';
     CardModule, 
     DialogModule, 
     FormsModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']

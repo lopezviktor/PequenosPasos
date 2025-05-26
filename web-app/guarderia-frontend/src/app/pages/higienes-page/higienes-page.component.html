@@ -1,12 +1,19 @@
 <div class="page-header">
-  <h2>🚽 Higienes</h2>
-  <button pButton type="button" icon="pi pi-plus" label="Nueva higiene" class="p-button-outlined p-button-success" (click)="crearHigiene()"></button>
+  <h2>🚽 {{ 'SIDEBAR.HIGIENES' | translate }}</h2>
+  <button
+    pButton
+    type="button"
+    icon="pi pi-plus"
+    [label]="'APP.NUEVA_HIGIENE' | translate"
+    class="p-button-outlined p-button-success"
+    (click)="crearHigiene()"
+  ></button>
 </div>
 
 <app-higiene-table (editar)="editarHigiene($event)"></app-higiene-table>
 
 <p-dialog
-  header="{{ higieneSeleccionada ? 'Editar higiene' : 'Nueva higiene' }}"
+  [header]="higieneSeleccionada ? ('APP.EDITAR_HIGIENE' | translate) : ('APP.NUEVA_HIGIENE' | translate)"
   [(visible)]="mostrarDialogo"
   [modal]="true"
   [style]="{ width: '60vw', height: '80vh' }"

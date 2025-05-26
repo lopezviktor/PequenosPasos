@@ -1,36 +1,36 @@
 <div class="profile-container">
-  <p-card header="Perfil del Educador" styleClass="mb-3 profile-card">
+  <p-card header="{{ 'PERFIL.ENCABEZADO' | translate }}" styleClass="mb-3 profile-card">
     <div class="profile-content">
-    <p><strong class="profile-label">Nombre</strong>: {{ educador.nombre }}</p>
-      <p><strong class="profile-label">Apellidos</strong>: {{ educador.apellidos }}</p>
-      <p><strong class="profile-label">Email</strong>: {{ educador.email }}</p>
-      <p><strong class="profile-label">Teléfono</strong>: {{ educador.telefono }}</p>
+      <p><strong class="profile-label">{{ 'FORMULARIO.NOMBRE' | translate }}</strong>: {{ educador.nombre }}</p>
+      <p><strong class="profile-label">{{ 'FORMULARIO.APELLIDOS' | translate }}</strong>: {{ educador.apellidos }}</p>
+      <p><strong class="profile-label">{{ 'FORMULARIO.EMAIL' | translate }}</strong>: {{ educador.email }}</p>
+      <p><strong class="profile-label">{{ 'FORMULARIO.TELEFONO' | translate }}</strong>: {{ educador.telefono }}</p>
     </div>
     <div class="profile-button">
       <button 
         pButton 
         type="button" 
-        label="Cambiar contraseña" 
+        [label]="'PERFIL.CAMBIAR_CONTRASENA' | translate"
         icon="pi pi-lock" 
         class="sidebar-action"
         (click)="mostrarDialogoCambioPassword = true">
       </button>
     </div>
 
-    <p-dialog header="Cambiar Contraseña" [(visible)]="mostrarDialogoCambioPassword" [modal]="true" [closable]="true" [style]="{width: '400px'}">
+    <p-dialog header="{{ 'PERFIL.CAMBIAR_CONTRASENA' | translate }}" [(visible)]="mostrarDialogoCambioPassword" [modal]="true" [closable]="true" [style]="{width: '400px'}">
       <div class="p-fluid">
         <div class="p-field">
-          <label for="nuevaContrasena">Nueva contraseña</label>
+          <label for="nuevaContrasena">{{ 'PERFIL.NUEVA_CONTRASENA' | translate }}</label>
           <input id="nuevaContrasena" type="password" pInputText [(ngModel)]="nuevaContrasena" />
         </div>
         <div class="p-field">
-          <label for="confirmarContrasena">Confirmar contraseña</label>
+          <label for="confirmarContrasena">{{ 'PERFIL.CONFIRMAR_CONTRASENA' | translate }}</label>
           <input id="confirmarContrasena" type="password" pInputText [(ngModel)]="confirmarContrasena" />
         </div>
       </div>
       <ng-template pTemplate="footer">
-        <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="mostrarDialogoCambioPassword = false"></button>
-        <button pButton type="button" label="Guardar" icon="pi pi-check" (click)="cambiarContrasena()" [disabled]="nuevaContrasena !== confirmarContrasena"></button>
+        <button pButton type="button" [label]="'BOTONES.CANCELAR' | translate" icon="pi pi-times" (click)="mostrarDialogoCambioPassword = false"></button>
+        <button pButton type="button" [label]="'BOTONES.GUARDAR' | translate" icon="pi pi-check" (click)="cambiarContrasena()" [disabled]="nuevaContrasena !== confirmarContrasena"></button>
       </ng-template>
     </p-dialog>
   </p-card>

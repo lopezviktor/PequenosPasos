@@ -1,9 +1,9 @@
 <div class="page-header">
-  <h2>👩🏼‍🏫 Educadores</h2>
+  <h2>👩🏼‍🏫 {{ 'SIDEBAR.EDUCADORES' | translate }}</h2>
   <button 
     *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
     pButton 
-    label="Añadir educador" 
+    [label]="'APP.ANADIR_EDUCADOR' | translate" 
     icon="pi pi-plus" 
     class="p-button-outlined" 
     (click)="abrirDialogoParaNuevoEducador()">
@@ -19,7 +19,7 @@
 
 <p-dialog 
   *ngIf="authService.getTipoUsuarioFromToken() === 'ADMINISTRADOR'"
-  header="{{ selectedEducator ? 'Editar educador' : 'Añadir educador' }}" 
+  [header]="selectedEducator ? ('APP.EDITAR_EDUCADOR' | translate) : ('APP.ANADIR_EDUCADOR' | translate)" 
   [(visible)]="mostrarDialogoEducador" 
   [modal]="true" 
   [style]="{ width: '500px' }"

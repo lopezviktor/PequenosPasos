@@ -1,33 +1,33 @@
 <div class="actividad-detail-container">
-    <h2>Detalles de la Actividad</h2>
-  
-    <div *ngIf="actividad">
-      <h3>{{ actividad.nombre }}</h3>
-      <p>{{ actividad.descripcion }}</p>
-  
-      <div *ngIf="actividad.fecha">
-        <p><strong>Fecha:</strong> {{ actividad.fecha | date: 'dd/MM/yyyy' }}</p>
-      </div>
-  
-      <div *ngIf="actividad.educadorNombre">
-        <p><strong>Educador:</strong> {{ actividad.educadorNombre }}</p>
-      </div>
-  
-      <div *ngIf="actividad.claseNombre">
-        <p><strong>Clase:</strong> {{ actividad.claseNombre }}</p>
-      </div>
-  
-      <h4>Niños participantes:</h4>
-      <ul>
-        <li *ngFor="let nino of actividad.ninos">
-          {{ nino.nombre }} {{ nino.apellidos }}
-        </li>
-      </ul>
-  
-      <button pButton type="button" label="Volver" (click)="volver()"></button>
+  <h2>{{ 'DETALLE_ACTIVIDAD.TITULO' | translate }}</h2>
+
+  <div *ngIf="actividad">
+    <h3>{{ actividad.nombre }}</h3>
+    <p>{{ actividad.descripcion }}</p>
+
+    <div *ngIf="actividad.fecha">
+      <p><strong>{{ 'APP.FECHA' | translate }}:</strong> {{ actividad.fecha | date: 'dd/MM/yyyy' }}</p>
     </div>
-  
-    <div *ngIf="!actividad">
-      <p>Cargando detalles de la actividad...</p>
+
+    <div *ngIf="actividad.educadorNombre">
+      <p><strong>{{ 'APP.EDUCADOR' | translate }}:</strong> {{ actividad.educadorNombre }}</p>
     </div>
+
+    <div *ngIf="actividad.claseNombre">
+      <p><strong>{{ 'APP.CLASE' | translate }}:</strong> {{ actividad.claseNombre }}</p>
+    </div>
+
+    <h4>{{ 'DETALLE_ACTIVIDAD.NINOS' | translate }}:</h4>
+    <ul>
+      <li *ngFor="let nino of actividad.ninos">
+        {{ nino.nombre }} {{ nino.apellidos }}
+      </li>
+    </ul>
+
+    <button pButton type="button" [label]="'APP.VOLVER' | translate" (click)="volver()"></button>
   </div>
+
+  <div *ngIf="!actividad">
+    <p>{{ 'APP.CARGANDO' | translate }}</p>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comida-table',
@@ -20,7 +21,8 @@ import { DropdownModule } from 'primeng/dropdown';
     ConfirmDialogModule,
     CalendarModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    TranslateModule
   ],
   templateUrl: './comida-table.component.html',
   styleUrl: './comida-table.component.scss',

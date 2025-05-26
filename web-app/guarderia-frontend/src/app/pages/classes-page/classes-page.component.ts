@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { ClassFormComponent } from '@components/forms/class-form/class-form.component';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-classes-page',
@@ -19,7 +20,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     DialogModule, 
     ButtonModule,
     ClassFormComponent,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TranslateModule
   ],
   providers: [ConfirmationService],
   templateUrl: './classes-page.component.html',

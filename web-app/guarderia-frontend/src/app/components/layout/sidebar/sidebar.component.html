@@ -1,11 +1,21 @@
 <div class="sidebar">
   <img src="assets/Logo.png" alt="Logo" class="topbar-logo" />
   <p-panelMenu [model]="items" class="sidebar-menu"></p-panelMenu>
-  <select (change)="cambiarIdioma($event)">
-    <option value="es">Español</option>
-    <option value="en">English</option>
-  </select>
   <div class="sidebar-footer">
+    <p-dropdown
+      [options]="[
+        { label: 'Español', value: 'es', icon: 'pi pi-globe' },
+        { label: 'English', value: 'en', icon: 'pi pi-globe' }
+      ]"
+      optionLabel="label"
+      optionValue="value"
+      [(ngModel)]="selectedLang"
+      [styleClass]="'sidebar-dropdown neumorphic-style'"
+      (onChange)="cambiarIdioma($event)"
+      placeholder="Idioma"
+      [ngClass]="'sidebar-dropdown neumorphic-style'"
+      >
+    </p-dropdown>
     <button 
       pButton 
       icon="pi pi-user" 

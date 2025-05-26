@@ -8,6 +8,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ParentService } from '@services/parent/parent.service';
 import { AuthService } from '@services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-parent-table',
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     TableModule, 
     ButtonModule, 
     ConfirmDialogModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ],
   templateUrl: './parent-table.component.html',
   styleUrls: ['./parent-table.component.scss']

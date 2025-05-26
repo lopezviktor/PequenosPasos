@@ -44,19 +44,44 @@
     "VOLVER": "Volver",
     "OPCIONAL": "Opcional",
     "OBLIGATORIO": "Obligatorio",
-    "CAMPO_INFORMATIVO": "Campo informativo"
+    "CAMPO_INFORMATIVO": "Campo informativo",
+    "SIN_CLASE": "Sin clase",
+    "NINGUNA": "Ninguna",
+    "CARGANDO": "Cargando detalles de la actividad...",
+    "NUEVA_ACTIVIDAD": "Nueva actividad",
+    "FORMULARIO_ACTIVIDAD": "Formulario de actividad",
+    "NUEVA_ASISTENCIA": "Nueva asistencia",
+    "EDITAR_ASISTENCIA": "Editar asistencia",
+    "ANADIR_NINO": "Añadir niño",
+    "EDITAR_NINO": "Editar niño",
+    "ANADIR_CLASE": "Añadir clase",
+    "EDITAR_CLASE": "Editar clase",
+    "ANADIR_COMIDA": "Añadir comida",
+    "NUEVA_COMIDA": "Nueva comida",
+    "EDITAR_COMIDA": "Editar comida",
+    "ANADIR_EDUCADOR": "Añadir educador",
+    "EDITAR_EDUCADOR": "Editar educador",
+    "NUEVA_HIGIENE": "Nueva higiene",
+    "EDITAR_HIGIENE": "Editar higiene",
+    "ANADIR_PADRE": "Añadir padre",
+    "EDITAR_PADRE": "Editar padre",
+    "ANADIR_SIESTA": "Añadir siesta",
+    "NUEVA_SIESTA": "Nueva siesta",
+    "EDITAR_SIESTA": "Editar siesta"
   },
   "DETALLE_ACTIVIDAD": {
     "TITULO": "Detalles de la Actividad",
     "NINOS": "Niños Participantes"
   },
   "GRAFICA_ACTIVIDAD": {
-    "TITULO": "Actividades por clase"
+    "TITULO": "Clases más activas"
   },
   "GRAFICA_ASISTENCIA": {
+    "TITULO": "Asistencia semanal",
     "NINOS_POR_DIA": "Niños por día"
   },
   "GRAFICA_ENTRADA": {
+    "TITULO": "Entradas diarias",
     "ENTRADAS_POR_HORA": "Entradas por hora"
   },
     "CLASE": {
@@ -96,7 +121,32 @@
   "BOTONES": {
     "GUARDAR": "Guardar",
     "ACTUALIZAR": "Actualizar",
-    "CANCELAR": "Cancelar"
+    "CANCELAR": "Cancelar",
+    "LIMPIAR": "Limpiar"
+  },
+  "TABLA": {
+    "NINO": "Niño",
+    "HORA_ENTRADA": "Hora Entrada",
+    "PADRE_ENTREGA": "Padre que entrega",
+    "EDUCADOR_RECIBE": "Educador que recibe",
+    "HORA_SALIDA": "Hora Salida",
+    "PADRE_RECOGE": "Padre que recoge",
+    "EDUCADOR_ENTREGA": "Educador que entrega",
+    "ACCIONES": "Acciones",
+    "FILTRAR_NINO": "Filtrar niño",
+    "FILTRAR_FECHA": "Filtrar fecha",
+    "FILTRAR_EDUCADOR": "Filtrar educador",
+    "FOTO": "Foto",
+    "FILTRAR_NOMBRE": "Filtrar nombre",
+    "FILTRAR_APELLIDOS": "Filtrar apellidos",
+    "DESDE": "Desde",
+    "HASTA": "Hasta",
+    "FILTRAR_CLASE": "Filtrar clase",
+    "FILTRAR_ALERGIAS": "Filtrar alergias",
+    "FILTRAR_CONDICIONES": "Filtrar condiciones",
+    "FILTRAR_EMAIL": "Filtrar email",
+    "FILTRAR_TELEFONO": "Filtrar teléfono",
+    "FILTRAR_ESTADO": "Filtrar estado"
   },
   "ACTIVIDAD": "actividad",
   "ASISTENCIA": "asistencia",
@@ -105,5 +155,11 @@
   "HIGIENE": "higiene",
   "MENSAJE": "mensaje",
   "EDUCADOR": "educador",
-  "PADRE": "padre"
+  "PADRE": "padre",
+  "PERFIL": {
+    "ENCABEZADO": "Perfil del educador",
+    "CAMBIAR_CONTRASENA": "Cambiar contraseña",
+    "NUEVA_CONTRASENA": "Nueva contraseña",
+    "CONFIRMAR_CONTRASENA": "Confirmar contraseña"
+  }
 }

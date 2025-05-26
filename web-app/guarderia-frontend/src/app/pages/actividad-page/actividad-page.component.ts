@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ActividadCardComponent } from '@components/actividad-card/actividad-card.component';
 import { ActividadFormComponent } from '@components/forms/actividad-form/actividad-form.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-actividad-page',
@@ -16,7 +17,8 @@ import { ActividadFormComponent } from '@components/forms/actividad-form/activid
     ButtonModule,
     DialogModule,
     ActividadCardComponent,
-    ActividadFormComponent
+    ActividadFormComponent,
+    TranslateModule
   ],
   templateUrl: './actividad-page.component.html',
   styleUrls: ['./actividad-page.component.scss'],
