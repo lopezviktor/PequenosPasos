@@ -14,7 +14,9 @@ import androidx.navigation.compose.composable
 import com.example.pequenospasos.data.network.RetrofitClient
 import com.example.pequenospasos.data.repository.NotificacionesRepository
 import com.example.pequenospasos.ui.screens.ActividadesScreen
+import com.example.pequenospasos.ui.screens.ChatScreen
 import com.example.pequenospasos.ui.screens.ComidaScreen
+import com.example.pequenospasos.ui.screens.ConversacionesScreen
 import com.example.pequenospasos.ui.screens.HabitosScreen
 import com.example.pequenospasos.ui.screens.HigieneScreen
 import com.example.pequenospasos.ui.screens.LoginScreen
@@ -89,6 +91,7 @@ fun AppNavHost(
                     onProfileClick = { navController.navigate("perfil_screen") },
                     onActividadesClick = { navController.navigate("actividades_screen") },
                     onNotificacionesClick = { navController.navigate("notificaciones_screen") },
+                    onMensajesClick = { navController.navigate("conversaciones_screen") },
                     padre = loginViewModel.padre.value!!,
                     notificacionesViewModel = notificacionesViewModel
                 )
@@ -162,6 +165,36 @@ fun AppNavHost(
                     navController = navController,
                     padreId = it.id,
                     viewModel = viewModel
+                )
+            }
+        }
+
+        // Pantalla de Mensajes
+        composable("conversaciones_screen") {
+            val padre by loginViewModel.padre.collectAsState()
+            padre?.let {
+                ConversacionesScreen(
+                    navController = navController,
+                    viewModel = viewModel(),
+                    onChatClick = { educadorId ->
+                        navController.navigate("chat_screen/$educadorId")
+                    },
+                    padreId = it.id
+                )
+            }
+        }
+
+        // Pantalla de Chat
+        composable("chat_screen/{conversacionId}") { backStackEntry ->
+            val conversacionId =
+                backStackEntry.arguments?.getString("conversacionId")?.toLongOrNull() ?: 0L
+            val padre by loginViewModel.padre.collectAsState()
+            padre?.let {
+                ChatScreen(
+                    navController = navController,
+                    chatId = conversacionId,
+                    viewModel = viewModel(),  // o el MensajesViewModel correcto
+                    padre = it
                 )
             }
         }

@@ -1,9 +1,12 @@
 package com.example.pequenospasos.data.network
 
 import com.example.pequenospasos.data.model.ActividadResponse
+import com.example.pequenospasos.data.model.Conversacion
 import com.example.pequenospasos.data.model.Higiene
 import com.example.pequenospasos.data.model.LoginRequest
 import com.example.pequenospasos.data.model.LoginResponse
+import com.example.pequenospasos.data.model.Mensaje
+import com.example.pequenospasos.data.model.MensajeResponse
 import com.example.pequenospasos.data.model.Nino
 import com.example.pequenospasos.data.model.Notificacion
 import com.example.pequenospasos.data.model.Padre
@@ -65,4 +68,20 @@ interface ApiService {
     // Obtener las notificaciones no leídas de un padre
     @GET("api/notificaciones/receptor/{receptorId}/no-leidas")
     suspend fun getNotificacionesNoLeidas(@Path("receptorId") id: Long): List<Notificacion>
+
+    // Obtener las conversaciones del padre
+    @GET("api/mensajes/usuario/{padreId}")
+    suspend fun getConversaciones(@Path("padreId") padreId: Long): List<MensajeResponse>
+
+    // Obtener los mensajes de una conversación
+    @GET("api/mensajes/chat/completo")
+    suspend fun getConversacionCompleta(
+        @Query("usuario1") usuario1Id: Long,
+        @Query("usuario2") usuario2Id: Long
+    ): List<MensajeResponse>
+
+    // Enviar un nuevo mensaje
+    @POST("api/mensajes")
+    suspend fun enviarMensaje(@Body mensaje: Mensaje): Response<Mensaje>
+
 }

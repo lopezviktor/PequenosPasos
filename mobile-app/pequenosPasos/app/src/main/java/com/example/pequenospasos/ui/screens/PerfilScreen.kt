@@ -3,6 +3,7 @@ package com.example.pequenospasos.ui.screens
 import android.util.Log
 import com.example.pequenospasos.ui.components.CustomTopBar
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,7 +34,9 @@ fun PerfilScreen(padre: Padre) {
         ) {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.elevatedCardColors()
+                colors = CardDefaults.elevatedCardColors(),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
+                shape = RoundedCornerShape(16.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
@@ -73,7 +76,9 @@ fun PerfilScreen(padre: Padre) {
                                 .padding(vertical = 8.dp),
                             colors = CardDefaults.elevatedCardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
-                            )
+                            ),
+                            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
+                            shape = RoundedCornerShape(16.dp)
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
                                 Text(
