@@ -62,6 +62,15 @@ public class MensajeController {
                 .toList();
     }
 
+    // Obtener mensajes donde el usuario es emisor o receptor y es PADRE o EDUCADOR
+    @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
+    @GetMapping("/usuario/{usuarioId}")
+    public List<MensajeDTO> getMensajesDeUsuario(@PathVariable Long usuarioId) {
+        return mensajeService.getMensajesDeUsuario(usuarioId).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     // Enviar un nuevo mensaje con validación de roles
     @PreAuthorize("hasAnyRole('PADRE', 'EDUCADOR')")
     @PostMapping

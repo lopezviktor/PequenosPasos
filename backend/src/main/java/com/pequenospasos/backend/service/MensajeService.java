@@ -122,4 +122,8 @@ public class MensajeService {
         return usuario != null &&
                ("PADRE".equals(usuario.getTipoUsuario()) || "EDUCADOR".equals(usuario.getTipoUsuario()));
     }
+
+    public List<Mensaje> getMensajesDeUsuario(Long usuarioId) {
+        return mensajeRepository.findByUsuarioId(usuarioId);
+    }
 }

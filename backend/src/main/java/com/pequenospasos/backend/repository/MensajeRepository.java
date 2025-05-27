@@ -30,4 +30,10 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Long> {
     @Query("SELECT m FROM Mensaje m WHERE m.receptor.id = :receptorId AND m.estado = :estado " +
             "AND (m.receptor.tipoUsuario = 'PADRE' OR m.receptor.tipoUsuario = 'EDUCADOR')")
     List<Mensaje> findByReceptorIdAndEstado(@Param("receptorId") Long receptorId, @Param("estado") Mensaje.EstadoMensaje estado);
+
+    @Query("SELECT m FROM Mensaje m WHERE (m.emisor.id = :usuarioId OR m.receptor.id = :usuarioId) " +
+           "AND (m.emisor.tipoUsuario = 'PADRE' OR m.emisor.tipoUsuario = 'EDUCADOR') " +
+           "AND (m.receptor.tipoUsuario = 'PADRE' OR m.receptor.tipoUsuario = 'EDUCADOR') " +
+           "ORDER BY m.fechaHora DESC")
+    List<Mensaje> findByUsuarioId(@Param("usuarioId") Long usuarioId);
 }
