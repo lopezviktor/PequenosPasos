@@ -95,10 +95,15 @@ ngOnInit(): void {
         routerLink: ['/siestas']
       },
       {
+        label: this.translate.instant('SIDEBAR.MENSAJES'),
+        icon: 'pi pi-comments',
+        routerLink: ['/mensajes']
+      },
+      {
         label: this.translate.instant('SIDEBAR.ACTIVIDADES'),
         icon: 'pi pi-book',
         routerLink: ['/actividades']
-      }
+      },
     ];
   }
 

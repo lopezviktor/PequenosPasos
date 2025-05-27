@@ -26,6 +26,7 @@ export const routes: Routes = [
         { path: 'siestas', loadComponent: () => import('./pages/siestas-page/siestas-page.component').then(m => m.SiestasPageComponent) },
         { path: 'actividades', loadComponent: () => import('./pages/actividad-page/actividad-page.component').then(m => m.ActividadPageComponent) },
         { path: 'actividades/:id', loadComponent: () => import('./components/actividad-detail/actividad-detail.component').then(m => m.ActividadDetailComponent) },
+        { path: 'mensajes', loadComponent: () => import('./components/mensajes/mensajes.component').then(m => m.MensajesComponent) },
       ]
     },
     {

@@ -1,0 +1,38 @@
+<div class="mensajes-container neumorphic">
+  <div class="conversaciones-lista neumorphic">
+    <h3>Conversaciones</h3>
+
+    <button pButton type="button" label="Nueva conversación" icon="pi pi-plus"
+            (click)="abrirNuevaConversacion()"></button>
+
+    <ul>
+      <li *ngFor="let c of conversaciones"
+          (click)="abrirChat(c)"
+          [ngClass]="{'activo': chatActivo && chatActivo.receptorId === c.receptorId}">
+        <div class="nombreCompleto">{{ c.nombre }}</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="chat-activo neumorphic" *ngIf="chatActivo">
+    <h3>Chat con {{ chatActivo.nombre }}</h3>
+    <app-chat
+      [receptorId]="chatActivo.receptorId">
+    </app-chat>
+  </div>
+</div>
+
+<p-dialog class="nueva-conversacion-dialog" header="Nueva conversación" [(visible)]="dialogNuevaConversacion" [modal]="true" [style]="{width: '400px'}">
+  <div class="p-fluid">
+    <p-dropdown [options]="listaPadres" optionLabel="nombreCompleto" [(ngModel)]="nuevoReceptorId"
+                placeholder="Selecciona al padre"></p-dropdown>
+
+    <textarea rows="3" pInputTextarea [(ngModel)]="primerMensaje"
+              placeholder="Escribe el primer mensaje..."></textarea>
+
+    <div class="p-mt-3">
+      <button pButton type="button" class="p-button-secondary" label="Enviar" icon="pi pi-send"
+              (click)="enviarPrimerMensaje()"></button>
+    </div>
+  </div>
+</p-dialog>

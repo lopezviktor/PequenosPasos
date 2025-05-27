@@ -1,0 +1,12 @@
+<div class="chat-container neumorphic">
+  <div class="mensajes-lista">
+  <div *ngFor="let mensaje of mensajes" [ngClass]="{'mio': esMio(mensaje), 'suyo': !esMio(mensaje)}">
+    <p>{{ mensaje.contenido }}</p>
+    <small>{{ mensaje.fechaHora | date:'short' }}</small>
+  </div>
+  </div>
+  <div class="chat-input">
+    <input [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..." />
+    <button (click)="enviarMensaje()">Enviar</button>
+  </div>
+</div>
