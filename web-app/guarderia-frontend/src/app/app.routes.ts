@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from '@components/layout/main-layout/main-layout.component';
 import { authGuard } from '@guards/auth.guard';
 import { adminOnlyGuard } from '@guards/admin-only/admin-only.guard';
+import { educadorOnlyGuard } from '@guards/educador-only/educador-only.guard';
 
 export const routes: Routes = [
     {
@@ -26,7 +27,11 @@ export const routes: Routes = [
         { path: 'siestas', loadComponent: () => import('./pages/siestas-page/siestas-page.component').then(m => m.SiestasPageComponent) },
         { path: 'actividades', loadComponent: () => import('./pages/actividad-page/actividad-page.component').then(m => m.ActividadPageComponent) },
         { path: 'actividades/:id', loadComponent: () => import('./components/actividad-detail/actividad-detail.component').then(m => m.ActividadDetailComponent) },
-        { path: 'mensajes', loadComponent: () => import('./components/mensajes/mensajes.component').then(m => m.MensajesComponent) },
+        {
+          path: 'mensajes',
+          canActivate: [educadorOnlyGuard],
+          loadComponent: () => import('./components/mensajes/mensajes.component').then(m => m.MensajesComponent)
+        },      
       ]
     },
     {

@@ -49,12 +49,33 @@ export class LoginPageComponent {
       },
       error: error => {
         console.error('Login failed', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Login fallido',
-          detail: 'Credenciales incorrectas. Intenta de nuevo.',
-          life: 3000
-        });
+
+        if (error.status === 0) {
+          // El servidor no está disponible o error de red
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error de conexión',
+            detail: 'No se puede conectar con el servidor. Intenta más tarde.',
+            life: 4000
+          });
+        } else if (error.status === 401) {
+          // Credenciales incorrectas
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Login fallido',
+            detail: 'Credenciales incorrectas. Intenta de nuevo.',
+            life: 4000
+          });
+        } else {
+          // Otro error inesperado
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error inesperado',
+            detail: 'Se produjo un error. Intenta más tarde.',
+            life: 4000
+          });
+        }
+
         this.loginForm.get('password')?.reset();
       }
     });

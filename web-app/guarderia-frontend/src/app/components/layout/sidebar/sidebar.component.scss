@@ -53,12 +53,7 @@
   gap: 0.5rem;
 }
 
-.sidebar-action {
-  width: 100%;
-  justify-content: flex-start;
-}
-
-.sidebar-action {
+.sidebar .sidebar-action {
   width: 100%;
   justify-content: flex-start;
   background-color: #f3f4f6;
@@ -69,8 +64,7 @@
     inset -2px -2px 4px rgba(255, 255, 255, 0.8);
   transition: all 0.2s ease;
 }
-
-.sidebar-action:hover {
-  background-color: #a9c4e7;
-  color: #111827;
+.sidebar .sidebar-action:hover {
+  background-color: #e0e0e0;
+  color: #5e5e71;
 }

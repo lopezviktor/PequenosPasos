@@ -2,10 +2,10 @@
   <div class="mensajes-lista">
   <div *ngFor="let mensaje of mensajes" [ngClass]="{'mio': esMio(mensaje), 'suyo': !esMio(mensaje)}">
     <p>{{ mensaje.contenido }}</p>
-    <small>{{ mensaje.fechaHora | date:'short' }}</small>
+    <small>{{ mensaje.fechaHora | date:'dd/MM/yyyy HH:mm' }}</small>
   </div>
   </div>
-  <div class="chat-input">
+  <div class="chat-input" *ngIf="receptorId">
     <input [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..." />
     <button (click)="enviarMensaje()">Enviar</button>
   </div>

@@ -3,60 +3,60 @@
   flex-direction: column;
   height: 100%;
   border-radius: 6px;
-  box-shadow: 6px 6px 12px #d1d9e6,
-              -6px -6px 12px #ffffff;
   background: #f3f4f6;
   padding: 1rem;
 }
 
 .mensajes-lista {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 300px;
+    max-height: 800px;
 
-  .mensaje {
-    padding: 0.5rem;
-    border-radius: 6px;
-    background: #f3f4f6;
-    max-width: 70%;
-    word-wrap: break-word;
-    box-shadow: 2px 2px 6px #d1d9e6,
-                -2px -2px 6px #ffffff;
+    .mensaje {
+      padding: 0.5rem;
+      border-radius: 6px;
+      background: #f3f4f6;
+      max-width: 70%;
+      word-wrap: break-word;
+      box-shadow: 2px 2px 6px #d1d9e6,
+                  -2px -2px 6px #ffffff;
 
-    &.mio {
-      align-self: flex-end;
-      background: #c0c9d6;
-      box-shadow: 2px 2px 6px #b0b8c6,
-                  
+      &.mio {
+        align-self: flex-end;
+        background: #c0c9d6;
+        box-shadow: 2px 2px 6px #b0b8c6,
+                    
+      }
+
+      .texto {
+        margin-bottom: 0.3rem;
+      }
+
+      .fecha {
+        font-size: 0.7rem;
+        color: #777;
+        text-align: right;
+      }
     }
-
-    .texto {
-      margin-bottom: 0.3rem;
-    }
-
-    .fecha {
-      font-size: 0.7rem;
-      color: #777;
-      text-align: right;
-    }
-  }
 }
 
 .mio {
   text-align: right;
-  background-color: #dcf8c6;
+  background-color: #b5f3afcb;
   margin: 5px 0;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 5px;
 }
 
 .suyo {
   text-align: left;
-  background-color: #b7daeae8;
+  background-color: #b7daeacb;
   margin: 5px 0;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 5px;
 }
 

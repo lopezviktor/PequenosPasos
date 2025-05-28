@@ -30,7 +30,9 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    this.cargarMensajes();
+    if (this.receptorId) {
+      this.cargarMensajes();
+    }
   }
 
   cargarMensajes(): void {
@@ -38,6 +40,7 @@ export class ChatComponent implements OnInit {
     if (emisorId !== null && this.receptorId !== null) {
       this.mensajesService.getConversacionCompleta(emisorId, this.receptorId).subscribe((data) => {
         this.mensajes = data;
+        setTimeout(() => this.scrollToBottom(), 0);
       });
     }
   }
@@ -56,6 +59,7 @@ export class ChatComponent implements OnInit {
     this.mensajesService.sendMensaje(mensaje).subscribe({
       next: (nuevo) => {
         this.mensajes.push(nuevo);
+        setTimeout(() => this.scrollToBottom(), 0);
         this.nuevoMensaje = '';
       },
       error: (error) => console.error('Error al enviar el mensaje:', error)
@@ -69,5 +73,14 @@ export class ChatComponent implements OnInit {
   esMio(mensaje: any): boolean {
     const usuarioActualId = this.authService.getUserIdFromToken(); 
     return mensaje.emisorId === usuarioActualId;
+  }
+
+  scrollToBottom(): void {
+    setTimeout(() => {
+      const container = document.querySelector('.mensajes-lista');
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }, 0);
   }
 }
