@@ -5,6 +5,7 @@ import com.pequenospasos.backend.entity.Usuario;
 import com.pequenospasos.backend.repository.EducadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,9 @@ public class EducadorService {
 
     @Autowired
     private EducadorRepository educadorRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Obtener todos los educadores
     public List<Educador> getAllEducadores() {
@@ -36,6 +40,7 @@ public class EducadorService {
             throw new RuntimeException("El email ya está registrado.");
         }
         educador.setTipoUsuario("EDUCADOR"); // Asegurar que se guarde correctamente
+        educador.setPassword(passwordEncoder.encode(educador.getPassword()));
         return educadorRepository.save(educador);
     }
 
@@ -50,7 +55,7 @@ public class EducadorService {
             educador.setEmail(educadorDetalles.getEmail());
 
             if (educadorDetalles.getPassword() != null && !educadorDetalles.getPassword().isEmpty()) {
-                educador.setPassword(educadorDetalles.getPassword());
+                educador.setPassword(passwordEncoder.encode(educadorDetalles.getPassword()));
             }
 
             return educadorRepository.save(educador);

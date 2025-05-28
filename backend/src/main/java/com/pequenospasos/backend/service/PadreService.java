@@ -73,7 +73,7 @@ public class PadreService {
             padre.setTelefono(padreDetalles.getTelefono());
 
             if (padreDetalles.getPassword() != null && !padreDetalles.getPassword().isEmpty()) {
-                padre.setPassword(padreDetalles.getPassword());
+                padre.setPassword(passwordEncoder.encode(padreDetalles.getPassword()));
             }
 
             return usuarioRepository.save(padre);

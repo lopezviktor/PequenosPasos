@@ -2,6 +2,7 @@ package com.pequenospasos.backend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -69,5 +70,12 @@ public class GlobalExceptionHandler {
         response.put("error", error);
         response.put("message", message);
         return ResponseEntity.status(status).body(response);
+    }
+
+    // Manejar BadCredentialsException para autenticación fallida
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<Map<String, Object>> handleBadCredentialsException(BadCredentialsException ex) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Unauthorized", "Credenciales incorrectas");
     }
 }
