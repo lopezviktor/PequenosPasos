@@ -71,14 +71,10 @@ export class CalendarWidgetComponent implements OnInit {
           ninosClase.some(n => n.id === s.nino!.id)
         ).length;
         
-        console.log(`Resumen para clase ${clase.nombre}`, {
-          ninosClase,
-          presentes,
-          comiendo,
-          enSiesta
-        });
+        const nombreClase = clase.nombre.startsWith('Clase ') ? clase.nombre.replace('Clase ', '') : clase.nombre;
+
         return {
-          nombre: clase.nombre,
+          nombre: nombreClase,
           presentes,
           comiendo,
           enSiesta
