@@ -1,0 +1,36 @@
+
+
+.class-form {
+  max-width: 600px;
+  margin: 0 auto;
+
+  .form-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    label {
+      margin-bottom: 0.5rem;
+    }
+
+    input,
+    textarea,
+    .p-inputtext,
+    .p-dropdown,
+    .p-calendar {
+      width: 100%;
+    }
+  }
+
+  .botones-formulario {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+}

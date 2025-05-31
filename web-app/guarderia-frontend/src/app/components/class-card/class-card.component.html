@@ -1,17 +1,12 @@
-<p-card header="{{ clase.nombre }}" styleClass="ui-card-shadow">
-    <div>
-      <strong>{{ 'APP.EDUCADOR' | translate }}:</strong> {{ clase.educador?.nombre }} {{ clase.educador?.apellidos }}
-    </div>
-    <div>
-      <strong>{{ 'CLASE.NUMERO_NINOS' | translate }}:</strong> {{ clase.ninos?.length || 0 }}
-    </div>
-    <button 
-      pButton 
-      [label]="'APP.DETALLES' | translate"
-      icon="pi pi-eye" 
-      class="p-button-sm p-button-outlined p-button-info"
-      (click)="onVerDetalles()">
-    </button>
+<div class="class-card-neumorphic">
+  <h3>{{ clase.nombre }}</h3>
+  <div>
+    <strong>{{ 'APP.EDUCADOR' | translate }}:</strong> {{ clase.educador?.nombre }} {{ clase.educador?.apellidos }}
+  </div>
+  <div>
+    <strong>{{ 'CLASE.NUMERO_NINOS' | translate }}:</strong> {{ clase.ninos?.length || 0 }}
+  </div>
+  <div class="card-actions">
     <button 
       pButton 
       [label]="'APP.EDITAR' | translate"
@@ -26,5 +21,5 @@
       class="p-button-sm p-button-outlined p-button-danger" 
       (click)="onEliminar()">
     </button>
-
-  </p-card>
+  </div>
+</div>

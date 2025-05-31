@@ -24,8 +24,8 @@ export class ActividadCardComponent {
   constructor(private router: Router) {}
 
   onEdit(): void {
-    console.log('Editando actividad:', this.actividad);
-    this.editar.emit(this.actividad);
+    console.log('Editando actividad completa:', this.actividad);
+    this.editar.emit(this.actividad); 
   }
 
   onDelete(): void {

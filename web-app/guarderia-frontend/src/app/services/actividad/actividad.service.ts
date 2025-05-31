@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators'; 
-import { Actividad, ActividadConDetalles } from '@models/actividad.model';
+import { map } from 'rxjs/operators'; 
+import { Actividad } from '@models/actividad.model';
 import { environment } from '@environments/environment';
 
 @Injectable({
@@ -125,5 +125,46 @@ export class ActividadService {
       ninoIds: ninoIds
     };
     return this.http.post<void>(`${this.apiActividadNinosUrl}`, payload);
+  }
+
+  getActividadesCompletas(): Observable<Actividad[]> {
+    return this.http.get<any[]>(this.apiActividadNinosUrl).pipe(
+      map((actividadNinos) => {
+        const actividadesMap: { [id: number]: Actividad } = {};
+
+        actividadNinos.forEach((registro: any) => {
+          const actividadId = registro.actividad.actividadId;
+          if (!actividadesMap[actividadId]) {
+            actividadesMap[actividadId] = {
+              id: actividadId,
+              nombre: registro.actividad.nombre,
+              descripcion: registro.actividad.descripcion,
+              fecha: registro.fechaRegistro,
+              clase: registro.nino.clase,
+              educador: registro.nino.clase.educador,
+              ninos: []
+            };
+          }
+
+          // Añade niño si no está ya
+          const existeNino = actividadesMap[actividadId].ninos?.find((n: any) => n.id === registro.nino.id);
+          if (!existeNino) {
+            actividadesMap[actividadId].ninos?.push({
+              id: registro.nino.id,
+              nombre: registro.nino.nombre,
+              apellidos: registro.nino.apellidos,
+              fechaNacimiento: registro.nino.fechaNacimiento,
+              primerDia: registro.nino.primerDia,
+              alergias: registro.nino.alergias,
+              condicionesMedicas: registro.nino.condicionesMedicas,
+              fotoUrl: registro.nino.fotoUrl,
+              clase: registro.nino.clase
+            });
+          }
+        });
+
+        return Object.values(actividadesMap);
+      })
+    );
   }
 }

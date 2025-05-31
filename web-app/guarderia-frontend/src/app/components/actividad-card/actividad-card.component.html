@@ -4,15 +4,11 @@
   </div>
   <div class="card-content">
     <p>{{ actividad.descripcion }}</p>
+    <p><strong>Fecha:</strong> {{ actividad.fecha | date: 'shortDate' }}</p>
+    <p><strong>Clase:</strong> {{ actividad.clase?.nombre || 'Sin clase' }}</p>
+    <p><strong>Educador:</strong> {{ actividad.clase?.educador?.nombre }} {{ actividad.clase?.educador?.apellidos }}</p>
   </div>
   <div class="card-actions">
-    <button 
-      pButton 
-      [label]="'APP.DETALLES' | translate"
-      icon="pi pi-eye" 
-      class="p-button-sm p-button-outlined p-button-info"
-      (click)="verDetalles()">
-    </button>
     <button 
       pButton 
       [label]="'APP.EDITAR' | translate"

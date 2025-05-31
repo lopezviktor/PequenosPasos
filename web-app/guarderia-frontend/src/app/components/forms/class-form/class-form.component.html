@@ -1,28 +1,34 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="nombre">{{ 'FORMULARIO.NOMBRE' | translate }} {{ 'FORMULARIO.CLASE' | translate }}</label>
-      <input id="nombre" type="text" pInputText formControlName="nombre" />
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="class-form p-fluid">
+  <div class="formulario">
+    <div class="form-grid">
+
+      <div class="form-field">
+        <label for="nombre">{{ 'FORMULARIO.NOMBRE' | translate }} {{ 'FORMULARIO.CLASE' | translate }}</label>
+        <input id="nombre" type="text" pInputText formControlName="nombre" class="w-full" />
+      </div>
+
+      <div class="form-field">
+        <label for="educador">{{ 'FORMULARIO.EDUCADOR' | translate }}</label>
+        <p-dropdown 
+          id="educador"
+          [options]="educadores"
+          formControlName="educador"
+          dataKey="id"
+          appendTo="body"
+          class="w-full"
+          [filter]="true">
+          <ng-template let-educador pTemplate="item">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+          <ng-template let-educador pTemplate="selectedItem">
+            {{ educador.nombre }} {{ educador.apellidos }}
+          </ng-template>
+        </p-dropdown>
+      </div>
+
     </div>
 
-    <div class="p-field">
-      <label for="educador">{{ 'FORMULARIO.EDUCADOR' | translate }}</label>
-      <p-dropdown 
-        id="educador"
-        [options]="educadores"
-        optionLabel="nombre"
-        [placeholder]="'APP.EDUCADOR' | translate"
-        formControlName="educador"
-        [filter]="true"
-        appendTo="body"
-        >
-        <ng-template let-educador pTemplate="item">
-          {{ educador.nombre }} {{ educador.apellidos }}
-        </ng-template>
-      </p-dropdown>
-    </div>
-
-    <div class="p-field">
+    <div class="botones-formulario">
       <button type="submit" pButton label="Guardar" [disabled]="form.invalid"></button>
     </div>
   </div>

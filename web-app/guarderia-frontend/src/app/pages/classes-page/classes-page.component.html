@@ -1,4 +1,4 @@
-<div class="classes-container">
+<section class="classes-container">
   <div class="page-header">
     <h2>🏫 {{ 'SIDEBAR.CLASES' | translate }}</h2>
     <button 
@@ -20,20 +20,20 @@
   </div>
 
   <p-dialog 
-  [(visible)]="mostrarDialogoClase"
-  [modal]="true"
-  [style]="{width: '30rem'}"
-  [closable]="true"
-  (onHide)="cancelarDialogoClase()"
-  [header]="claseEditando ? ('APP.EDITAR_CLASE' | translate) : ('APP.ANADIR_CLASE' | translate)">
+    [(visible)]="mostrarDialogoClase"
+    [modal]="true"
+    [style]="{width: '30rem'}"
+    [closable]="true"
+    (onHide)="cancelarDialogoClase()"
+    [header]="claseEditando ? ('APP.EDITAR_CLASE' | translate) : ('APP.ANADIR_CLASE' | translate)">
+  
+    <app-class-form
+      [clase]="claseEditando"
+      [educadores]="educadores"
+      (submitClase)="guardarClase($event)"
+      (cancelar)="cancelarDialogoClase()">
+    </app-class-form>
+  </p-dialog>
 
-  <app-class-form
-    [clase]="claseEditando"
-    [educadores]="educadores"
-    (submitClase)="guardarClase($event)"
-    (cancelar)="cancelarDialogoClase()">
-  </app-class-form>
-</p-dialog>
-
-<p-confirmDialog></p-confirmDialog>
-</div>
+  <p-confirmDialog></p-confirmDialog>
+</section>

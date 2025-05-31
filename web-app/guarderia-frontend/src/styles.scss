@@ -6,9 +6,14 @@
   box-sizing: border-box;
 }
 
-body {
+body, html {
   font-family: 'Baloo 2', cursive;
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
                 
 :root {
   --background: #f0f2f5;
@@ -34,8 +39,6 @@ body {
 }
 
 body {
-  background-color: var(--background);
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+
 }
 

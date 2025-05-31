@@ -40,8 +40,11 @@ export class ActividadPageComponent implements OnInit {
   }
 
   cargarActividades(): void {
-    this.actividadService.getActividades().subscribe({
-      next: (actividades) => this.actividades = actividades,
+    this.actividadService.getActividadesCompletas().subscribe({
+      next: (actividades) => {
+        console.log('Actividades completas con detalles:', actividades);
+        this.actividades = actividades;
+      },
       error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar las actividades' })
     });
   }

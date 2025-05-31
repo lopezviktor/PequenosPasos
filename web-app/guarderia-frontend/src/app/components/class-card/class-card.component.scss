@@ -1,24 +1,36 @@
 :host ::ng-deep .class-card-neumorphic {
-    background: #e0e0e0; // gris claro
-    border-radius: 20px;
-    box-shadow: 
-      10px 10px 20px #bebebe,
-      -10px -10px 20px #ffffff;
-    padding: 1rem;
-    transition: all 0.3s ease;
-  
-    &:hover {
-      box-shadow: 
-        5px 5px 10px #bebebe,
-        -5px -5px 10px #ffffff;
-    }
-  
-    strong {
-      color: #333;
-    }
-  
-    div {
-      margin-top: 0.5rem;
-      font-size: 0.95rem;
-    }
+  background: #ffffff; /* White background for a cleaner look */
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  strong {
+    color: #333;
+  }
+
+  div {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+:host ::ng-deep .classes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.card-actions{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}

@@ -4,11 +4,17 @@ import { Clase } from '@models/clase.model';
 import { Educator } from '@models/educator.model';
 import { DropdownModule } from 'primeng/dropdown';
 import { TranslateModule } from '@ngx-translate/core';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-class-form',
   standalone: true,
-  imports: [ReactiveFormsModule, DropdownModule, TranslateModule],
+  imports: [
+    ReactiveFormsModule, 
+    DropdownModule, 
+    TranslateModule,
+    ButtonModule
+  ],
   templateUrl: './class-form.component.html',
   styleUrl: './class-form.component.scss'
 })

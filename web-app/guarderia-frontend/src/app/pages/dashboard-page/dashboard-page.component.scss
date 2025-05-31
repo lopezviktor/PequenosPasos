@@ -3,36 +3,15 @@
   gap: 2rem;
   padding: 2rem;
   align-items: flex-start;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .main-center {
-  flex: 1 1 60%;
+  flex: 1;
 }
 
-.calendar-side {
-  flex: 0 1 320px;
-  min-width: 280px;
-}
-
-@media (max-width: 1280px) {
-  .main-center {
-    flex: 1 1 55%;
-  }
-
-  .calendar-side {
-    flex: 0 1 300px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .main-content-with-calendar {
-    flex-direction: column;
-    flex-wrap: wrap;
-  }
-  .calendar-side {
-    width: 100%;
-  }
+.calendar-side{
+  width: 400px;
 }
 
 .neumorphic-card {
@@ -46,6 +25,16 @@
   gap: 1rem;
 }
 
+
+@media (max-width: 1024px) {
+  .main-content-with-calendar {
+    flex-direction: column;
+  }
+
+  .calendar-side {
+    width: 100%;
+  }
+}
 
 .dashboard-graphs {
   display: flex;
