@@ -1,7 +1,7 @@
 <div class="mensajes-container neumorphic">
   <div class="conversaciones-lista neumorphic">
-    <h3>Conversaciones</h3>
-    <button pButton type="button" label="Nueva conversación" icon="pi pi-plus" class="p-button-success"
+    <h3>{{ 'MENSAJES.CONVERSACIONES' | translate }}</h3>
+    <button pButton type="button" label="{{ 'MENSAJES.NUEVA_CONVERSACION' | translate }}" icon="pi pi-plus" class="p-button-success"
             (click)="abrirNuevaConversacion()"></button>
 
     <ul>
@@ -14,22 +14,23 @@
   </div>
 
   <div class="chat-activo neumorphic" *ngIf="chatActivo">
-    <h3>Chat con {{ chatActivo.nombre }}</h3>
+    <h3>{{ 'MENSAJES.CHAT_CON' | translate:{nombre: chatActivo.nombre} }}</h3>
     <app-chat
       [receptorId]="chatActivo.receptorId">
     </app-chat>
   </div>
 </div>
 
-<p-dialog class="nueva-conversacion-dialog" header="Nueva conversación" [(visible)]="dialogNuevaConversacion" [modal]="true">  <div class="p-fluid">
+<p-dialog class="nueva-conversacion-dialog" header="{{ 'MENSAJES.NUEVA_CONVERSACION' | translate }}" [(visible)]="dialogNuevaConversacion" [modal]="true">  
+  <div class="p-fluid">
     <p-dropdown [options]="listaPadres" optionLabel="nombreCompleto" [(ngModel)]="nuevoReceptorId"
-                placeholder="Selecciona al padre"></p-dropdown>
+                [placeholder]="'MENSAJES.SELECCIONA_PADRE' | translate"></p-dropdown>
 
     <textarea rows="3" pInputTextarea [(ngModel)]="primerMensaje"
-              placeholder="Escribe el primer mensaje..."></textarea>
+              [placeholder]="'MENSAJES.ESCRIBE_PRIMER_MENSAJE' | translate"></textarea>
 
     <div class="p-mt-3">
-      <button pButton type="button" class="p-button-success" label="Enviar" icon="pi pi-send"
+      <button pButton type="button" class="p-button-success" label="{{ 'MENSAJES.ENVIAR' | translate }}" icon="pi pi-send"
               (click)="enviarPrimerMensaje()"></button>
     </div>
   </div>

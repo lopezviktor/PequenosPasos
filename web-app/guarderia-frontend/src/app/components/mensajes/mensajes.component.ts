@@ -9,6 +9,7 @@ import { ParentService } from '@services/parent/parent.service';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mensajes',
@@ -22,7 +23,8 @@ import { ButtonModule } from 'primeng/button';
     ChatComponent,
     DialogModule,
     DropdownModule,
-    ButtonModule
+    ButtonModule,
+    TranslateModule
   ]
 })
 export class MensajesComponent implements OnInit {

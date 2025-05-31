@@ -6,7 +6,7 @@
   </div>
   </div>
   <div class="chat-input" *ngIf="receptorId">
-    <input [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..." />
-    <button (click)="enviarMensaje()">Enviar</button>
+    <input [(ngModel)]="nuevoMensaje" [placeholder]="'CHAT.PLACEHOLDER' | translate" />
+    <button (click)="enviarMensaje()">{{ 'CHAT.ENVIAR' | translate }}</button>
   </div>
 </div>

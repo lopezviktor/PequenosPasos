@@ -161,5 +161,17 @@
     "CAMBIAR_CONTRASENA": "Cambiar contraseña",
     "NUEVA_CONTRASENA": "Nueva contraseña",
     "CONFIRMAR_CONTRASENA": "Confirmar contraseña"
+  },
+  "CHAT": {
+    "PLACEHOLDER": "Escribe un mensaje...",
+    "ENVIAR": "Enviar"
+  },
+  "MENSAJES": {
+    "CONVERSACIONES": "Conversaciones",
+    "NUEVA_CONVERSACION": "Nueva conversación",
+    "SELECCIONA_PADRE": "Selecciona al padre",
+    "ESCRIBE_PRIMER_MENSAJE": "Escribe el primer mensaje...",
+    "ENVIAR": "Enviar",
+    "CHAT_CON": "Chat con {{nombre}}"
   }
 }

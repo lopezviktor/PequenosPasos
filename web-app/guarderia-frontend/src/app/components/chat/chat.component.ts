@@ -4,12 +4,14 @@ import { Mensaje } from '../../models/mensaje.model';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
