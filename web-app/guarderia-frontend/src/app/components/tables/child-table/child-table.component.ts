@@ -38,10 +38,10 @@ export class ChildTableComponent {
   get children(): Child[] {
     return this._children;
   }
-  clasesDisponibles: string[] = [];
   @Output() editar = new EventEmitter<Child>();
   @Output() eliminado = new EventEmitter<number>();
-
+  
+  clasesDisponibles: string[] = [];
   nombreFiltro: string = '';
   apellidosFiltro: string = '';
   claseFiltro: string = '';
@@ -49,7 +49,6 @@ export class ChildTableComponent {
   condicionesFiltro: string = '';
   fechaNacimientoDesde: Date | null = null;
   fechaNacimientoHasta: Date | null = null;
-
   primerDiaDesde: Date | null = null;
   primerDiaHasta: Date | null = null;
 
