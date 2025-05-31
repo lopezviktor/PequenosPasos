@@ -3,6 +3,10 @@
   [paginator]="true"
   [stripedRows]="true"
   [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50]"
+  [paginatorPosition]="'bottom'"
+  [paginatorDropdownAppendTo]="'body'"
+  currentPageReportTemplate="Mostrando {first} - {last} de {totalRecords} registros"
   responsiveLayout="scroll"
 >
   <ng-template pTemplate="header">

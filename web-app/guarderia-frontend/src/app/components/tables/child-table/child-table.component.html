@@ -2,8 +2,12 @@
   [value]="childrenFiltrados"
   [stripedRows]="true"
   [paginator]="true"
-  [globalFilterFields]="['nombre', 'apellidos', 'clase', 'alergias', 'condicionesMedicas']"
   [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50]"
+  [paginatorPosition]="'bottom'"
+  [paginatorDropdownAppendTo]="'body'"
+  currentPageReportTemplate="Mostrando {first} - {last} de {totalRecords} registros"
+  [globalFilterFields]="['nombre', 'apellidos', 'clase', 'alergias', 'condicionesMedicas']"
   responsiveLayout="scroll"
 >
   <ng-template pTemplate="header">

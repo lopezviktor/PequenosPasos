@@ -1,8 +1,12 @@
 <p-table 
   [value]="asistenciasFiltradas"   
   [stripedRows]="true"
-  [paginator]="true" 
-  [rows]="10" 
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50]"
+  [paginatorPosition]="'bottom'"
+  [paginatorDropdownAppendTo]="'body'"
+  currentPageReportTemplate="Mostrando {first} - {last} de {totalRecords} registros"
   [responsive]="true"
   >
     <ng-template pTemplate="header">
