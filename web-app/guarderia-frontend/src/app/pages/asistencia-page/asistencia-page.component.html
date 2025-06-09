@@ -2,7 +2,7 @@
   <h2>🗓️ {{ 'SIDEBAR.ASISTENCIA' | translate }}</h2>
   <button pButton type="button" [label]="'APP.NUEVA_ASISTENCIA' | translate" icon="pi pi-plus" class="p-button-outlined p-button-success" (click)="nuevaAsistencia()"></button>
 </div>
-
+<p-toast position="top-right"></p-toast>
 <p-dialog 
   [header]="asistenciaSeleccionada ? ('APP.EDITAR_ASISTENCIA' | translate) : ('APP.NUEVA_ASISTENCIA' | translate)"
   [(visible)]="mostrarDialogo" 

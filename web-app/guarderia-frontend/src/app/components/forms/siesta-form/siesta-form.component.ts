@@ -26,7 +26,6 @@ import { EducatorService } from '@services/educator/educator.service';
    ],
   templateUrl: './siesta-form.component.html',
   styleUrl: './siesta-form.component.scss',
-  providers: [MessageService]
 })
 export class SiestaFormComponent implements OnInit, OnChanges {
   @Input() siestaEditando?: Siesta;

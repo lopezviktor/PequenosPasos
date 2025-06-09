@@ -104,7 +104,8 @@ export class AsistenciaFormComponent implements OnInit, OnChanges {
   }
 
   // Método para ajustar la zona horaria local
-  ajustarZonaHorariaLocal(date: Date): Date {
+  ajustarZonaHorariaLocal(date: Date | null): Date | null {
+    if (!date) return null;
     const offset = date.getTimezoneOffset();
     return new Date(date.getTime() - offset * 60 * 1000);
   }
@@ -164,10 +165,20 @@ export class AsistenciaFormComponent implements OnInit, OnChanges {
         });
       } else {
         // Crear nueva asistencia
-        this.asistenciaService.createAsistencia(formData).subscribe(() => {
-          this.messageService.add({ severity: 'success', summary: 'Asistencia guardada' });
-          this.formularioCerrado.emit();
-          this.asistenciaGuardada.emit();
+        this.asistenciaService.createAsistencia(formData).subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Asistencia guardada' });
+            this.formularioCerrado.emit();
+            this.asistenciaGuardada.emit();
+          },
+          error: (err) => {
+            this.messageService.add({ 
+              severity: 'error', 
+              summary: 'Error al registrar asistencia', 
+              detail: err?.error?.message || 'Ocurrió un error inesperado',
+              life: 5000
+            });
+          }
         });
       }
     }

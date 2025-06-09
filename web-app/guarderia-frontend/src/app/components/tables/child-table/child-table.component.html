@@ -120,7 +120,13 @@
   <ng-template pTemplate="body" let-child>
     <tr>
       <td>
-        <img [src]="child.fotoUrl" width="50" height="50" style="border-radius: 5px;" *ngIf="child.fotoUrl; else noImg"/>
+        <img 
+          [src]="'http://localhost:8080' + child.fotoUrl"
+          width="50" 
+          height="50" 
+          style="border-radius: 5px;" 
+          *ngIf="child.fotoUrl; 
+          else noImg"/>
         <ng-template #noImg><span style="color: gray;">{{ 'APP.SIN_IMAGEN' | translate }}</span></ng-template>
       </td>
       <td>{{ child.nombre }}</td>
