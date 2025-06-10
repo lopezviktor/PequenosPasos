@@ -23,9 +23,11 @@ import retrofit2.http.Query
 
 interface ApiService {
 
+    // Obtener el usuario autenticado (Padre)
     @GET("api/usuarios/me")
     suspend fun getUsuarioAutenticado(@Header("Authorization") token: String): Response<Padre>
 
+    // Obtener los niños de un padre
     @GET("api/padres/mis-ninos")
     suspend fun getMisNinos(@Header("Authorization") token: String): Response<List<Nino>>
 

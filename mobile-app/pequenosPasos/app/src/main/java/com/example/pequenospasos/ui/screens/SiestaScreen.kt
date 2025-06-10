@@ -39,6 +39,7 @@ import java.util.*
 @Composable
 fun SiestaScreen(
     navController: NavHostController,
+    ninoId: Long,
     viewModel: SiestaViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     val siestas by viewModel.siestas.collectAsState()
@@ -155,6 +156,6 @@ fun SiestaScreen(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.loadSiestas(1) // Cambiar por el ID real del niño
+        viewModel.loadSiestas(ninoId)
     }
 }

@@ -66,9 +66,9 @@ fun HabitosScreen(
         ) {
 
             // Definición segura de última siesta, higiene y comida
-            val ultimaSiesta = siestasHoy.firstOrNull()?.let {
-                it.inicioSiesta?.takeIf { hora -> hora.length >= 16 }?.substring(11, 16) ?: "--:--"
-            } ?: "--:--"
+            val siesta = siestasHoy.firstOrNull()
+            val horaInicio = siesta?.inicioSiesta?.takeIf { it.length >= 16 }?.substring(11, 16) ?: "--:--"
+            val horaFin = siesta?.finSiesta?.takeIf { it.length >= 16 }?.substring(11, 16) ?: "--:--"
 
             val ultimaHigiene = higienesHoy.firstOrNull()?.let {
                 it.fechaHora?.split("T")?.getOrNull(1)?.take(5) ?: "--:--"
@@ -137,10 +137,9 @@ fun HabitosScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val siesta = siestasHoy.firstOrNull()
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "😴 Siesta de hoy: $ultimaSiesta",
+                            text = "😴 Siesta: $horaInicio - $horaFin",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF00796B)

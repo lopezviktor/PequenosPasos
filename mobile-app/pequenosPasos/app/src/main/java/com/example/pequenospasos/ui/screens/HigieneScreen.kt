@@ -31,6 +31,7 @@ import java.util.*
 @Composable
 fun HigieneScreen(
     navController: NavHostController,
+    ninoId: Long,
     viewModel: HigieneViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     val higienes by viewModel.higienes.collectAsState()
@@ -162,6 +163,6 @@ fun HigieneScreen(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.loadHigienes(1) // Reemplazar con ID del niño real
+        viewModel.loadHigienes(ninoId)
     }
 }

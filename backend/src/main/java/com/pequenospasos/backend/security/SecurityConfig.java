@@ -60,7 +60,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:4200"); // origen del frontend
-        configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE, etc.
+        configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE.
         configuration.addAllowedHeader("*"); // todos los headers permitidos
         configuration.setAllowCredentials(true); // si usas JWT con cookies
 

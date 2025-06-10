@@ -112,6 +112,7 @@ fun AppNavHost(
             val ninoId = backStackEntry.arguments?.getString("ninoId")?.toLongOrNull() ?: 0L
             HigieneScreen(
                 navController = navController,
+                ninoId = ninoId,
             )
         }
 
@@ -120,6 +121,7 @@ fun AppNavHost(
             val ninoId = backStackEntry.arguments?.getString("ninoId")?.toLongOrNull() ?: 0L
             SiestaScreen(
                 navController = navController,
+                ninoId = ninoId,
             )
         }
 
