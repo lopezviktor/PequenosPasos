@@ -93,6 +93,10 @@ public class SiestaService {
         if (siesta.getFinSiesta() != null && siesta.getFinSiesta().isBefore(siesta.getInicioSiesta())) {
             throw new IllegalArgumentException("La hora de fin de la siesta no puede ser anterior a la hora de inicio.");
         }
+        // Validar que la hora de fin no sea posterior a la hora actual
+        if (siesta.getFinSiesta() != null && siesta.getFinSiesta().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("La hora de fin de la siesta no puede ser posterior a la hora actual.");
+        }
 
         Siesta nuevaSiesta = siestaRepository.save(siesta);
 
@@ -140,6 +144,9 @@ public class SiestaService {
             if (siestaDetalles.getFinSiesta() != null) {
                 if (siesta.getInicioSiesta() != null && siestaDetalles.getFinSiesta().isBefore(siesta.getInicioSiesta())) {
                     throw new RuntimeException("La hora de finalización no puede ser antes de la hora de inicio.");
+                }
+                if (siestaDetalles.getFinSiesta().isAfter(LocalDateTime.now())) {
+                    throw new RuntimeException("La hora de finalización no puede ser posterior a la hora actual.");
                 }
                 siesta.setFinSiesta(siestaDetalles.getFinSiesta());
             }

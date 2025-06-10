@@ -85,6 +85,18 @@ public class AsistenciaService {
             throw new RuntimeException("Solo un EDUCADOR puede registrar asistencias.");
         }
 
+        // Validar que la hora de salida no sea anterior a la hora de entrada
+        if (asistencia.getHoraSalida() != null &&
+            asistencia.getHoraSalida().isBefore(asistencia.getHoraEntrada())) {
+            throw new RuntimeException("La hora de salida no puede ser anterior a la hora de entrada.");
+        }
+
+        // Validar que la hora de salida no sea posterior a la hora actual
+        if (asistencia.getHoraSalida() != null &&
+            asistencia.getHoraSalida().isAfter(LocalDateTime.now())) {
+            throw new RuntimeException("La hora de salida no puede ser posterior a la hora actual.");
+        }
+
         return asistenciaRepository.save(asistencia);
     }
 
