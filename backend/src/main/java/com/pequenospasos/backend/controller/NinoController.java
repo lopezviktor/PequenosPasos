@@ -43,10 +43,19 @@ public class NinoController {
         return ninoService.getNinoByNombre(nombre);
     }
 
+    // Obtener niños de su padre autenticado
     @PreAuthorize("hasRole('PADRE')")
     @GetMapping("/padre/{padreId}")
     public ResponseEntity<List<Nino>> getNinosByPadre(@PathVariable Long padreId) {
         List<Nino> ninos = ninoService.getNinosByPadreId(padreId);
+        return ResponseEntity.ok(ninos);
+    }
+
+    // Obtener niños por ID de clase
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
+    @GetMapping("/clase/{claseId}")
+    public ResponseEntity<List<Nino>> getNinosByClaseId(@PathVariable Long claseId) {
+        List<Nino> ninos = ninoService.getNinosByClaseId(claseId);
         return ResponseEntity.ok(ninos);
     }
 
@@ -63,7 +72,7 @@ public class NinoController {
     public ResponseEntity<Nino> updateNino(@PathVariable Long id, @RequestBody Nino updatedNino) {
         Nino existingNino = ninoService.getNinoById(id); // Buscar el niño existente
 
-        // 🔹 Actualizar los demás campos
+        // Actualizar los demás campos
         existingNino.setNombre(updatedNino.getNombre());
         existingNino.setApellidos(updatedNino.getApellidos());
         existingNino.setFechaNacimiento(updatedNino.getFechaNacimiento());
@@ -82,11 +91,4 @@ public class NinoController {
         ninoService.deleteNino(id);
     }
 
-    // Obtener niños por ID de clase
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
-    @GetMapping("/clase/{claseId}")
-    public ResponseEntity<List<Nino>> getNinosByClaseId(@PathVariable Long claseId) {
-        List<Nino> ninos = ninoService.getNinosByClaseId(claseId);
-        return ResponseEntity.ok(ninos);
-    }
 }
