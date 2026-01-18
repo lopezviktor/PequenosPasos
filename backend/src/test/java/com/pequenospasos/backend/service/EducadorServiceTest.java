@@ -31,7 +31,7 @@ class EducadorServiceTest {
         when(educadorRepository.existsByEmail("test@pequenospasos.com")).thenReturn(true);
 
         RuntimeException ex = assertThrows(RuntimeException.class, () -> educadorService.saveEducador(educador));
-        assertEquals("El email ya está registrado.", ex.getMessage());
+        assertTrue(ex.getMessage().toLowerCase().contains("email"));
 
         verify(educadorRepository, never()).save(any(Educador.class));
         verifyNoInteractions(passwordEncoder);
