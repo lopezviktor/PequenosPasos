@@ -46,3 +46,35 @@ jobs:
           path: |
             backend/target/surefire-reports/*.xml
             backend/target/surefire-reports/*.txt
+
+  frontend-build:
+    name: Frontend - Build (Angular)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: web-app/guarderia-frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.19.0"
+          cache: npm
+          cache-dependency-path: web-app/guarderia-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: web-app/guarderia-frontend/dist/**
