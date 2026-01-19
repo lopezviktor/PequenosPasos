@@ -1,5 +1,9 @@
 # PequeñosPasos – Nursery Management System
 
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=java,spring,angular,ts,mysql,kotlin,androidstudio,githubactions&perline=8" />
+</p>
+
 PequeñosPasos is a nursery management system designed to handle sensitive child-related data in a structured, secure, and role-based manner.  
 The project focuses on clean backend architecture, access control, and CI-driven quality controls, while keeping a realistic scope.
 
@@ -36,6 +40,22 @@ PequeñosPasos is composed of three main components:
 ---
 
 ## Technical Stack
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=java,spring,mysql,hibernate,maven&perline=10" />
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=angular,ts,primeng,html,css&perline=10" />
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=kotlin,androidstudio&perline=10" />
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=githubactions,git&perline=10" />
+</p>
 
 ### Backend
 - Java 17
