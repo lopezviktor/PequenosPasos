@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.repository;
 
 import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,16 +13,12 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    // Buscar usuario por email (para login o validaciones)
     Optional<Usuario> findByEmail(String email);
 
-    // Buscar usuario por email y tipoUsuario (para asegurar que es del tipo correcto)
     @Query("SELECT u FROM Usuario u WHERE u.email = :email AND u.tipoUsuario = :tipoUsuario")
-    Optional<Usuario> findByEmailAndTipoUsuario(@Param("email") String email, @Param("tipoUsuario") String tipoUsuario);
+    Optional<Usuario> findByEmailAndTipoUsuario(@Param("email") String email, @Param("tipoUsuario") Role tipoUsuario);
 
-    // Obtener todos los usuarios de un tipo específico (PADRE, EDUCADOR, ADMIN)
-    List<Usuario> findByTipoUsuario(String tipoUsuario);
+    List<Usuario> findByTipoUsuario(Role tipoUsuario);
 
-    // Verificar si un email ya está en uso
     boolean existsByEmail(String email);
 }

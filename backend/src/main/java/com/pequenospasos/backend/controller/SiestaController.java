@@ -18,25 +18,25 @@ public class SiestaController {
     @Autowired
     private SiestaService siestaService;
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR')")
     @GetMapping
     public List<Siesta> getAllSiestas() {
         return siestaService.getAllSiestas();
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR', 'PADRE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR', 'PADRE')")
     @GetMapping("/nino/{ninoId}")
     public List<SiestaResponse> getSiestasByNinoId(@PathVariable Long ninoId) {
         return siestaService.getSiestasByNinoId(ninoId);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR')")
     @GetMapping("/educador/{educadorId}")
     public List<Siesta> getSiestasByEducadorId(@PathVariable Long educadorId) {
         return siestaService.getSiestasByEducadorId(educadorId);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR')")
     @GetMapping("/rango-fechas")
     public List<SiestaResponse> getSiestasByFecha(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fin) {
         return siestaService.getSiestasByFecha(inicio, fin).stream()
@@ -57,7 +57,7 @@ public class SiestaController {
         return siestaService.getSiestasByFecha(fechaInicio, fechaFin);
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR', 'PADRE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR', 'PADRE')")
     @GetMapping("/nino/{ninoId}/ultima")
     public SiestaResponse getUltimaSiestaByNinoId(@PathVariable Long ninoId) {
         Siesta siesta = siestaService.getUltimaSiestaByNinoId(ninoId)
@@ -71,7 +71,7 @@ public class SiestaController {
         );
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR', 'PADRE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR', 'PADRE')")
     @GetMapping("/{id}")
     public Siesta getSiestaById(@PathVariable Long id) {
         return siestaService.getSiestaById(id)

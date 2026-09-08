@@ -2,6 +2,7 @@ package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Educador;
 import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.EducadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class EducadorService {
         if (educadorRepository.existsByEmail(educador.getEmail())) {
             throw new RuntimeException("El email ya está registrado.");
         }
-        educador.setTipoUsuario("EDUCADOR"); // Asegurar que se guarde correctamente
+        educador.setTipoUsuario(Role.EDUCADOR); // Asegurar que se guarde correctamente
         educador.setPassword(passwordEncoder.encode(educador.getPassword()));
         return educadorRepository.save(educador);
     }

@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.entity;
 
+import com.pequenospasos.backend.enums.Role;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -8,10 +9,10 @@ public class Admin extends Usuario {
 
     public Admin() {
         super();
-        setTipoUsuario("ADMIN");
+        setTipoUsuario(Role.ADMIN);
     }
 
     public Admin(String nombre, String apellidos, String email, String password, String telefono) {
-        super(nombre, apellidos, email, password, telefono, "ADMIN");
+        super(nombre, apellidos, email, password, telefono, Role.ADMIN);
     }
 }

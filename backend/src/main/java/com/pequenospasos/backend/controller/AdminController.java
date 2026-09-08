@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.entity.Admin;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@PreAuthorize("hasAuthority('ADMINISTRADOR')")
+@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping("/api/admins")
 public class AdminController {
@@ -37,10 +38,10 @@ public class AdminController {
                 .orElseThrow(() -> new RuntimeException("Administrador no encontrado con email: " + email));
     }
 
-    // Crear un nuevo administrador asegurando que el tipo de usuario sea "ADMIN"
+    // Crear un nuevo administrador asegurando que el tipo de usuario sea Admin
     @PostMapping
     public Admin createAdmin(@RequestBody Admin admin) {
-        admin.setTipoUsuario("ADMIN"); // 🔹 Asegurar que el usuario creado es un ADMIN
+        admin.setTipoUsuario(Role.ADMIN); // Asegurar que el usuario creado es un ADMIN
         return adminService.saveAdmin(admin);
     }
 

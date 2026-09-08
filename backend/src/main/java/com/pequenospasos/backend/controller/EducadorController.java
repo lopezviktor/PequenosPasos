@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/educadores")
@@ -16,45 +15,39 @@ public class EducadorController {
     @Autowired
     private EducadorService educadorService;
 
-    // Obtener todos los educadores
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Educador> getAllEducadores() {
         return educadorService.getAllEducadores();
     }
 
-    // Obtener educador por ID con validación
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR')")
     @GetMapping("/{id}")
     public Educador getEducadorById(@PathVariable Long id) {
         return educadorService.getEducadorById(id)
                 .orElseThrow(() -> new RuntimeException("Educador no encontrado con id: " + id));
     }
 
-    // Buscar educador por email
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR')")
     @GetMapping("/buscar")
     public Educador getEducadorByEmail(@RequestParam String email) {
         return educadorService.getEducadorByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Educador no encontrado con email: " + email));
     }
 
-    // Crear un nuevo educador asegurando que el tipo de usuario es "EDUCADOR"
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Educador createEducador(@RequestBody Educador educador) {
         return educadorService.saveEducador(educador);
     }
 
-    // Actualizar un educador existente sin sobrescribir la contraseña si no se envía
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public Educador updateEducador(@PathVariable Long id, @RequestBody Educador educadorDetalles) {
         return educadorService.updateEducador(id, educadorDetalles);
     }
 
-    // Eliminar un educador con validación de existencia
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteEducador(@PathVariable Long id) {
         educadorService.deleteEducador(id);

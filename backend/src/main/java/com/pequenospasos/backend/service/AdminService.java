@@ -2,6 +2,7 @@ package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Admin;
 import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class AdminService {
 
     // Obtener todos los administradores
     public List<Admin> getAllAdmins() {
-        return usuarioRepository.findByTipoUsuario("ADMIN").stream()
+        return usuarioRepository.findByTipoUsuario(Role.ADMIN).stream()
                 .map(u -> (Admin) u)
                 .toList();
     }
@@ -31,7 +32,7 @@ public class AdminService {
 
     // Buscar administrador por email
     public Optional<Admin> getAdminByEmail(String email) {
-        return usuarioRepository.findByEmailAndTipoUsuario(email, "ADMIN")
+        return usuarioRepository.findByEmailAndTipoUsuario(email, Role.ADMIN)
                 .map(u -> (Admin) u);
     }
 
@@ -40,7 +41,7 @@ public class AdminService {
         if (usuarioRepository.existsByEmail(admin.getEmail())) {
             throw new RuntimeException("El email ya está registrado.");
         }
-        admin.setTipoUsuario("ADMIN"); // Asegurar que se guarde correctamente
+        admin.setTipoUsuario(Role.ADMIN); // Asegurar que se guarde correctamente
         return usuarioRepository.save(admin);
     }
 

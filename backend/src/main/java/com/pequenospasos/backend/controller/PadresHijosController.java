@@ -17,8 +17,7 @@ public class PadresHijosController {
     @Autowired
     private PadresHijosService padresHijosService;
 
-    // Obtener los niños de un padre con validación
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'PADRE', 'EDUCADOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PADRE', 'EDUCADOR')")
     @GetMapping("/padre/{padreId}/ninos")
     public List<Nino> getNinosByPadreId(@PathVariable Long padreId) {
         List<Nino> ninos = padresHijosService.getNinosByPadreId(padreId);
@@ -28,14 +27,13 @@ public class PadresHijosController {
         return ninos;
     }
 
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'EDUCADOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDUCADOR')")
     @GetMapping("/nino/{ninoId}/padres")
     public List<Padre> getPadresByNinoId(@PathVariable Long ninoId) {
         return padresHijosService.getPadresByNinoId(ninoId);
     }
 
-    // Asignar un niño a un padre con validación
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/asignar")
     public PadresHijos asignarNinoAPadre(@RequestParam Long padreId, @RequestParam Long ninoId) {
         if (padreId == null || ninoId == null) {
@@ -46,14 +44,12 @@ public class PadresHijosController {
         return padresHijosService.asignarNinoAPadre(padre, nino);
     }
 
-    // Eliminar la relación entre un padre y un niño con validación
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/eliminar")
     public void eliminarRelacionPadreHijo(@RequestParam Long padreId, @RequestParam Long ninoId) {
         if (padreId == null || ninoId == null) {
             throw new RuntimeException("Los IDs de padre y niño no pueden ser nulos.");
         }
-
         Padre padre = padresHijosService.obtenerPadrePorId(padreId);
         Nino nino = padresHijosService.obtenerNinoPorId(ninoId);
         padresHijosService.eliminarRelacionPadreNino(padre.getId(), nino.getId());

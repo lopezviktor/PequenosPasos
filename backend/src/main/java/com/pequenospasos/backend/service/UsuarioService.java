@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.service;
 
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.entity.Admin;
 import com.pequenospasos.backend.entity.Educador;
 import com.pequenospasos.backend.entity.Padre;
@@ -8,7 +9,6 @@ import com.pequenospasos.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,34 +22,30 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Obtener todos los usuarios
     public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
     }
 
-    // Buscar usuario por ID
     public Optional<Usuario> getUsuarioById(Long id) {
         return usuarioRepository.findById(id);
     }
 
-    // Buscar usuario por email y tipoUsuario (para filtrar PADRE, EDUCADOR o ADMIN)
     public Optional<Usuario> getUsuarioByEmail(String email, String tipoUsuario) {
-        return usuarioRepository.findByEmailAndTipoUsuario(email, tipoUsuario);
+        Role role = Role.valueOf(tipoUsuario.toUpperCase());
+        return usuarioRepository.findByEmailAndTipoUsuario(email, role);
     }
 
-    // Guardar un nuevo usuario con validación de email único
     public Usuario saveUsuario(Usuario usuario) {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new RuntimeException("El email ya está registrado.");
         }
 
-        // 🔹 Verificar el tipo de usuario antes de guardar
         if (usuario instanceof Padre) {
-            usuario.setTipoUsuario("PADRE");
+            usuario.setTipoUsuario(Role.PADRE);
         } else if (usuario instanceof Educador) {
-            usuario.setTipoUsuario("EDUCADOR");
+            usuario.setTipoUsuario(Role.EDUCADOR);
         } else if (usuario instanceof Admin) {
-            usuario.setTipoUsuario("ADMIN");
+            usuario.setTipoUsuario(Role.ADMIN);
         }
 
         if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
@@ -59,7 +55,6 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    // Actualizar usuario existente, sin sobrescribir la contraseña si no se proporciona
     public Usuario updateUsuario(Long id, Usuario usuarioDetalles) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if (usuarioOptional.isPresent()) {
@@ -79,12 +74,11 @@ public class UsuarioService {
         }
     }
 
-    // Obtener usuarios por tipo
     public List<Usuario> getUsuariosPorTipo(String tipoUsuario) {
-        return usuarioRepository.findByTipoUsuario(tipoUsuario);
+        Role role = Role.valueOf(tipoUsuario.toUpperCase());
+        return usuarioRepository.findByTipoUsuario(role);
     }
 
-    // Eliminar usuario por ID
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }

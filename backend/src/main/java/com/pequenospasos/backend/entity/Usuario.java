@@ -1,5 +1,6 @@
 package com.pequenospasos.backend.entity;
 
+import com.pequenospasos.backend.enums.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -43,15 +44,16 @@ public abstract class Usuario {
     @Column(nullable = false, unique = true)
     private String telefono;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_usuario", nullable = false)
-    private String tipoUsuario; // Puede ser "PADRE" o "EDUCADOR" o "ADMIN"
+    private Role tipoUsuario; // Puede ser "PADRE" o "EDUCADOR" o "ADMIN"
 
 
     // Constructor vacío
     public Usuario() {}
 
     // Constructor con parámetros
-    public Usuario(String nombre, String apellidos, String email, String password, String telefono, String tipoUsuario) {
+    public Usuario(String nombre, String apellidos, String email, String password, String telefono, Role tipoUsuario) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
@@ -109,11 +111,11 @@ public abstract class Usuario {
         this.telefono = telefono;
     }
 
-    public String getTipoUsuario() {
+    public Role getTipoUsuario() {
         return tipoUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) {
+    public void setTipoUsuario(Role tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
 }

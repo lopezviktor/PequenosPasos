@@ -2,6 +2,7 @@ package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.UsuarioRepository;
 import com.pequenospasos.backend.repository.PadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class PadreService {
 
     // Obtener todos los padres
     public List<Padre> findAllPadres() {
-        return usuarioRepository.findByTipoUsuario("PADRE").stream()
+        return usuarioRepository.findByTipoUsuario(Role.PADRE).stream()
                 .map(u -> (Padre) u)
                 .toList();
     }
@@ -39,7 +40,7 @@ public class PadreService {
 
     // Buscar padre por email
     public Optional<Padre> findPadreByEmail(String email) {
-        return usuarioRepository.findByEmailAndTipoUsuario(email, "PADRE")
+        return usuarioRepository.findByEmailAndTipoUsuario(email, Role.PADRE)
                 .map(u -> (Padre) u);
     }
 
@@ -59,7 +60,7 @@ public class PadreService {
             padre.setPassword(passwordEncoder.encode(padre.getPassword()));
         }
 
-        padre.setTipoUsuario("PADRE");
+        padre.setTipoUsuario(Role.PADRE);
         return usuarioRepository.save(padre);
     }
 
