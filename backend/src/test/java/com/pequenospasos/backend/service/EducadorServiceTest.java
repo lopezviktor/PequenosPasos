@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Educador;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.EducadorRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +54,7 @@ class EducadorServiceTest {
 
         // Assert
         assertNotNull(saved);
-        assertEquals("EDUCADOR", saved.getTipoUsuario());
+        assertEquals(Role.EDUCADOR, saved.getTipoUsuario());
         assertEquals("ENC_1234", saved.getPassword());
 
         verify(educadorRepository).save(any(Educador.class));

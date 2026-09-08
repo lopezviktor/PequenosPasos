@@ -5,6 +5,7 @@ import com.pequenospasos.backend.entity.Notificacion;
 import com.pequenospasos.backend.entity.PadresHijos;
 import com.pequenospasos.backend.entity.Siesta;
 import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.SiestaRepository;
 import com.pequenospasos.backend.repository.PadresHijosRepository;
 import com.pequenospasos.backend.service.NotificacionService;
@@ -47,7 +48,7 @@ public class SiestaService {
     // Obtener siestas registradas por un educador específico (solo EDUCADORES)
     public List<Siesta> getSiestasByEducadorId(Long educadorId) {
         return siestaRepository.findByEducadorId(educadorId).stream()
-                .filter(s -> s.getEducador().getTipoUsuario().equals("EDUCADOR"))
+                .filter(s -> s.getEducador().getTipoUsuario() == Role.EDUCADOR)
                 .toList();
     }
 
@@ -76,7 +77,7 @@ public class SiestaService {
             throw new IllegalArgumentException("Debe asignar un educador para registrar la siesta.");
         }
 
-        if (!"EDUCADOR".equals(siesta.getEducador().getTipoUsuario())) {
+        if (!(siesta.getEducador().getTipoUsuario() == Role.EDUCADOR)) {
             throw new IllegalArgumentException("Solo un EDUCADOR puede registrar siestas.");
         }
 

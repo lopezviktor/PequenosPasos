@@ -2,6 +2,7 @@ package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Asistencia;
 import com.pequenospasos.backend.entity.Nino;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.AsistenciaRepository;
 import com.pequenospasos.backend.repository.NinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,21 +35,21 @@ public class AsistenciaService {
     // Obtener asistencias registradas por un educador (solo EDUCADORES)
     public List<Asistencia> getAsistenciasByEducadorId(Long educadorId) {
         return asistenciaRepository.findByEducadorRecibeId(educadorId).stream()
-                .filter(a -> a.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR"))
+                .filter(a -> a.getEducadorRecibe().getTipoUsuario() == Role.EDUCADOR)
                 .toList();
     }
 
     // Obtener asistencias donde un padre entregó al niño (solo PADRES)
     public List<Asistencia> getAsistenciasByPadreEntregaId(Long padreId) {
         return asistenciaRepository.findByPadreEntregaId(padreId).stream()
-                .filter(a -> a.getPadreEntrega().getTipoUsuario().equals("PADRE"))
+                .filter(a -> a.getPadreEntrega().getTipoUsuario() == Role.PADRE)
                 .toList();
     }
 
     // Obtener asistencias donde un padre recogió al niño (solo PADRES)
     public List<Asistencia> getAsistenciasByPadreRecogeId(Long padreId) {
         return asistenciaRepository.findByPadreRecogeId(padreId).stream()
-                .filter(a -> a.getPadreRecoge().getTipoUsuario().equals("PADRE"))
+                .filter(a -> a.getPadreRecoge().getTipoUsuario() == Role.PADRE)
                 .toList();
     }
 
@@ -81,7 +82,7 @@ public class AsistenciaService {
         }
 
         // Validar que solo un EDUCADOR pueda registrar la asistencia
-        if (!asistencia.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR")) {
+        if (!(asistencia.getEducadorRecibe().getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo un EDUCADOR puede registrar asistencias.");
         }
 
@@ -111,7 +112,7 @@ public class AsistenciaService {
         }
 
         if (asistenciaDetalles.getEducadorEntrega() != null &&
-                !asistenciaDetalles.getEducadorEntrega().getTipoUsuario().equals("EDUCADOR")) {
+                !(asistenciaDetalles.getEducadorEntrega().getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo un EDUCADOR puede registrar la salida del niño.");
         }
 

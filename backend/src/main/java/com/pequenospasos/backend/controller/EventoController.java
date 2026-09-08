@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.entity.Evento;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +57,7 @@ public class EventoController {
     @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN')")
     @PostMapping
     public Evento createEvento(@RequestBody Evento evento) {
-        if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
+        if (!(evento.getCreador().getTipoUsuario() == Role.EDUCADOR || evento.getCreador().getTipoUsuario() == Role.ADMIN)) {
             throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede crear eventos.");
         }
         return eventoService.saveEvento(evento);
@@ -81,7 +82,7 @@ public class EventoController {
         Evento evento = eventoService.getEventoById(id)
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + id));
 
-        if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
+        if (!(evento.getCreador().getTipoUsuario() == Role.EDUCADOR || evento.getCreador().getTipoUsuario() == Role.ADMIN)) {
             throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede eliminar eventos.");
         }
 

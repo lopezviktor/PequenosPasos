@@ -4,6 +4,7 @@ import com.pequenospasos.backend.dto.ComidaResponse;
 import com.pequenospasos.backend.entity.Comida;
 import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.PadresHijos;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.ComidaRepository;
 import com.pequenospasos.backend.repository.PadresHijosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ComidaService {
     // Obtener comidas registradas por un educador (solo EDUCADORES)
     public List<Comida> getComidasByEducadorId(Long educadorId) {
         return comidaRepository.findByEducadorId(educadorId).stream()
-                .filter(c -> c.getEducador().getTipoUsuario().equals("EDUCADOR"))
+                .filter(c -> c.getEducador().getTipoUsuario() == Role.EDUCADOR)
                 .toList();
     }
 
@@ -72,7 +73,7 @@ public class ComidaService {
             throw new IllegalArgumentException("Debe asignar un educador para registrar la comida.");
         }
 
-        if (!"EDUCADOR".equals(comida.getEducador().getTipoUsuario())) {
+        if (!(comida.getEducador().getTipoUsuario() == Role.EDUCADOR)) {
             throw new IllegalArgumentException("Solo un EDUCADOR puede registrar comidas.");
         }
 
@@ -118,7 +119,7 @@ public class ComidaService {
         if (comidaOptional.isPresent()) {
             Comida comida = comidaOptional.get();
 
-            if (!comidaDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            if (!(comidaDetalles.getEducador().getTipoUsuario() == Role.EDUCADOR)) {
                 throw new RuntimeException("Solo un EDUCADOR puede actualizar comidas.");
             }
 

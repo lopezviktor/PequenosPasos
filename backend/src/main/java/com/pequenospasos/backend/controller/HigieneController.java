@@ -2,6 +2,7 @@ package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.dto.HigieneResponse;
 import com.pequenospasos.backend.entity.Higiene;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.service.HigieneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,7 +82,7 @@ public class HigieneController {
     @PreAuthorize("hasAnyRole('EDUCADOR', 'ADMIN')")
     @PostMapping
     public Higiene createHigiene(@RequestBody Higiene higiene) {
-        if (higiene.getEducador() == null || !higiene.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+        if (higiene.getEducador() == null || !(higiene.getEducador().getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo un EDUCADOR puede registrar registros de higiene.");
         }
         return higieneService.saveHigiene(higiene);
@@ -92,7 +93,7 @@ public class HigieneController {
     @PutMapping("/{id}")
     public Higiene updateHigiene(@PathVariable Long id, @RequestBody Higiene higiene) {
         return higieneService.getHigieneById(id).map(existingHigiene -> {
-            if (existingHigiene.getEducador() == null || !existingHigiene.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            if (existingHigiene.getEducador() == null || !(existingHigiene.getEducador().getTipoUsuario() == Role.EDUCADOR)) {
                 throw new RuntimeException("Solo un EDUCADOR puede modificar registros de higiene.");
             }
             return higieneService.updateHigiene(id, higiene);

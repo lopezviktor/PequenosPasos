@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.entity.Asistencia;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.service.AsistenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +57,7 @@ public class AsistenciaController {
     @PreAuthorize("hasRole('EDUCADOR')")
     @PostMapping
     public Asistencia createAsistencia(@RequestBody Asistencia asistencia) {
-        if (!asistencia.getEducadorRecibe().getTipoUsuario().equals("EDUCADOR")) {
+        if (!(asistencia.getEducadorRecibe().getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo un EDUCADOR puede registrar asistencias.");
         }
         return asistenciaService.saveAsistencia(asistencia);
@@ -67,7 +68,7 @@ public class AsistenciaController {
     @PutMapping("/{id}")
     public Asistencia updateAsistencia(@PathVariable Long id, @RequestBody Asistencia asistenciaDetalles) {
         if (asistenciaDetalles.getEducadorEntrega() != null &&
-                !asistenciaDetalles.getEducadorEntrega().getTipoUsuario().equals("EDUCADOR")) {
+                !(asistenciaDetalles.getEducadorEntrega().getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo un EDUCADOR puede registrar la salida del niño.");
         }
         return asistenciaService.updateAsistencia(id, asistenciaDetalles);

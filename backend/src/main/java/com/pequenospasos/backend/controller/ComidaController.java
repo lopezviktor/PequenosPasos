@@ -2,6 +2,7 @@ package com.pequenospasos.backend.controller;
 
 import com.pequenospasos.backend.dto.ComidaResponse;
 import com.pequenospasos.backend.entity.Comida;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.service.ComidaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -80,7 +81,7 @@ public class ComidaController {
             throw new IllegalArgumentException("Debe asignar un educador para registrar la comida.");
         }
 
-        if (!"EDUCADOR".equals(comida.getEducador().getTipoUsuario())) {
+        if (!(comida.getEducador().getTipoUsuario() == Role.EDUCADOR)) {
             throw new IllegalArgumentException("Solo un EDUCADOR puede registrar comidas.");
         }
 
@@ -92,7 +93,7 @@ public class ComidaController {
     @PutMapping("/{id}")
     public Comida updateComida(@PathVariable Long id, @RequestBody Comida comidaDetalles) {
         return comidaService.getComidaById(id).map(comida -> {
-            if (!comidaDetalles.getEducador().getTipoUsuario().equals("EDUCADOR")) {
+            if (!(comidaDetalles.getEducador().getTipoUsuario() == Role.EDUCADOR)) {
                 throw new RuntimeException("Solo un EDUCADOR puede modificar comidas.");
             }
             return comidaService.updateComida(id, comidaDetalles);

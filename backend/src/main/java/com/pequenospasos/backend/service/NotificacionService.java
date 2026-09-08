@@ -3,6 +3,7 @@ package com.pequenospasos.backend.service;
 import com.pequenospasos.backend.dto.NotificacionDTO;
 import com.pequenospasos.backend.entity.Notificacion;
 import com.pequenospasos.backend.entity.Usuario;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.NotificacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class NotificacionService {
     private NotificacionRepository notificacionRepository;
 
     public void crearNotificacion(Usuario emisor, Usuario receptor, String mensaje) {
-        if (!(receptor.getTipoUsuario().equals("PADRE") || receptor.getTipoUsuario().equals("EDUCADOR"))) {
+        if (!(receptor.getTipoUsuario() == Role.PADRE || receptor.getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo PADRES y EDUCADORES pueden recibir notificaciones.");
         }
 
@@ -65,7 +66,7 @@ public class NotificacionService {
         Notificacion notificacion = notificacionRepository.findByIdWithReceptor(id)
                 .orElseThrow(() -> new RuntimeException("Notificación no encontrada con id: " + id));
 
-        if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") || notificacion.getReceptor().getTipoUsuario().equals("EDUCADOR"))) {
+        if (!(notificacion.getReceptor().getTipoUsuario() == Role.PADRE || notificacion.getReceptor().getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo PADRES y EDUCADORES pueden marcar notificaciones como leídas.");
         }
 
@@ -78,7 +79,7 @@ public class NotificacionService {
     // Marcar todas las notificaciones de un usuario como leídas (optimizado) y retornar DTOs
     public List<NotificacionDTO> marcarTodasComoLeidas(Long receptorId) {
         List<Notificacion> notificaciones = notificacionRepository.findByReceptorIdAndEstado(receptorId, Notificacion.EstadoNotificacion.NO_LEIDO).stream()
-                .filter(n -> n.getReceptor().getTipoUsuario().equals("PADRE") || n.getReceptor().getTipoUsuario().equals("EDUCADOR"))
+                .filter(n -> n.getReceptor().getTipoUsuario() == Role.PADRE || n.getReceptor().getTipoUsuario() == Role.EDUCADOR)
                 .toList();
 
         if (!notificaciones.isEmpty()) {
@@ -91,7 +92,7 @@ public class NotificacionService {
 
     // Guardar una nueva notificación (validando solo PADRES y EDUCADORES)
     public Notificacion saveNotificacion(Notificacion notificacion) {
-        if (!(notificacion.getReceptor().getTipoUsuario().equals("PADRE") || notificacion.getReceptor().getTipoUsuario().equals("EDUCADOR"))) {
+        if (!(notificacion.getReceptor().getTipoUsuario() == Role.PADRE || notificacion.getReceptor().getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo PADRES y EDUCADORES pueden recibir notificaciones.");
         }
 

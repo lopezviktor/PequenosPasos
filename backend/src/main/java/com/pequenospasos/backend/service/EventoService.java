@@ -1,6 +1,7 @@
 package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Evento;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,13 +46,13 @@ public class EventoService {
     public List<Evento> getEventosByCreador(Long creadorId) {
         Pageable pageable = Pageable.unpaged();
         return eventoRepository.findByCreadorId(creadorId, pageable).getContent().stream()
-                .filter(e -> e.getCreador().getTipoUsuario().equals("EDUCADOR") || e.getCreador().getTipoUsuario().equals("ADMIN"))
+                .filter(e -> e.getCreador().getTipoUsuario() == Role.EDUCADOR || e.getCreador().getTipoUsuario() == Role.ADMIN)
                 .toList();
     }
 
     // Crear un nuevo evento (validando que solo un EDUCADOR o ADMIN pueda hacerlo)
     public Evento saveEvento(Evento evento) {
-        if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
+        if (!(evento.getCreador().getTipoUsuario() == Role.EDUCADOR || evento.getCreador().getTipoUsuario() == Role.ADMIN)) {
             throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede crear eventos.");
         }
         if (evento.getFechaHora() == null) {
@@ -87,7 +88,7 @@ public class EventoService {
         Optional<Evento> eventoOptional = eventoRepository.findById(id);
         if (eventoOptional.isPresent()) {
             Evento evento = eventoOptional.get();
-            if (!(evento.getCreador().getTipoUsuario().equals("EDUCADOR") || evento.getCreador().getTipoUsuario().equals("ADMIN"))) {
+            if (!(evento.getCreador().getTipoUsuario() == Role.EDUCADOR || evento.getCreador().getTipoUsuario() == Role.ADMIN)) {
                 throw new RuntimeException("Solo un EDUCADOR o ADMINISTRADOR puede eliminar eventos.");
             }
             eventoRepository.deleteById(id);

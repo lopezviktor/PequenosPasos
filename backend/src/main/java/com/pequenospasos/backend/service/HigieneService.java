@@ -6,6 +6,7 @@ import com.pequenospasos.backend.entity.Higiene;
 import com.pequenospasos.backend.entity.Nino;
 import com.pequenospasos.backend.entity.Padre;
 import com.pequenospasos.backend.entity.PadresHijos;
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.EducadorRepository;
 import com.pequenospasos.backend.repository.HigieneRepository;
 import com.pequenospasos.backend.repository.NinoRepository;
@@ -64,7 +65,7 @@ public class HigieneService {
     // Obtener registros de higiene realizados por un educador específico (solo EDUCADORES)
     public List<Higiene> getHigieneByEducadorId(Long educadorId) {
         return higieneRepository.findByEducadorId(educadorId).stream()
-                .filter(h -> h.getEducador() != null && "EDUCADOR".equals(h.getEducador().getTipoUsuario()))
+                .filter(h -> h.getEducador() != null && h.getEducador().getTipoUsuario() == Role.EDUCADOR)
                 .toList();
     }
 
@@ -87,7 +88,7 @@ public class HigieneService {
     public Higiene saveHigiene(Higiene higiene) {
         Educador educador = educadorRepository.findById(higiene.getEducador().getId())
                 .orElseThrow(() -> new RuntimeException("Educador no encontrado con id: " + higiene.getEducador().getId()));
-        if (!"EDUCADOR".equals(educador.getTipoUsuario())) {
+        if (!(educador.getTipoUsuario() == Role.EDUCADOR)) {
             throw new RuntimeException("Solo un EDUCADOR puede registrar registros de higiene.");
         }
 
@@ -126,7 +127,7 @@ public class HigieneService {
         return higieneRepository.findById(id).map(existingHigiene -> {
             Educador educador = educadorRepository.findById(higiene.getEducador().getId())
                     .orElseThrow(() -> new RuntimeException("Educador no encontrado con id: " + higiene.getEducador().getId()));
-            if (!"EDUCADOR".equals(educador.getTipoUsuario())) {
+            if (!(educador.getTipoUsuario() == Role.EDUCADOR)) {
                 throw new RuntimeException("Solo un EDUCADOR puede actualizar registros de higiene.");
             }
 

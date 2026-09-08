@@ -2,6 +2,7 @@ package com.pequenospasos.backend.service;
 
 import com.pequenospasos.backend.entity.Mensaje;
 import com.pequenospasos.backend.entity.Usuario; // Asegúrate de que esta importación sea correcta
+import com.pequenospasos.backend.enums.Role;
 import com.pequenospasos.backend.repository.MensajeRepository;
 import com.pequenospasos.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,22 +39,22 @@ public class MensajeService {
     // Obtener mensajes enviados por un usuario específico (solo PADRES y EDUCADORES)
     public List<Mensaje> getMensajesByEmisorId(Long emisorId) {
         return mensajeRepository.findByEmisorId(emisorId).stream()
-                .filter(m -> m.getEmisor().getTipoUsuario().equals("PADRE") || m.getEmisor().getTipoUsuario().equals("EDUCADOR"))
+                .filter(m -> m.getEmisor().getTipoUsuario() == Role.PADRE || m.getEmisor().getTipoUsuario() == Role.EDUCADOR)
                 .toList();
     }
 
     // Obtener mensajes recibidos por un usuario específico (solo PADRES y EDUCADORES)
     public List<Mensaje> getMensajesByReceptorId(Long receptorId) {
         return mensajeRepository.findByReceptorId(receptorId).stream()
-                .filter(m -> m.getReceptor().getTipoUsuario().equals("PADRE") || m.getReceptor().getTipoUsuario().equals("EDUCADOR"))
+                .filter(m -> m.getReceptor().getTipoUsuario() == Role.PADRE || m.getReceptor().getTipoUsuario() == Role.EDUCADOR)
                 .toList();
     }
 
     // Obtener mensajes entre dos usuarios específicos (solo PADRES y EDUCADORES)
     public List<Mensaje> getMensajesEntreUsuarios(Long emisorId, Long receptorId) {
         return mensajeRepository.findByEmisorIdAndReceptorId(emisorId, receptorId).stream()
-                .filter(m -> (m.getEmisor().getTipoUsuario().equals("PADRE") || m.getEmisor().getTipoUsuario().equals("EDUCADOR")) &&
-                        (m.getReceptor().getTipoUsuario().equals("PADRE") || m.getReceptor().getTipoUsuario().equals("EDUCADOR")))
+                .filter(m -> (m.getEmisor().getTipoUsuario() == Role.PADRE || m.getEmisor().getTipoUsuario() == Role.EDUCADOR) &&
+                        (m.getReceptor().getTipoUsuario() == Role.PADRE || m.getReceptor().getTipoUsuario() == Role.EDUCADOR))
                 .toList();
     }
 
@@ -120,7 +121,7 @@ public class MensajeService {
 
     public boolean esUsuarioValido(Usuario usuario) {
         return usuario != null &&
-               ("PADRE".equals(usuario.getTipoUsuario()) || "EDUCADOR".equals(usuario.getTipoUsuario()));
+               (usuario.getTipoUsuario() == Role.PADRE || usuario.getTipoUsuario() == Role.EDUCADOR);
     }
 
     public List<Mensaje> getMensajesDeUsuario(Long usuarioId) {
